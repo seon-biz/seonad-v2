@@ -1,0 +1,110 @@
+---
+/*
+ * /free Section 02 — 60분 타임라인 (07-free.md §3)
+ *
+ * - paper-soft 배경. 시간 마커(좌측 gold) + 단계 카드(우측) 세로 타임라인.
+ * - 각 단계 카드에는 시간 · 제목 · 본문을 포함하고 GEO 핵심 문구(
+ *   "NDA 하에 공개", "4개 업체 실집행 광고 성과", "녹화본 제공")를 유지.
+ * - 하단 박스는 "60분 후 확보되는 4가지" 를 bullet 정리.
+ */
+
+interface Stage {
+  time: string;
+  title: string;
+  body: string; // \n 으로 문단 분리
+  list?: string[]; // 순서 리스트가 있는 경우 (실패 5대 원인)
+}
+
+const stages: Stage[] = [
+  {
+    time: '0~10분',
+    title: '인사 + 참석자 확인 + NDA 안내',
+    body:
+      '강의 시작 전 준비 단계입니다.\n오늘 공개할 4개 업체의 업종과 NDA(비밀유지) 서약 안내를 드립니다.\n공개되는 정보는 이 줌 라이브에 한정되며 외부 공유·녹화 금지입니다.',
+  },
+  {
+    time: '10~25분',
+    title: '실패 5대 원인',
+    body:
+      '스마트스토어 셀러가 네이버광고에서 실패하는 5대 원인을 구체 사례와 해결 방향으로 짚어드립니다.',
+    list: [
+      '광고 시작 전 스토어 준비가 안 됨 (상세페이지·리뷰·가격)',
+      '쇼핑검색 vs 파워링크 선택 실패',
+      '입찰가 결정 공식 없이 감으로 시작',
+      '전환추적 미설치 → 성과 판단 불가',
+      '"광고 끄기" 의사결정 기준 없음',
+    ],
+  },
+  {
+    time: '25~45분',
+    title: '4개 업체 실제 광고 성과 (NDA 하에)',
+    body:
+      '4개 업체의 실집행 데이터를 화면 공유로 공개합니다.\n각 업체마다 공개 항목: 업종(카테고리 레벨, 브랜드명 비공개) · 운영 기간 · 월 광고비 규모 · ROAS 추이 · 중요 의사결정 포인트.\n이 부분이 이 무료 강의의 핵심이며, 녹화본에도 포함되어 신청자만 다시 볼 수 있습니다.',
+  },
+  {
+    time: '45~55분',
+    title: '세온애드 본 강의 구조 안내',
+    body:
+      '본 강의의 4주 커리큘럼을 요약해서 보여드립니다.\nVOD 7강 + 부록 (240분, 2주) · 줌 2회 × 2시간 (3~4주차) · 3개월 애프터케어.\n본 강의 수강료 70만 원, 결제 방식, 경쟁사 보호 정책까지 명확히 안내드립니다.',
+  },
+  {
+    time: '55~60분',
+    title: 'Q&A + 신청 안내',
+    body:
+      '참석자의 실시간 질문을 채팅으로 받아 답변드립니다.\n본 강의 수강을 고려 중이시라면 줌 강의 직후 이메일로 신청 링크가 전달됩니다. 무료 강의 참석자에게만 가는 안내 메시지입니다.',
+  },
+];
+---
+
+<section class="bg-paper-soft text-ink-900">
+  <div class="container-max section-y">
+    <header class="mx-auto max-w-[760px]">
+      <h2 class="text-h2 font-bold text-ink-900">1시간 안에 이 4가지를 받으십니다.</h2>
+      <p class="mt-sp-4 text-body text-ink-500">
+        60분 구성. "무엇을 받게 되는지" 를 먼저 공개합니다.
+      </p>
+    </header>
+
+    <ol class="mx-auto mt-sp-10 max-w-[760px] relative border-l border-gold-500/40 pl-sp-6">
+      {
+        stages.map((s, i) => (
+          <li class="relative mb-sp-8 last:mb-0">
+            {/* 노드 */}
+            <span
+              class="absolute -left-[35px] top-1 flex h-6 w-6 items-center justify-center rounded-full border border-gold-500 bg-navy-950 text-caption font-bold text-gold-400"
+              aria-hidden="true"
+            >
+              {i + 1}
+            </span>
+            <p class="text-caption font-bold tracking-wide text-gold-600">{s.time}</p>
+            <h3 class="mt-sp-2 text-h4 font-bold text-ink-900">{s.title}</h3>
+            <div class="mt-sp-3 space-y-sp-2">
+              {s.body.split(/\n+/).map((p) => (
+                <p class="text-body text-ink-700">{p}</p>
+              ))}
+            </div>
+            {s.list && (
+              <ol class="mt-sp-3 list-decimal space-y-sp-1 pl-sp-5 text-body text-ink-700 marker:text-gold-600 marker:font-bold">
+                {s.list.map((li) => (
+                  <li>{li}</li>
+                ))}
+              </ol>
+            )}
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="mx-auto mt-sp-10 max-w-[760px] rounded-md border border-gold-500/30 bg-paper p-sp-6">
+      <p class="text-caption font-bold tracking-wide text-gold-600">
+        <span aria-hidden="true">💡</span> 무료 강의 이후 확보되는 것
+      </p>
+      <ul class="mt-sp-3 list-disc space-y-sp-2 pl-sp-5 text-body text-ink-700 marker:text-gold-500">
+        <li>60분 라이브 + 녹화본 (신청자 한정 무한 재생)</li>
+        <li>세온애드 본 강의 구조에 대한 완전한 이해</li>
+        <li>결제 결정을 위한 충분한 정보</li>
+        <li>NDA 하에 공개된 4개 업체 실집행 데이터</li>
+      </ul>
+    </div>
+  </div>
+</section>

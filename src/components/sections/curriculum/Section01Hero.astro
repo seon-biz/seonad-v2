@@ -1,0 +1,58 @@
+---
+/*
+ * 03-curriculum.md §2 — 섹션 1 페이지 히어로
+ * 배경: navy-900 / 데스크톱 min-h 50vh / 중앙 정렬, container-narrow
+ */
+import { brand } from '@config/campaign';
+
+const stats = [
+  { value: '240분', label: 'VOD 총 길이' },
+  { value: '×2회', label: '줌 라이브' },
+  { value: '3강', label: '화면 따라하기 실습' },
+  { value: '3개월', label: '애프터케어' },
+];
+---
+
+<section
+  id="curriculum-hero"
+  class="relative overflow-hidden bg-navy-900 text-on-dark"
+>
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute -right-16 -top-20 h-[280px] w-[280px] rounded-full bg-gold-500 opacity-[0.10] blur-3xl"
+  ></div>
+
+  <div class="container-narrow relative section-y lg:min-h-[50vh] lg:grid lg:content-center">
+    {/* 상단 브레드크럼 */}
+    <nav aria-label="브레드크럼" class="text-caption text-on-dark-soft">
+      <a href="/" class="transition-colors hover:text-gold-300">{brand.name}</a>
+      <span aria-hidden="true" class="mx-sp-2">›</span>
+      <span aria-current="page" class="text-on-dark">커리큘럼</span>
+    </nav>
+
+    <h1 class="mt-sp-5 text-h1 font-bold leading-[1.2] text-white">
+      4주 동안,<br />
+      무엇을 배우고<br />
+      무엇을 실제로 하게 되는가.
+    </h1>
+
+    <p class="mt-sp-5 text-lead text-gold-300">
+      VOD 7강 + 부록 240분 · 줌 라이브 2회 각 120분 · 강의 시작일 +3개월 애프터케어.<br />
+      강의별 목표와 실습 결과물까지 모두 공개합니다.
+    </p>
+
+    {/* 4대 수치 배지 */}
+    <ul class="mt-sp-7 grid grid-cols-2 gap-sp-3 md:grid-cols-4 md:gap-sp-4">
+      {
+        stats.map((s) => (
+          <li class="gold-top-line rounded-md bg-navy-800 p-sp-4 text-center">
+            <p class="font-sans text-number-lg leading-none text-gold-500">
+              {s.value}
+            </p>
+            <p class="mt-sp-2 text-caption text-on-dark-soft">{s.label}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

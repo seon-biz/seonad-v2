@@ -1,0 +1,149 @@
+---
+/*
+ * 04-instructor.md §8 — 수강생과의 접촉 방식
+ *
+ * - 배경 navy-900 / 4단계 (가로 4열, 모바일 세로 스택)
+ * - 각 단계: 숫자 배지 + 골드 라인 아이콘(SVG inline) + 단계명 + 본문
+ * - 타임라인 아래 마무리 문구 (lead, white, 중앙)
+ */
+
+const steps = [
+  {
+    no: '01',
+    title: '사전 무료 강의 (줌 라이브)',
+    icon: 'mic',
+    body: '본 강의 신청 전, 줌 라이브 1시간으로 먼저 만납니다. 코치의 목소리와 설명 방식을 미리 확인하실 수 있습니다.',
+  },
+  {
+    no: '02',
+    title: '기수 확정 후 카카오톡 단톡방',
+    icon: 'chat',
+    body: '입금 확인과 기수 배정이 끝나면 단톡방에 초대됩니다. 여기서부터 수업 종료 +3개월까지 매일 연결됩니다.',
+  },
+  {
+    no: '03',
+    title: '줌 2회 라이브',
+    icon: 'screen',
+    body: '3·4주차에 각 2시간, 6명 전원 화면 공유로 진행됩니다. 대표님의 실제 광고 계정을 함께 보면서 실시간 판단을 나눕니다.',
+  },
+  {
+    no: '04',
+    title: '3개월 시점 점검 줌',
+    icon: 'check',
+    body: '강의 종료 3개월 시점에 1시간, 기수당 1회. "혼자 3개월 돌린 후 어디가 흔들리는가"를 마지막으로 잡습니다.',
+  },
+];
+---
+
+<section class="bg-navy-900 text-on-dark">
+  <div class="container-max section-y">
+    <div class="mx-auto max-w-[60ch] text-center">
+      <h2 class="text-h2 font-bold text-white">
+        대표님은 코치를 이렇게 만나게 됩니다.
+      </h2>
+      <p class="mt-sp-4 text-lead text-gold-300">
+        실명·얼굴 없이도 4주간 코치와 대표님 사이의 거리는 대행사보다 훨씬 가깝습니다.
+      </p>
+    </div>
+
+    <ol class="mt-sp-8 grid grid-cols-1 gap-sp-5 md:grid-cols-2 lg:grid-cols-4">
+      {
+        steps.map((s) => (
+          <li class="flex flex-col gap-sp-4 rounded-lg border border-gold-500/25 bg-navy-800/60 p-sp-6">
+            <div class="flex items-center justify-between">
+              <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gold-500 font-sans text-caption font-bold text-navy-950">
+                {s.no}
+              </span>
+              <span aria-hidden="true" class="text-gold-400">
+                {s.icon === 'mic' && (
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <rect
+                      x="9"
+                      y="3"
+                      width="6"
+                      height="12"
+                      rx="3"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                    />
+                    <path
+                      d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                )}
+                {s.icon === 'chat' && (
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M4 5h16v11H9l-4 4v-4H4V5Z"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M8 9h8M8 12h5"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                )}
+                {s.icon === 'screen' && (
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <rect
+                      x="3"
+                      y="4"
+                      width="18"
+                      height="12"
+                      rx="1.5"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                    />
+                    <path
+                      d="M8 20h8M12 16v4"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="m10 8 4 2-4 2V8Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                )}
+                {s.icon === 'check' && (
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="9"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                    />
+                    <path
+                      d="m8 12 3 3 5-6"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                )}
+              </span>
+            </div>
+
+            <h3 class="text-h4 font-semibold text-white">{s.title}</h3>
+            <p class="text-body text-on-dark-soft">{s.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="mx-auto mt-sp-8 max-w-[52ch] text-center text-lead text-white">
+      총 접촉 시간 9시간+ 텍스트 3개월.<br />
+      얼굴 없이도 4주차쯤 되면 코치의 판단 흐름이 대표님 손에 익습니다.
+    </p>
+  </div>
+</section>

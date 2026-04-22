@@ -1,0 +1,82 @@
+---
+/*
+ * 04-instructor.md §9 — 이 코치와 맞지 않는 경우
+ *
+ * - 배경 paper-soft / 세로 리스트 5개 (X 아이콘 + 내용)
+ * - §12-8: 긍정 신호 금지, 명확한 X 표시 — danger 톤 사용
+ * - 리스트 아래 전환 문구 (lead, ink-700, 중앙)
+ */
+
+const items = [
+  {
+    claim: '"얼굴·이름 공개된 유명 강사에게 배우고 싶다"',
+    detail:
+      '세온애드는 의도적으로 브랜드 중심 운영입니다. 인플루언서형 수업을 원하신다면 다른 강의가 적합합니다.',
+  },
+  {
+    claim: '"광고비 0원으로 매출을 5배로 만들어달라"',
+    detail:
+      '최소 월 30만 원+의 광고비 집행이 전제입니다. 광고비 없는 성장 전략은 이 수업의 범위가 아닙니다.',
+  },
+  {
+    claim: '"광고 계정은 공개할 수 없고 내용만 듣고 싶다"',
+    detail:
+      '줌 2회차가 실계정 공개 기반이라 공개 거부 시 수강 의미가 반 이상 사라집니다. VOD 일반 강의를 추천드립니다.',
+  },
+  {
+    claim: '"4주 안에 내 대신 광고를 돌려달라"',
+    detail:
+      '이 수업은 대표님이 직접 돌리는 걸 배우는 과정입니다. 대행을 원하신다면 광고 대행사에 맡기시는 편이 맞습니다.',
+  },
+  {
+    claim: '"GFA(디스플레이 광고)·자사몰 광고·쿠팡 광고가 메인이다"',
+    detail:
+      '본 강의는 네이버 쇼핑검색·파워링크·브랜드검색만 다룹니다. 다른 매체 중심이면 범위가 맞지 않습니다.',
+  },
+];
+---
+
+<section class="bg-paper-soft text-ink-900">
+  <div class="container-max section-y">
+    <div class="mx-auto max-w-[60ch] text-center">
+      <h2 class="text-h2 font-bold text-ink-900">
+        이런 기대를 가진 분께는<br />
+        이 코치가 맞지 않습니다.
+      </h2>
+      <p class="mt-sp-4 text-body text-ink-500">
+        솔직히 말씀드립니다. 4주 안에 다음을 기대하신다면 다른 선택지를 추천드립니다.
+      </p>
+    </div>
+
+    <ul class="mx-auto mt-sp-8 flex max-w-[720px] flex-col gap-sp-4">
+      {
+        items.map((i) => (
+          <li class="flex items-start gap-sp-4 rounded-md border border-danger/30 bg-paper p-sp-5">
+            <span
+              aria-hidden="true"
+              class="mt-[2px] inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-danger text-danger"
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path
+                  d="M3 3l8 8M11 3l-8 8"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </span>
+            <div>
+              <p class="text-body font-semibold text-ink-900">{i.claim}</p>
+              <p class="mt-sp-2 text-body text-ink-700">→ {i.detail}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="mx-auto mt-sp-7 max-w-[52ch] text-center text-lead text-ink-700">
+      위 5가지에 해당하지 않는다면,<br />
+      대표님은 세온애드가 정확히 필요한 분일 가능성이 높습니다.
+    </p>
+  </div>
+</section>

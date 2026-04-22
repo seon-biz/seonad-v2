@@ -1,0 +1,122 @@
+---
+/*
+ * 04-instructor.md §7 — 세온 브랜드 생태계
+ *
+ * - 배경 paper / 3브랜드 카드 (SEONAD=current 골드 2px 테두리 + "현재 페이지" 배지)
+ * - 하단 법인 정보 박스(paper-soft, §7-4) — §12-7: 순수 텍스트로 렌더
+ * - brandEcosystem 과 business 정보는 src/config/campaign.ts 중앙 관리
+ */
+import { brandEcosystem, brand, business } from '@config/campaign';
+---
+
+<section class="bg-paper text-ink-900">
+  <div class="container-max section-y">
+    <div class="mx-auto max-w-[62ch] text-center">
+      <h2 class="text-h2 font-bold text-ink-900">세온 브랜드 생태계.</h2>
+      <p class="mt-sp-4 text-body text-ink-500">
+        세온애드는 {brand.legalName}이 운영하는 3개 브랜드 중 하나입니다.<br
+          class="hidden md:inline"
+        />
+        각 브랜드는 서로 다른 서비스를 제공하되, 스마트스토어 대표를 공통 타깃으로 합니다.
+      </p>
+    </div>
+
+    <ul class="mt-sp-8 grid grid-cols-1 gap-sp-5 lg:grid-cols-3">
+      {
+        brandEcosystem.map((b) => (
+          <li
+            class:list={[
+              'relative flex flex-col rounded-lg bg-paper p-sp-6',
+              b.current
+                ? 'border-2 border-gold-500 shadow-gold-ring'
+                : 'border border-ink-300/40',
+            ]}
+          >
+            {b.current && (
+              <span class="absolute -top-3 left-sp-5 inline-flex rounded-xs bg-gold-500 px-sp-3 py-[2px] text-caption font-bold text-navy-950">
+                현재 페이지
+              </span>
+            )}
+
+            <p class="text-caption tracking-caption text-gold-600">
+              {b.name}
+            </p>
+            <p class="mt-sp-1 font-sans text-h3 font-bold tracking-kr-number text-ink-900">
+              {b.nameEn}
+            </p>
+
+            <p class="mt-sp-5 text-caption font-semibold tracking-caption text-ink-500">
+              {b.tagline}
+            </p>
+            <p class="mt-sp-3 text-body text-ink-700">{b.description}</p>
+
+            <div class="mt-auto pt-sp-5">
+              {b.external ? (
+                <a
+                  href={b.href}
+                  target="_blank"
+                  rel="noopener"
+                  class="inline-flex items-center gap-sp-1 text-body-sm font-semibold text-gold-600 underline decoration-gold-500 underline-offset-4 transition-colors hover:text-gold-500"
+                >
+                  {b.linkLabel}
+                </a>
+              ) : (
+                <a
+                  href={b.href}
+                  aria-current={b.current ? 'page' : undefined}
+                  class="inline-flex items-center gap-sp-1 text-body-sm font-semibold text-gold-600 underline decoration-gold-500 underline-offset-4 transition-colors hover:text-gold-500"
+                >
+                  {b.linkLabel}
+                </a>
+              )}
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+
+    {/* 법인 정보 박스 */}
+    <div class="mt-sp-8 rounded-lg bg-paper-soft p-sp-6">
+      <p class="eyebrow text-ink-500">운영 법인</p>
+      <address class="mt-sp-4 flex flex-col gap-sp-2 not-italic text-body text-ink-700">
+        <span class="text-h4 font-semibold text-ink-900">
+          {brand.legalName}
+        </span>
+        <span>
+          <span class="text-ink-500">대표자</span> ·{' '}
+          <span class="text-ink-900">{business.representative}</span>
+        </span>
+        <span>
+          <span class="text-ink-500">사업자번호</span> ·{' '}
+          <span class="text-ink-900">{business.businessNumber}</span>
+        </span>
+        <span>
+          <span class="text-ink-500">통신판매업 신고번호</span> ·{' '}
+          <span class="text-ink-900">{business.mailOrderNumber}</span>
+        </span>
+        <span>
+          <span class="text-ink-500">사업장 주소</span> ·{' '}
+          <span class="text-ink-900">{business.address}</span>
+        </span>
+        <span>
+          <span class="text-ink-500">이메일</span> ·{' '}
+          <a
+            href={`mailto:${brand.email}`}
+            class="text-ink-900 underline decoration-gold-500 underline-offset-4 hover:text-gold-600"
+          >
+            {brand.email}
+          </a>
+        </span>
+        <span>
+          <span class="text-ink-500">연락처</span> ·{' '}
+          <a
+            href={`tel:${brand.phoneIntl}`}
+            class="text-ink-900 underline decoration-gold-500 underline-offset-4 hover:text-gold-600"
+          >
+            {brand.phone}
+          </a>
+        </span>
+      </address>
+    </div>
+  </div>
+</section>

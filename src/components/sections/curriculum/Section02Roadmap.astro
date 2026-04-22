@@ -1,0 +1,99 @@
+---
+/*
+ * 03-curriculum.md §3 — 섹션 2 4주 로드맵 (페이지 목차)
+ * 배경: paper-soft
+ * 4장 카드 = #week1~#week4 앵커 링크 / 애프터케어 바 = #aftercare 앵커
+ */
+
+const weeks = [
+  {
+    label: 'WEEK 1',
+    title: '광고 지도 + 계정 세팅',
+    activity: 'VOD 1~2강 (60분). 비즈센터 가입부터 전환추적 설치까지',
+    anchor: '#week1',
+  },
+  {
+    label: 'WEEK 2',
+    title: '쇼핑검색 + 파워링크 학습',
+    activity: 'VOD 3~7강 + 부록 (180분). 실습 2강 포함',
+    anchor: '#week2',
+  },
+  {
+    label: 'WEEK 3',
+    title: '줌 1회 — 계정 세팅 + 첫 광고 발행',
+    activity: '줌 라이브 120분. 6명 전원 캠페인 ON',
+    anchor: '#week3',
+  },
+  {
+    label: 'WEEK 4',
+    title: '줌 2회 — 성과 진단 + 30일 플랜',
+    activity: '줌 라이브 120분. 혼자 운영할 계획 완성',
+    anchor: '#week4',
+  },
+];
+---
+
+<section id="curriculum-roadmap" class="bg-paper-soft text-ink-900">
+  <div class="container-max section-y">
+    <div class="mx-auto max-w-[32ch] text-center">
+      <h2 class="text-h2 font-bold">4주 로드맵.</h2>
+    </div>
+
+    {/* 로드맵 카드 4장 */}
+    <ol class="mt-sp-7 grid grid-cols-1 gap-sp-4 md:grid-cols-2 lg:grid-cols-4 lg:gap-sp-5">
+      {
+        weeks.map((w, idx) => (
+          <li class="relative">
+            <a
+              href={w.anchor}
+              class="group flex h-full flex-col rounded-lg border border-ink-300/40 bg-paper p-sp-5 shadow-xs transition-all duration-fast ease-standard hover:-translate-y-[2px] hover:border-gold-500 hover:shadow-md"
+            >
+              <div class="flex items-center justify-between">
+                <span class="pill pill-gold tracking-eyebrow">{w.label}</span>
+                <span
+                  aria-hidden="true"
+                  class="text-gold-500 transition-transform duration-fast group-hover:translate-x-1"
+                >
+                  →
+                </span>
+              </div>
+              <h3 class="mt-sp-4 text-h4 font-semibold text-ink-900">
+                {w.title}
+              </h3>
+              <p class="mt-sp-3 flex-1 text-body-sm text-ink-500">
+                {w.activity}
+              </p>
+              <p class="mt-sp-4 text-caption font-semibold text-gold-600">
+                이 섹션으로 이동 →
+              </p>
+            </a>
+
+            {/* 데스크톱 주차 간 연결선 */}
+            {idx < weeks.length - 1 && (
+              <span
+                aria-hidden="true"
+                class="absolute right-[-18px] top-1/2 hidden h-px w-[18px] -translate-y-1/2 bg-gold-500 lg:block"
+              />
+            )}
+          </li>
+        ))
+      }
+    </ol>
+
+    {/* 하단 애프터케어 바 — 앵커 링크 */}
+    <a
+      href="#aftercare"
+      class="group mt-sp-6 flex items-center justify-between rounded-lg border border-gold-500/60 bg-navy-900 p-sp-5 text-on-dark transition-colors duration-fast hover:bg-navy-800"
+    >
+      <p class="text-body text-gold-300 md:text-lead">
+        + 강의 시작일 +3개월 애프터케어 · 단톡방 질문 응대 + 3개월 시점 점검 줌 1시간
+      </p>
+      <span
+        aria-hidden="true"
+        class="ml-sp-4 shrink-0 text-gold-500 transition-transform duration-fast group-hover:translate-x-1"
+      >
+        →
+      </span>
+    </a>
+  </div>
+</section>

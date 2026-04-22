@@ -1,0 +1,78 @@
+---
+/*
+ * 커리큘럼 상세 페이지 (/curriculum)
+ *
+ * - 03-curriculum.md §0 메타 태그 반영
+ * - JSON-LD 스키마: Organization(BaseLayout 자동) / Course 상세(syllabusSections 포함) / BreadcrumbList(2단계)
+ * - 섹션 1~11 순서대로 조립 (요구사항: 로드맵 카드 = #week1~#week4 앵커, 강의 카드 = 전체 공개)
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import CourseSchema from '@components/seo/CourseSchema.astro';
+import BreadcrumbSchema from '@components/seo/BreadcrumbSchema.astro';
+import { brand } from '@config/campaign';
+
+import Section01Hero from '@components/sections/curriculum/Section01Hero.astro';
+import Section02Roadmap from '@components/sections/curriculum/Section02Roadmap.astro';
+import Section03Week1 from '@components/sections/curriculum/Section03Week1.astro';
+import Section04Week2 from '@components/sections/curriculum/Section04Week2.astro';
+import Section05Week3 from '@components/sections/curriculum/Section05Week3.astro';
+import Section06Week4 from '@components/sections/curriculum/Section06Week4.astro';
+import Section07AfterCare from '@components/sections/curriculum/Section07AfterCare.astro';
+import Section08Materials from '@components/sections/curriculum/Section08Materials.astro';
+import Section09SelfCheck from '@components/sections/curriculum/Section09SelfCheck.astro';
+import Section10Faq from '@components/sections/curriculum/Section10Faq.astro';
+import Section11FinalCta from '@components/sections/curriculum/Section11FinalCta.astro';
+
+const title = `커리큘럼 | VOD 7강 + 줌 2회 + 3개월 애프터케어 | ${brand.name}`;
+const description =
+  '비즈센터 가입부터 캠페인 발행까지 화면 따라하기. 쇼핑검색광고 메인, 파워링크·브랜드검색 서브. 4주 과정 상세 구성.';
+const ogDescription =
+  '4주간 무엇을 배우는지 강의별로 상세 공개. 화면 따라하기 실습 3강 포함.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage={`${brand.url}/og/curriculum.png`}
+>
+  <Fragment slot="head">
+    <meta
+      name="keywords"
+      content="스마트스토어 광고 커리큘럼, 네이버광고 4주 과정, 쇼핑검색광고 강의 커리큘럼, 파워링크 강의 커리큘럼"
+    />
+    <meta property="og:description" content={ogDescription} />
+
+    <CourseSchema
+      id="schema-course-curriculum"
+      description="VOD 7강(240분) + 줌 라이브 2회(각 120분) + 3개월 애프터케어"
+      includeOffer={false}
+      instructor={{ name: '세온애드 코치', affiliation: '세온비즈' }}
+      syllabusSections={[
+        { name: 'PART 1 — 광고를 켜기 전에 알아야 할 것', timeRequired: 'PT60M' },
+        { name: 'PART 2 — 쇼핑검색광고 (메인 파트)', timeRequired: 'PT85M' },
+        { name: 'PART 3 — 파워링크와 브랜드검색', timeRequired: 'PT70M' },
+        { name: '부록 — 광고 운영 30일 루틴', timeRequired: 'PT25M' },
+      ]}
+    />
+    <BreadcrumbSchema
+      items={[
+        { name: brand.name, url: '/' },
+        { name: '커리큘럼', url: '/curriculum' },
+      ]}
+    />
+  </Fragment>
+
+  <main id="main-content" tabindex="-1">
+    <Section01Hero />
+    <Section02Roadmap />
+    <Section03Week1 />
+    <Section04Week2 />
+    <Section05Week3 />
+    <Section06Week4 />
+    <Section07AfterCare />
+    <Section08Materials />
+    <Section09SelfCheck />
+    <Section10Faq />
+    <Section11FinalCta />
+  </main>
+</BaseLayout>

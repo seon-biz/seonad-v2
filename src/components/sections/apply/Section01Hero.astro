@@ -1,0 +1,81 @@
+---
+/*
+ * 05-pricing-apply.md §2 — 페이지 히어로 (결제 직전 안심 프레임)
+ *
+ * - 배경 navy-950 / container-narrow / min-h 45vh (메인·강사보다 낮게, 신속히 폼으로)
+ * - 3배지: 70만 원·VAT 포함(골드) / 법인계좌 이체(outline) / 세금계산서 발행 가능(outline)
+ * - 하단 스크롤 가이드 — "↓ 신청 폼은 바로 아래에 있습니다"
+ */
+import { brand } from '@config/campaign';
+---
+
+<section class="bg-navy-950 text-on-dark">
+  <div
+    class="container-narrow flex min-h-[45vh] flex-col justify-center py-sp-8 lg:py-sp-9"
+  >
+    <nav aria-label="브레드크럼" class="reveal text-caption text-on-dark-soft">
+      <a href="/" class="transition-colors hover:text-gold-300">{brand.name}</a>
+      <span aria-hidden="true" class="mx-sp-2">›</span>
+      <span aria-current="page" class="text-on-dark">가격·신청</span>
+    </nav>
+
+    <p class="reveal reveal-delay-1 mt-sp-6 eyebrow">APPLY</p>
+
+    <h1 class="reveal reveal-delay-1 mt-sp-4 text-h1 font-bold text-white">
+      신청하시면,<br />
+      대표자가 직접 기수를 배정합니다.
+    </h1>
+
+    <p class="reveal reveal-delay-2 mt-sp-5 max-w-[56ch] text-lead text-gold-300">
+      자동 결제 대신, 한 분 한 분 카테고리 중복을 확인하고<br
+        class="hidden md:inline"
+      />
+      경쟁사 보호 정책을 적용한 뒤 입금을 안내드립니다.
+    </p>
+
+    {/* 3요소 배지 */}
+    <ul
+      class="reveal reveal-delay-3 mt-sp-6 flex flex-wrap gap-sp-3"
+      aria-label="결제 조건"
+    >
+      <li>
+        <span
+          class="inline-flex items-center gap-sp-2 rounded-sm bg-gold-500 px-sp-4 py-sp-2 text-body-sm font-bold text-navy-950"
+        >
+          70만 원 · VAT 포함
+        </span>
+      </li>
+      <li>
+        <span
+          class="inline-flex items-center gap-sp-2 rounded-sm border border-gold-500 px-sp-4 py-sp-2 text-body-sm font-semibold text-gold-300"
+        >
+          법인계좌 이체
+        </span>
+      </li>
+      <li>
+        <span
+          class="inline-flex items-center gap-sp-2 rounded-sm border border-gold-500 px-sp-4 py-sp-2 text-body-sm font-semibold text-gold-300"
+        >
+          세금계산서 발행 가능
+        </span>
+      </li>
+    </ul>
+
+    {/* 스크롤 가이드 */}
+    <a
+      href="#apply-form"
+      class="reveal reveal-delay-4 mt-sp-8 inline-flex items-center gap-sp-2 self-start text-body-sm text-on-dark-soft transition-colors hover:text-gold-300"
+    >
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path
+          d="M8 3v10m0 0-4-4m4 4 4-4"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      신청 폼은 바로 아래에 있습니다
+    </a>
+  </div>
+</section>

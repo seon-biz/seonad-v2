@@ -1,0 +1,46 @@
+---
+/*
+ * /faq Section 11 — 최종 CTA (06-faq.md §12)
+ *
+ * - navy-950 더 어두운 다크 배경 → 주의 집중
+ * - CTA 2종: Primary 무료 강의(/free) · Secondary 수강 신청(/apply)
+ * - 하단에 현재 기수 상황을 라이브 라이크 표시
+ */
+import { routes, campaign } from '@config/campaign';
+---
+
+<section class="bg-navy-950 text-on-dark">
+  <div class="container-max section-y">
+    <div class="mx-auto max-w-[760px] text-center">
+      <h2 class="text-h1 font-bold leading-tight text-paper">
+        42개 질문을 다 확인하셨다면,<br />
+        다음 한 걸음은 대표님의 선택.
+      </h2>
+      <p class="mt-sp-5 text-lead text-gold-300">
+        아직 확신이 없다면 무료 강의,<br />
+        이미 마음이 서셨다면 수강 신청.
+      </p>
+
+      <div class="mt-sp-10 flex flex-col items-center justify-center gap-sp-4 sm:flex-row">
+        <a
+          href={routes.free}
+          class="inline-flex min-h-[56px] min-w-[240px] items-center justify-center rounded-md bg-gold-500 px-sp-7 text-body font-bold text-navy-950 transition-colors duration-base hover:bg-gold-400"
+        >
+          사전 무료 강의 신청 →
+        </a>
+        <a
+          href={routes.apply}
+          class="inline-flex min-h-[56px] min-w-[240px] items-center justify-center rounded-md border border-gold-500 bg-transparent px-sp-7 text-body font-bold text-gold-300 transition-colors duration-base hover:bg-gold-500/10 hover:text-gold-100"
+        >
+          수강 신청하기 →
+        </a>
+      </div>
+
+      <p class="mt-sp-8 text-body-sm text-on-dark-soft">
+        현재 기수 <span class="font-semibold text-gold-300">{campaign.currentCount}명</span>
+        {' · '}다음 시작 예정일:{' '}
+        <span class="font-semibold text-gold-300">{campaign.nextStartDate}</span>
+      </p>
+    </div>
+  </div>
+</section>

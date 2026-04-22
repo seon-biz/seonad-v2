@@ -1,0 +1,59 @@
+---
+/*
+ * /free Section 06 — 지난 무료 강의 수강생 메시지 (07-free.md §7)
+ *
+ * - paper-soft 배경.
+ * - 1기 런칭 초기 플레이스홀더 버전 구현(§7-2): 참석자 피드백이 쌓이면
+ *   구조화된 카드 배열(§7-3)로 교체 가능하도록 데이터 타입을 미리 정의.
+ *
+ * 데이터 교체 방법:
+ *   아래 `messages` 배열에 Voice[] 값이 1개 이상 들어가면 자동으로 §7-3
+ *   카드 그리드 모드로 전환된다(상단 헤더 문구도 동시 교체).
+ */
+
+interface Voice {
+  role: string;
+  quote: string;
+  date: string;
+}
+
+// 아직 피드백이 없으므로 빈 배열. 2기 이후 수집된 메시지를 push 하면 자동 전환.
+const messages: Voice[] = [];
+const hasVoices = messages.length > 0;
+---
+
+<section class="bg-paper-soft text-ink-900">
+  <div class="container-max section-y">
+    {
+      hasVoices ? (
+        <>
+          <header class="mx-auto max-w-[760px] text-center">
+            <h2 class="text-h2 font-bold text-ink-900">지난 무료 강의에서 나온 질문들.</h2>
+            <p class="mt-sp-4 text-body text-ink-500">
+              참석하신 대표님들의 실제 피드백입니다.
+            </p>
+          </header>
+          <ul class="mx-auto mt-sp-10 grid max-w-[1040px] grid-cols-1 gap-sp-5 md:grid-cols-2 lg:grid-cols-3">
+            {messages.map((v) => (
+              <li class="rounded-md border border-ink-300/40 bg-paper p-sp-6">
+                <p class="text-caption font-semibold text-gold-600">{v.role}</p>
+                <blockquote class="mt-sp-3 text-body text-ink-700">
+                  &ldquo;{v.quote}&rdquo;
+                </blockquote>
+                <p class="mt-sp-4 text-caption text-ink-500">{v.date}</p>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <div class="mx-auto max-w-[720px] rounded-md border border-ink-300/40 bg-paper p-sp-8 text-center">
+          <h2 class="text-h2 font-bold text-ink-900">세온애드는 이제 막 시작한 수업입니다.</h2>
+          <p class="mt-sp-5 text-lead text-ink-700">
+            무료 강의 참석자 피드백이 쌓이면 이 자리에 올려드리겠습니다.<br />
+            지금은 강사가 직접 집행한 4개 업체의 실제 광고 성과로 수업의 실체를 증명합니다.
+          </p>
+        </div>
+      )
+    }
+  </div>
+</section>

@@ -1,0 +1,120 @@
+---
+/*
+ * 법적 문서 목차(TOC).
+ *
+ * - 데스크톱(lg+): LegalLayout 의 sticky 컨테이너 안에서 좌측 고정.
+ * - 모바일(~md): <details> 로 접힘 메뉴. 초기에 닫힘.
+ * - 활성 섹션 하이라이트: data-toc-target 속성 기반으로 LegalLayout 스크립트가
+ *   active 클래스를 토글한다 (IntersectionObserver).
+ * - terms 같은 2단 문서는 chapter > article 2단계 들여쓰기, privacy/refund 는
+ *   최상위 섹션 링크만 표시.
+ */
+import type { LegalDocument } from '@data/legal/types';
+
+interface Props {
+  doc: LegalDocument;
+}
+const { doc } = Astro.props as Props;
+
+// terms 는 sections[i].articles 가 존재, privacy/refund 는 sections[i].blocks 만 존재
+const hasArticles = doc.sections.some((s) => s.articles && s.articles.length > 0);
+---
+
+<nav aria-label={`${doc.title} 목차`} class="legal-toc text-body-sm">
+  {/* 모바일 전용: 접힘 메뉴 */}
+  <details class="group rounded-md border border-ink-300/50 bg-paper lg:hidden">
+    <summary class="flex cursor-pointer list-none items-center justify-between gap-sp-3 px-sp-5 py-sp-4 text-body font-semibold text-ink-900 [&::-webkit-details-marker]:hidden">
+      <span>목차 보기</span>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="h-5 w-5 text-ink-500 transition-transform duration-fast group-open:rotate-180"
+        aria-hidden="true"
+      >
+        <path d="m6 9 6 6 6-6" />
+      </svg>
+    </summary>
+    <div class="border-t border-ink-300/50 px-sp-5 py-sp-4">
+      <ol class="flex flex-col gap-sp-3">
+        {doc.sections.map((section) => (
+          <li>
+            {hasArticles && section.articles ? (
+              <>
+                <p class="text-caption font-bold tracking-[0.12em] text-gold-600">
+                  {section.title}
+                </p>
+                <ol class="mt-sp-2 flex flex-col gap-sp-2 pl-sp-3">
+                  {section.articles.map((article) => (
+                    <li>
+                      <a
+                        href={`#${article.id}`}
+                        data-toc-target={article.id}
+                        class="block rounded-sm py-[2px] text-body-sm text-ink-700 transition-colors duration-fast hover:text-gold-600"
+                      >
+                        {article.title}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </>
+            ) : (
+              <a
+                href={`#${section.id}`}
+                data-toc-target={section.id}
+                class="block rounded-sm py-[2px] text-body-sm text-ink-900 transition-colors duration-fast hover:text-gold-600"
+              >
+                {section.title}
+              </a>
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  </details>
+
+  {/* 데스크톱 전용 */}
+  <div class="hidden lg:block">
+    <p class="text-caption font-bold tracking-[0.18em] text-ink-500 uppercase">
+      목차 · CONTENTS
+    </p>
+    <ol class="mt-sp-4 flex flex-col gap-sp-4 border-l-2 border-ink-300/50 pl-sp-4">
+      {doc.sections.map((section) => (
+        <li>
+          {hasArticles && section.articles ? (
+            <>
+              <p class="text-caption font-bold tracking-[0.1em] text-gold-600">
+                {section.title}
+              </p>
+              <ol class="mt-sp-2 flex flex-col gap-sp-1 pl-sp-3">
+                {section.articles.map((article) => (
+                  <li>
+                    <a
+                      href={`#${article.id}`}
+                      data-toc-target={article.id}
+                      class="block rounded-sm py-[2px] text-body-sm text-ink-700 transition-colors duration-fast hover:text-gold-600"
+                    >
+                      {article.title}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </>
+          ) : (
+            <a
+              href={`#${section.id}`}
+              data-toc-target={section.id}
+              class="block rounded-sm py-[2px] text-body-sm font-semibold text-ink-900 transition-colors duration-fast hover:text-gold-600"
+            >
+              {section.title}
+            </a>
+          )}
+        </li>
+      ))}
+    </ol>
+  </div>
+</nav>

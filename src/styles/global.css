@@ -1,0 +1,443 @@
+/* =============================================================================
+ * 세온애드 — Global Styles
+ * 01-foundation.md 디자인 토큰의 단일 진실 공급원(:root CSS 변수) + Tailwind 레이어
+ * ============================================================================= */
+
+/* Pretendard Variable (foundation §2 기본 폰트) */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+
+/* 프리미엄 인용·스토리 섹션용 Noto Serif KR (foundation §2-1) */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -----------------------------------------------------------------------------
+ * 1. 디자인 토큰 — CSS 변수로 전역 노출 (foundation §12)
+ *    Tailwind 토큰과 동일한 값. 유틸 밖 상황(인라인 style, 3rd party)에서도 참조 가능.
+ * --------------------------------------------------------------------------- */
+:root {
+  /* ---- Color · Navy ---- */
+  --color-navy-950: #0A1224;
+  --color-navy-900: #0F1A33;
+  --color-navy-800: #162445;
+  --color-navy-700: #1E2F5A;
+  --color-navy-600: #2A3F72;
+  --color-navy-500: #425C94;
+  --color-navy-400: #6B83B8;
+
+  /* ---- Color · Gold ---- */
+  --color-gold-600: #A37B2E;
+  --color-gold-500: #C89B3C;
+  --color-gold-400: #D9B368;
+  --color-gold-300: #E8CD97;
+  --color-gold-100: #F5EAD1;
+
+  /* ---- Color · Ink / Paper ---- */
+  --color-ink-900: #111418;
+  --color-ink-700: #2B313B;
+  --color-ink-500: #5B6471;
+  --color-ink-300: #A8AEB8;
+  --color-paper: #FFFFFF;
+  --color-paper-soft: #F7F5EF;
+  --color-cream: #F0EADA;
+
+  /* ---- Color · 보조 (다크 배경 위 텍스트) ---- */
+  --color-on-dark: #E6EAF2;
+  --color-on-dark-soft: #C8CEDA;
+  --color-footer-deep: #07101E;
+
+  /* ---- Color · Semantic ---- */
+  --color-success: #3F8F5A;
+  --color-warning: #C88A2E;
+  --color-danger: #B84A3E;
+  --color-info: #3E6FB8;
+
+  /* ---- Type Scale · 모바일 기본값 ----
+     원칙: 모바일은 0.85배 스케일다운 (hero·number는 0.6배), 본문 하한 15px.
+     lg 브레이크포인트(1024px)에서 데스크톱 값으로 오버라이드.                   */
+  --text-hero: 38px;
+  --text-h1: 32px;
+  --text-h2: 26px;
+  --text-h3: 22px;
+  --text-h4: 19px;
+  --text-lead: 17px;
+  --text-body: 15px;
+  --text-body-sm: 15px;
+  --text-caption: 13px;
+  --text-number-xl: 52px;
+  --text-number-lg: 36px;
+
+  /* ---- Font family ---- */
+  --font-sans-kr: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-serif-kr: "Noto Serif KR", "Nanum Myeongjo", serif;
+  --font-mono: "JetBrains Mono", "D2Coding", ui-monospace, monospace;
+
+  /* ---- Spacing (8px 기반) ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+  --space-11: 160px;
+
+  /* ---- Layout ---- */
+  --container-narrow: 760px;
+  --container-max: 1200px;
+  --container-wide: 1440px;
+  --gutter-mobile: 20px;
+  --gutter-desktop: 32px;
+
+  /* ---- Radius ---- */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  /* ---- Border ---- */
+  --border-width-thin: 1px;
+  --border-width-base: 2px;
+  --border-width-thick: 4px;
+  --border-color-light: rgba(17, 20, 24, 0.08);
+  --border-color-dark: rgba(200, 155, 60, 0.18);
+  --border-color-gold: var(--color-gold-500);
+
+  /* ---- Shadow ---- */
+  --shadow-xs: 0 1px 2px rgba(10, 18, 36, 0.06);
+  --shadow-sm: 0 4px 12px rgba(10, 18, 36, 0.08);
+  --shadow-md: 0 12px 32px rgba(10, 18, 36, 0.12);
+  --shadow-lg: 0 24px 64px rgba(10, 18, 36, 0.18);
+  --shadow-gold: 0 8px 24px rgba(200, 155, 60, 0.35);
+
+  /* ---- Motion ---- */
+  --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --easing-exit: cubic-bezier(0.4, 0, 1, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+  --duration-scroll: 600ms;
+
+  /* ---- Z-index ---- */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-sticky-cta: 40;
+  --z-header: 50;
+  --z-overlay: 80;
+  --z-modal: 90;
+  --z-toast: 100;
+}
+
+/* lg 브레이크포인트 이상(데스크톱) 타입 스케일 */
+@media (min-width: 1024px) {
+  :root {
+    --text-hero: 64px;
+    --text-h1: 48px;
+    --text-h2: 36px;
+    --text-h3: 28px;
+    --text-h4: 22px;
+    --text-lead: 20px;
+    --text-body: 17px;
+    --text-body-sm: 15px;
+    --text-caption: 13px;
+    --text-number-xl: 80px;
+    --text-number-lg: 48px;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * 2. Base 리셋 / HTML 기본
+ * --------------------------------------------------------------------------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    /* 고정 헤더 대응: 앵커 이동 시 상단에 헤더 높이만큼 여유 */
+    scroll-padding-top: 72px;
+  }
+
+  body {
+    font-family: var(--font-sans-kr);
+    font-size: var(--text-body);
+    line-height: 1.7;
+    letter-spacing: -0.01em;
+    color: var(--color-ink-900);
+    background-color: var(--color-paper);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.02em;
+  }
+
+  /* 포커스 링 — A11y (foundation §11) */
+  :focus-visible {
+    outline: 2px solid var(--color-gold-400);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* 다크 배경 위 본문 명도 확보를 위한 선택자 */
+  .on-dark {
+    color: var(--color-on-dark);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * 3. 공통 컴포넌트 유틸 — Tailwind @layer components
+ * --------------------------------------------------------------------------- */
+@layer components {
+  /* 섹션 컨테이너 — 데스크톱 1200px / 모바일 gutter 20px */
+  .container-max {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--gutter-mobile);
+  }
+  .container-narrow {
+    width: 100%;
+    max-width: var(--container-narrow);
+    margin-inline: auto;
+    padding-inline: var(--gutter-mobile);
+  }
+  .container-wide {
+    width: 100%;
+    max-width: var(--container-wide);
+    margin-inline: auto;
+    padding-inline: var(--gutter-mobile);
+  }
+  @media (min-width: 1024px) {
+    .container-max,
+    .container-narrow,
+    .container-wide {
+      padding-inline: var(--gutter-desktop);
+    }
+  }
+
+  /* 섹션 상하 패딩 — 모바일 64 / 데스크톱 128 */
+  .section-y {
+    padding-block: var(--space-8);
+  }
+  @media (min-width: 1024px) {
+    .section-y {
+      padding-block: var(--space-10);
+    }
+  }
+
+  /* 골드 상단 1px 라인 — 프리미엄 시그니처 (foundation §7) */
+  .gold-top-line {
+    border-top: 1px solid var(--color-gold-500);
+  }
+  .gold-top-line-2 {
+    border-top: 2px solid var(--color-gold-500);
+  }
+
+  /* 다크 섹션 카드 — 얇은 골드 보더 (foundation §6) */
+  .card-dark {
+    background-color: var(--color-navy-800);
+    border: 1px solid var(--border-color-dark);
+    border-radius: var(--radius-lg);
+  }
+
+  /* ---- 버튼 ---- */
+  .btn-base {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;       /* 터치 타겟 최소 */
+    padding: 14px 24px;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: var(--text-body);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    transition:
+      transform var(--duration-fast) var(--easing-standard),
+      box-shadow var(--duration-fast) var(--easing-standard),
+      background-color var(--duration-fast) var(--easing-standard),
+      color var(--duration-fast) var(--easing-standard),
+      border-color var(--duration-fast) var(--easing-standard);
+  }
+  .btn-primary {
+    background-color: var(--color-gold-500);
+    color: var(--color-navy-950);
+  }
+  .btn-primary:hover {
+    background-color: var(--color-gold-600);
+    box-shadow: var(--shadow-gold);
+  }
+  .btn-primary:active {
+    transform: translateY(1px);
+  }
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--color-gold-500);
+    border: 1px solid var(--color-gold-500);
+  }
+  .btn-secondary:hover {
+    background-color: rgba(200, 155, 60, 0.08);
+  }
+  /* 라이트 배경 위 Secondary 변형 */
+  .btn-secondary-light {
+    background-color: transparent;
+    color: var(--color-ink-900);
+    border: 1px solid var(--color-ink-900);
+  }
+  .btn-secondary-light:hover {
+    background-color: rgba(17, 20, 24, 0.04);
+  }
+  .btn-lg {
+    min-height: 56px;
+    padding: 18px 32px;
+    font-size: var(--text-lead);
+  }
+
+  /* Pill 배지 — foundation §5 */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    font-size: var(--text-caption);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .pill-gold {
+    background-color: var(--color-gold-500);
+    color: var(--color-navy-950);
+  }
+  .pill-outline-gold {
+    background-color: transparent;
+    color: var(--color-gold-300);
+    border: 1px solid var(--color-gold-500);
+  }
+  .pill-soft {
+    background-color: var(--color-gold-100);
+    color: var(--color-gold-600);
+  }
+
+  /* 섹션 Eyebrow — 히어로/섹션 상단 라벨 */
+  .eyebrow {
+    font-size: var(--text-caption);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-gold-400);
+  }
+
+  /* ---- Reveal on scroll — 히어로·섹션 9(강사)·섹션 14(최종 CTA)에만 적용 ----
+     02-main-page.md §19-7. 뷰포트 진입 시 아래에서 위로 부드러운 페이드업.
+     .is-visible 이 JS(IntersectionObserver)에 의해 토글된다. JS 미실행 환경
+     (SSR HTML 그대로, no-JS) 에서도 보이도록 :not(.is-visible) 지연 트리거는
+     0.6s 이후 자동 해제된다(fallback).                                       */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity var(--duration-scroll) var(--easing-emphasized),
+      transform var(--duration-scroll) var(--easing-emphasized);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal.reveal-delay-1 { transition-delay: 80ms; }
+  .reveal.reveal-delay-2 { transition-delay: 160ms; }
+  .reveal.reveal-delay-3 { transition-delay: 240ms; }
+  .reveal.reveal-delay-4 { transition-delay: 320ms; }
+
+  /* JS 미동작 환경 fallback — no-js 클래스는 BaseLayout 에서 바로 제거되며,
+     로드 후에도 reveal 이 invisible 이면 1.2s 뒤 강제로 visible 처리.        */
+  html.no-js .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ---- Skip link — WCAG 2.4.1 Bypass Blocks ----
+     키보드 탭 1번으로 헤더·내비를 건너뛰고 본문 랜드마크로 바로 이동.
+     visible 상태(:focus)에서만 노출되며 헤더(z-header=50) 위에 뜬다.      */
+  .skip-link {
+    position: fixed;
+    top: -48px;
+    left: 12px;
+    z-index: 60;
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-gold-500);
+    color: var(--color-navy-950);
+    font-size: var(--text-body-sm);
+    font-weight: 700;
+    text-decoration: none;
+    transition: top var(--duration-fast) var(--easing-standard);
+  }
+  .skip-link:focus {
+    top: 12px;
+    outline: 2px solid var(--color-navy-950);
+    outline-offset: 2px;
+  }
+
+  /* ---- 와이어프레임 플레이스홀더 (foundation §8) ----
+     런칭 초기 이미지/목업 자리를 채우는 골드 라인아트 와이어프레임.          */
+  .wireframe {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed var(--color-gold-500);
+    border-radius: var(--radius-md);
+    background-color: rgba(200, 155, 60, 0.04);
+    color: var(--color-gold-300);
+    font-size: var(--text-caption);
+    letter-spacing: 0.06em;
+    min-height: 160px;
+  }
+  .wireframe.wireframe-dark {
+    background-color: var(--color-navy-800);
+    color: var(--color-gold-300);
+  }
+  .wireframe.wireframe-soft {
+    background-color: var(--color-paper-soft);
+    color: var(--color-gold-600);
+    border-color: var(--color-gold-500);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * 4. 모션 정책
+ * --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * 5. 선택 강조(드래그 시 색상)
+ * --------------------------------------------------------------------------- */
+::selection {
+  background-color: var(--color-gold-300);
+  color: var(--color-navy-950);
+}

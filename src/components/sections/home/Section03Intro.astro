@@ -1,0 +1,62 @@
+---
+/*
+ * 02-main-page.md §4 — 섹션 3 세온애드 소개 (무엇이 다른가)
+ * 배경: navy-900 / 목적: 6명 + 실계정 + 직접 운영, 3대 차별점을 한 화면에 각인
+ */
+
+const diffCards = [
+  {
+    number: '6',
+    title: '한 기수 6명 소수 정예',
+    body: `100명짜리 강의가 아니라, 모두 발언 기회가 있는 크기.\n경쟁사는 같은 기수에 배정되지 않습니다.`,
+  },
+  {
+    number: '1:1',
+    title: '내 계정을 켜고 함께 봅니다',
+    body: `6명 전원이 본인 광고 계정을 화면 공유.\n가상의 사례가 아니라 내 상품·내 데이터를 그 자리에서 진단받습니다.`,
+  },
+  {
+    number: '4주',
+    title: '대표님이 직접 돌립니다',
+    body: `VOD 2주 예습 → 줌 3주차 첫 캠페인 발행 → 줌 4주차 7일 성과 진단.\n4주 끝에 대행사 없이 혼자 운영이 가능합니다.`,
+  },
+];
+---
+
+<section id="section-intro" class="bg-navy-900 text-on-dark">
+  <div class="container-max section-y">
+    <div class="mx-auto max-w-[42ch] text-center">
+      <h2 class="text-h2 font-bold text-white">
+        세온애드는 영상 강의가 아닙니다.<br />
+        6명이 모여 각자 계정을 켜는 수업입니다.
+      </h2>
+    </div>
+
+    {/* 3대 차별점 카드 */}
+    <ul class="mt-sp-7 grid grid-cols-1 gap-sp-5 md:grid-cols-3 md:gap-sp-5">
+      {
+        diffCards.map((card) => (
+          <li class="card-dark gold-top-line-2 p-sp-5 md:p-sp-6">
+            <div class="flex flex-col gap-sp-3">
+              <span class="font-sans text-number-xl leading-none text-gold-500">
+                {card.number}
+              </span>
+              <h3 class="text-h4 font-semibold text-white">
+                {card.title}
+              </h3>
+              <p class="whitespace-pre-line text-body text-on-dark-soft">
+                {card.body}
+              </p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+
+    {/* 밑줄 카피 */}
+    <p class="mx-auto mt-sp-7 max-w-[44ch] text-center text-lead text-gold-300">
+      고객과 상품을 가장 잘 아는 사람은 대표님입니다.<br />
+      대행사가 아니라.
+    </p>
+  </div>
+</section>

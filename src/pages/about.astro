@@ -1,0 +1,62 @@
+---
+/*
+ * /about — 세온애드 이야기 + 문의 페이지 (08-about.md)
+ *
+ * 구성: Hero → Brand Story → 5 Principles → Brand Ecosystem →
+ *       Corporate Info → Contact Channels → Contact Form → Final CTA.
+ *
+ * - OrganizationSchema 는 BaseLayout 에서 전역으로 주입 (완전판).
+ * - 본 페이지에는 BreadcrumbSchema 만 추가로 주입 (중복 Organization 방지).
+ * - 모바일 플로팅 CTA 정상 노출 (About 읽다가 결제·무료 강의로 자연 전환).
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import BreadcrumbSchema from '@components/seo/BreadcrumbSchema.astro';
+import Section01Hero from '@components/sections/about/Section01Hero.astro';
+import Section02BrandStory from '@components/sections/about/Section02BrandStory.astro';
+import Section03Principles from '@components/sections/about/Section03Principles.astro';
+import Section04Ecosystem from '@components/sections/about/Section04Ecosystem.astro';
+import Section05CorporateInfo from '@components/sections/about/Section05CorporateInfo.astro';
+import Section06ContactChannels from '@components/sections/about/Section06ContactChannels.astro';
+import Section07ContactForm from '@components/sections/about/Section07ContactForm.astro';
+import Section08FinalCta from '@components/sections/about/Section08FinalCta.astro';
+import { brand, routes } from '@config/campaign';
+
+const title = `세온애드 이야기 | ${brand.legalName} | 대표가 직접 하는 광고가 가장 강하다`;
+const description =
+  '세온비즈 7년의 코칭 경험 위에서, 네이버광고만 꺼내 만든 수업. 주식회사 티오엠이 운영합니다. 스마트스토어 셀러를 위한 한 기수 6명 소수정예 운영.';
+const ogTitle = `세온애드 이야기 | ${brand.legalName}`;
+const ogDescription =
+  '세온비즈 7년의 경험 위에서 만든 스마트스토어 네이버광고 수업.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage={`${brand.url}/og/about.png`}
+>
+  <Fragment slot="head">
+    <meta
+      name="keywords"
+      content="세온애드, 주식회사 티오엠, 세온비즈, SEONAD, 세온 브랜드, 스마트스토어 광고 강의 회사"
+    />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <BreadcrumbSchema
+      items={[
+        { name: brand.name, url: '/' },
+        { name: 'About', url: routes.about },
+      ]}
+    />
+  </Fragment>
+
+  <main id="main-content" tabindex="-1">
+    <Section01Hero />
+    <Section02BrandStory />
+    <Section03Principles />
+    <Section04Ecosystem />
+    <Section05CorporateInfo />
+    <Section06ContactChannels />
+    <Section07ContactForm />
+    <Section08FinalCta />
+  </main>
+</BaseLayout>

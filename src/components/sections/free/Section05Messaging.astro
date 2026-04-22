@@ -1,0 +1,81 @@
+---
+/*
+ * /free Section 05 — 무료 강의 이후 발송되는 메시지 (07-free.md §6)
+ *
+ * - paper 배경. 투명성 섹션: "스팸 폭탄 맞는 거 아닐까" 불안 해소.
+ * - 4단계 타임라인(즉시 → D-1 → 2시간 전 → 종료 후).
+ * - 하단 강조 박스: 발송 4회 고정 · 리스트 자동 제거 원칙.
+ */
+const messages = [
+  {
+    when: '신청 직후',
+    title: '[세온애드] 사전 무료 강의 신청이 접수되었습니다',
+    body: '신청 확인과 강의 일정 안내',
+  },
+  {
+    when: '강의 1일 전',
+    title: '내일 사전 무료 강의 줌 링크입니다',
+    body: '줌 링크 + 시간 + 준비 사항',
+  },
+  {
+    when: '강의 2시간 전',
+    title: '오늘 저녁 8시, 사전 무료 강의 시작합니다',
+    body: '마지막 리마인드, 줌 링크 재전송',
+  },
+  {
+    when: '강의 종료 후 (2~3일)',
+    title: '무료 강의 녹화본 링크 + 본 강의 신청 안내',
+    body: '녹화본 시청 링크 + (관심 있으시면) 본 강의 수강 안내',
+  },
+];
+---
+
+<section class="bg-paper text-ink-900">
+  <div class="container-max section-y">
+    <header class="mx-auto max-w-[760px] text-center">
+      <h2 class="text-h2 font-bold text-ink-900">
+        무료 강의 신청 후<br />
+        받게 되는 메시지는 정확히 이것뿐입니다.
+      </h2>
+      <p class="mt-sp-4 text-body text-ink-500">
+        마케팅 스팸 없음. 강의 관련 3종 외에 발송되지 않습니다.
+      </p>
+    </header>
+
+    <ol class="mx-auto mt-sp-10 grid max-w-[960px] grid-cols-1 gap-sp-4 md:grid-cols-2">
+      {
+        messages.map((m, i) => (
+          <li class="rounded-md border border-ink-300/40 bg-paper-soft p-sp-5">
+            <p class="text-caption font-bold uppercase tracking-wide text-gold-600">
+              <span class="mr-sp-2" aria-hidden="true">⏱</span> {m.when}
+            </p>
+            <p class="mt-sp-3 text-body-sm font-semibold text-ink-900">
+              #{i + 1} · &ldquo;{m.title}&rdquo;
+            </p>
+            <p class="mt-sp-2 text-body-sm text-ink-700">{m.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="mx-auto mt-sp-10 max-w-[760px] rounded-md border-2 border-gold-500/60 bg-paper p-sp-6">
+      <p class="text-h4 font-bold text-gold-600">
+        <span aria-hidden="true">🔒</span> 발송 횟수 총 4회로 고정
+      </p>
+      <p class="mt-sp-3 text-body text-ink-700">
+        세온애드는 신청자에게 과도한 마케팅 메시지를 보내지 않습니다.
+        본 강의 수강 여부 선택은 전적으로 신청자 판단입니다.
+      </p>
+      <ul class="mt-sp-4 space-y-sp-2 text-body-sm text-ink-500">
+        <li>
+          <span class="mr-sp-2 inline-block h-2 w-2 rounded-full bg-gold-500 align-middle" aria-hidden="true"></span>
+          관심 없으시면: 추가 메시지 발송 없음 (리스트에서 자동 제거)
+        </li>
+        <li>
+          <span class="mr-sp-2 inline-block h-2 w-2 rounded-full bg-gold-500 align-middle" aria-hidden="true"></span>
+          관심 있으시면: 카카오톡 채널로 본 강의 FAQ 문의 가능
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

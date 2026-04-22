@@ -1,0 +1,139 @@
+---
+/*
+ * 05-pricing-apply.md §6 — 환불 정책 재확인
+ *
+ * - 배경 paper / 결제 직전 마지막 불안 해소
+ * - 환불 조건 테이블(4행) + 처리 방법 박스(paper-soft) + 경쟁사 보호 박스(cream)
+ */
+import { brand } from '@config/campaign';
+
+const rows = [
+  {
+    period: '입금 후 ~ 강의 시작일 이전',
+    rate: '100%',
+    note: '이체 수수료 제외 (법인계좌 역이체)',
+    highlight: true,
+  },
+  {
+    period: '강의 시작 후 ~ VOD 1강 수강 전',
+    rate: '100%',
+    note: 'VOD 시청 기록 10% 미만',
+    highlight: true,
+  },
+  {
+    period: 'VOD 1강 수강 후',
+    rate: '환불 불가',
+    note: '대신 다음 기수 1회 무료 재수강',
+    highlight: false,
+  },
+  {
+    period: '라이브 줌 1회차 시작 후',
+    rate: '환불 불가',
+    note: '재수강 제공 없음',
+    highlight: false,
+  },
+];
+---
+
+<section class="bg-paper text-ink-900">
+  <div class="container-max section-y">
+    <div class="mx-auto max-w-[60ch] text-center">
+      <h2 class="text-h2 font-bold text-ink-900">
+        입금 후에도,<br />
+        강의 시작 전까지는 100% 환불됩니다.
+      </h2>
+    </div>
+
+    {/* 환불 조건 테이블 — 데스크톱: table / 모바일: 카드 리스트 */}
+    <div class="mx-auto mt-sp-8 max-w-[760px]">
+      <table class="hidden w-full border-collapse text-body lg:table">
+        <thead>
+          <tr class="border-b-2 border-ink-900 text-left">
+            <th scope="col" class="py-sp-3 pr-sp-4 font-semibold text-ink-900">
+              시점
+            </th>
+            <th scope="col" class="py-sp-3 pr-sp-4 font-semibold text-ink-900">
+              환불 비율
+            </th>
+            <th scope="col" class="py-sp-3 font-semibold text-ink-900">조건</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            rows.map((r) => (
+              <tr class="border-b border-ink-300/50">
+                <td class="py-sp-4 pr-sp-4 text-ink-700">{r.period}</td>
+                <td class="py-sp-4 pr-sp-4">
+                  <span
+                    class:list={[
+                      'font-semibold',
+                      r.highlight ? 'text-gold-600' : 'text-ink-500',
+                    ]}
+                  >
+                    {r.rate}
+                  </span>
+                </td>
+                <td class="py-sp-4 text-body-sm text-ink-500">{r.note}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+
+      {/* 모바일 — 카드 리스트 */}
+      <ul class="flex flex-col gap-sp-3 lg:hidden">
+        {
+          rows.map((r) => (
+            <li class="rounded-md border border-ink-300/40 bg-paper-soft p-sp-4">
+              <p class="text-caption tracking-caption text-ink-500">
+                {r.period}
+              </p>
+              <p
+                class:list={[
+                  'mt-sp-1 text-h4 font-bold',
+                  r.highlight ? 'text-gold-600' : 'text-ink-700',
+                ]}
+              >
+                {r.rate}
+              </p>
+              <p class="mt-sp-2 text-body-sm text-ink-500">{r.note}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    {/* 처리 방식 박스 */}
+    <div class="mx-auto mt-sp-8 max-w-[760px] rounded-lg bg-paper-soft p-sp-6">
+      <p class="eyebrow text-ink-500">환불 처리 방법</p>
+      <ol class="mt-sp-4 flex flex-col gap-sp-3 text-body text-ink-700">
+        <li>
+          <span class="font-semibold text-ink-900">1.</span> 이메일(
+          <a
+            href={`mailto:${brand.email}`}
+            class="underline decoration-gold-500 underline-offset-4 hover:text-gold-600"
+            >{brand.email}</a
+          >) 또는 카카오톡 채널로 환불 요청
+        </li>
+        <li>
+          <span class="font-semibold text-ink-900">2.</span> 24시간 이내 확인 답변
+        </li>
+        <li>
+          <span class="font-semibold text-ink-900">3.</span> 조건 충족 시 3영업일 이내 법인계좌에서 신청자 계좌로 역이체
+        </li>
+        <li>
+          <span class="font-semibold text-ink-900">4.</span> 역이체 완료 후 카카오톡으로 완료 통지
+        </li>
+      </ol>
+    </div>
+
+    {/* 경쟁사 보호 환불 박스 */}
+    <div class="mx-auto mt-sp-5 max-w-[760px] rounded-lg bg-cream p-sp-6">
+      <p class="eyebrow text-gold-600">경쟁사 보호 정책 관련 환불</p>
+      <p class="mt-sp-4 text-body text-ink-700">
+        카테고리 겹침으로 이월된 후 신청자:<br class="hidden md:inline" />
+        100% 환불 (수수료 제외) 또는 다음 기수 최우선 배정 중 선택 가능.
+      </p>
+    </div>
+  </div>
+</section>

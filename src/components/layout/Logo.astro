@@ -1,0 +1,36 @@
+---
+interface Props {
+  variant?: 'light' | 'dark';
+  size?: 'sm' | 'md';
+}
+const { variant = 'light', size = 'md' } = Astro.props;
+
+const color = variant === 'light' ? 'text-white' : 'text-navy-950';
+const accent = 'text-gold-500';
+const textSize = size === 'sm' ? 'text-lg' : 'text-xl';
+---
+
+<a
+  href="/"
+  class={`inline-flex items-center gap-sp-2 ${color} no-underline`}
+  aria-label="세온애드 홈"
+>
+  <svg
+    width={size === 'sm' ? 22 : 26}
+    height={size === 'sm' ? 22 : 26}
+    viewBox="0 0 32 32"
+    fill="none"
+    aria-hidden="true"
+  >
+    <rect x="1" y="1" width="30" height="30" rx="7" stroke="currentColor" stroke-width="1.5" class={accent}></rect>
+    <path
+      d="M10 11h8a3 3 0 1 1 0 6h-4a3 3 0 1 0 0 6h8"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      class={accent}
+    ></path>
+  </svg>
+  <span class={`${textSize} font-bold tracking-[0.12em]`}>SEONAD</span>
+</a>

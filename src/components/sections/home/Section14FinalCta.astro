@@ -1,0 +1,47 @@
+---
+/*
+ * 02-main-page.md §15 — 섹션 14 최종 CTA
+ * 배경: navy-950 / 목적: 스크롤 끝에서 결제 또는 리드 확보로 마무리
+ * 페이드업 대상(§19-7): 최종 CTA
+ */
+import { brand, campaign, routes } from '@config/campaign';
+
+const currentCountLine =
+  campaign.status === 'recruiting'
+    ? `지금 이 순간,\n다음 기수는 ${campaign.currentCountNumber}/${campaign.capacity}명입니다.`
+    : campaign.closedMessage;
+---
+
+<section id="section-final-cta" class="relative overflow-hidden bg-navy-950 text-on-dark">
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold-500 opacity-[0.10] blur-3xl"
+  ></div>
+
+  <div class="container-max section-y relative text-center">
+    <div class="reveal mx-auto max-w-[36ch]">
+      <h2 class="whitespace-pre-line text-h1 font-bold leading-[1.2] text-white lg:text-hero">
+        {currentCountLine}
+      </h2>
+      <p class="mt-sp-5 text-lead text-gold-300">
+        먼저 확인하고 싶다면 1시간짜리 사전 무료 강의부터,<br />
+        이미 마음이 섰다면 바로 수강 신청부터.
+      </p>
+    </div>
+
+    <div class="reveal reveal-delay-1 mt-sp-7 flex flex-col items-center justify-center gap-sp-3 sm:flex-row">
+      <a href={routes.free} class="btn-base btn-primary btn-lg">
+        사전 무료 강의 신청 →
+      </a>
+      <a href={routes.apply} class="btn-base btn-secondary btn-lg">
+        수강 신청하기 →
+      </a>
+    </div>
+
+    <p class="reveal reveal-delay-2 mt-sp-6 text-body-sm text-on-dark-soft">
+      궁금한 점이 있다면 카카오톡 채널로 문의해주세요.<br />
+      <a class="text-on-dark underline decoration-gold-500 underline-offset-4 hover:text-gold-300" href={`mailto:${brand.email}`}>{brand.email}</a>
+      · {brand.phone} · {brand.legalName}
+    </p>
+  </div>
+</section>

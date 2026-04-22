@@ -1,0 +1,14 @@
+---
+/*
+ * /legal/terms — 이용약관
+ * 본문 데이터: src/data/legal/terms.ts
+ * 레이아웃: src/layouts/LegalLayout.astro (히어로·스티키 TOC·문의처·인쇄 친화)
+ */
+import LegalLayout from '@layouts/LegalLayout.astro';
+import { termsDoc } from '@data/legal/terms';
+---
+
+<LegalLayout
+  doc={termsDoc}
+  pageDescription="세온애드(주식회사 티오엠) 이용약관. 수강 신청, 서비스 이용, 권리와 의무, 책임의 제한 등."
+/>

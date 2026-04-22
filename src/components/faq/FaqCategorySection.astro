@@ -1,0 +1,57 @@
+---
+/*
+ * FaqCategorySection — 카테고리별 Q&A 섹션 래퍼 (06-faq.md §4~§10)
+ *
+ * - surface: 'paper' | 'paper-soft' 교차 배치
+ * - <section id="faq-{slug}"> 앵커 역할 — 탭 클릭 타겟, scroll-margin 으로
+ *   스티키 헤더 + 탭 높이만큼 오프셋
+ * - 제목은 <h2>, 스크린 리더용 total 카운트 살짝 노출
+ * - IntersectionObserver 대상: 탭 active 감지를 위한 data-faq-section 속성
+ */
+import type { FAQItem, FAQCategoryMeta } from '@data/faq';
+import FaqItem from './FaqItem.astro';
+
+interface Props {
+  meta: FAQCategoryMeta;
+  items: FAQItem[];
+  /**
+   * 전역 Q번호 매핑 (카테고리를 넘나드는 1~42 연속 번호).
+   * 호출부에서 누적 인덱스를 넘겨받아 FaqItem 에 전달한다.
+   */
+  startIndex: number;
+}
+
+const { meta, items, startIndex } = Astro.props;
+const surfaceClass = meta.surface === 'paper-soft' ? 'bg-paper-soft' : 'bg-paper';
+---
+
+<section
+  id={`faq-${meta.slug}`}
+  data-faq-section={meta.slug}
+  data-faq-category={meta.key}
+  class={`${surfaceClass} text-ink-900 scroll-mt-[160px]`}
+>
+  <div class="container-max section-y">
+    <header class="mx-auto max-w-[760px]">
+      <div class="flex items-end justify-between gap-sp-4">
+        <h2 class="text-h2 font-bold text-ink-900">{meta.key}</h2>
+        <span class="text-body-sm text-ink-500" aria-hidden="true">{items.length}개 질문</span>
+      </div>
+    </header>
+
+    <ul
+      class="mx-auto mt-sp-8 flex max-w-[760px] flex-col gap-sp-3"
+      data-faq-category-list={meta.slug}
+    >
+      {items.map((item, i) => <FaqItem item={item} index={startIndex + i} />)}
+    </ul>
+
+    <p
+      class="mx-auto mt-sp-6 hidden max-w-[760px] rounded-md border border-ink-300/40 bg-paper px-sp-5 py-sp-4 text-body-sm text-ink-500"
+      data-faq-category-empty={meta.slug}
+      role="status"
+    >
+      이 카테고리에는 일치하는 질문이 없습니다.
+    </p>
+  </div>
+</section>

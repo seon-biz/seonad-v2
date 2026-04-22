@@ -1,0 +1,186 @@
+---
+/*
+ * /faq — 자주 묻는 질문 페이지 (06-faq.md)
+ *
+ * 이 페이지의 역할: GEO(AI 검색 인용) 핵심 자산.
+ *  - 42개 질문이 FAQPage JSON-LD 로 직렬화되어 <head> 말미에 주입된다.
+ *  - 데이터는 @data/faq 단일 소스. 답변 수정 시 화면·Schema 자동 동기화.
+ *  - 카테고리 탭/검색/딥링크 JS 는 본 파일 하단 <script> 에 집약.
+ *
+ * 섹션 구성:
+ *   Hero → FaqTabs(스티키) → FaqSearch → 카테고리 7개 → Contact → FinalCta
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import BreadcrumbSchema from '@components/seo/BreadcrumbSchema.astro';
+import FAQPageSchema from '@components/seo/FAQPageSchema.astro';
+import FaqTabs from '@components/faq/FaqTabs.astro';
+import FaqSearch from '@components/faq/FaqSearch.astro';
+import FaqCategorySection from '@components/faq/FaqCategorySection.astro';
+import Section01Hero from '@components/sections/faq/Section01Hero.astro';
+import Section10Contact from '@components/sections/faq/Section10Contact.astro';
+import Section11FinalCta from '@components/sections/faq/Section11FinalCta.astro';
+import { brand, routes } from '@config/campaign';
+import { faqByCategory, FAQ_ITEMS } from '@data/faq';
+
+const grouped = faqByCategory();
+let running = 1;
+const groupedWithStart = grouped.map((g) => {
+  const withStart = { ...g, startIndex: running };
+  running += g.items.length;
+  return withStart;
+});
+
+const title = `FAQ | 스마트스토어 네이버광고 수업 자주 묻는 질문 | ${brand.name}`;
+const description =
+  '강의 구성, 모집, 결제, 환불, 애프터케어, 경쟁사 보호 정책까지. 결제 전 확인할 42가지 질문과 답변.';
+const ogTitle = 'FAQ | 세온애드 자주 묻는 질문';
+const ogDescription = '결제 전 확인할 42가지 질문. 강의 구성부터 환불 정책까지 한 곳에서.';
+---
+
+<BaseLayout title={title} description={description} ogImage={`${brand.url}/og/faq.png`}>
+  <Fragment slot="head">
+    <meta
+      name="keywords"
+      content="세온애드 FAQ, 스마트스토어 광고 강의 FAQ, 네이버광고 강의 자주 묻는 질문"
+    />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+
+    <FAQPageSchema />
+    <BreadcrumbSchema
+      items={[
+        { name: brand.name, url: '/' },
+        { name: 'FAQ', url: routes.faq },
+      ]}
+    />
+  </Fragment>
+
+  <main id="main-content" tabindex="-1">
+    <Section01Hero />
+    <FaqTabs />
+    <FaqSearch />
+
+    {
+      groupedWithStart.map((g) => (
+        <FaqCategorySection meta={g.meta} items={g.items} startIndex={g.startIndex} />
+      ))
+    }
+
+    <Section10Contact />
+    <Section11FinalCta />
+  </main>
+</BaseLayout>
+
+<script is:inline define:vars={{ totalCount: FAQ_ITEMS.length }}>
+  /*
+   * /faq 전역 스크립트 — 06-faq.md §14-3
+   *
+   * 1) 탭 active: IntersectionObserver 로 현재 화면에 가장 많이 보이는 카테고리
+   *    섹션을 찾아 해당 탭에 aria-current="true" 부여.
+   * 2) 탭 클릭: 네이티브 anchor + scroll-mt 로 스티키 오프셋 보정.
+   * 3) 검색: 200ms 디바운스, data-faq-search 에 대한 toLowerCase().includes 매칭.
+   *    매칭 외 <li>.hidden, 카테고리 전체 비면 섹션별 empty 블록, 결과 0개면 전역 empty.
+   * 4) 딥링크: /faq#q29 해시가 있으면 해당 <details> 를 open + scrollIntoView.
+   */
+  (() => {
+    const tabEls = Array.from(document.querySelectorAll('[data-faq-tab]'));
+    const sectionEls = Array.from(document.querySelectorAll('[data-faq-section]'));
+    const itemEls = Array.from(document.querySelectorAll('[data-faq-item]'));
+    const listEls = Array.from(document.querySelectorAll('[data-faq-category-list]'));
+    const emptyEls = Array.from(document.querySelectorAll('[data-faq-category-empty]'));
+    const searchInput = document.getElementById('faq-search-input');
+    const statusEl = document.getElementById('faq-search-status');
+    const emptyGlobal = document.getElementById('faq-search-empty');
+
+    /* ---- 1) 탭 active ---- */
+    if (tabEls.length > 0 && sectionEls.length > 0 && 'IntersectionObserver' in window) {
+      const visibility = new Map();
+      const setActive = (slug) => {
+        tabEls.forEach((tab) => {
+          const isCurrent = tab.getAttribute('data-faq-tab') === slug;
+          tab.setAttribute('aria-current', isCurrent ? 'true' : 'false');
+        });
+      };
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const slug = entry.target.getAttribute('data-faq-section');
+            if (slug) visibility.set(slug, entry.intersectionRatio);
+          });
+          let best = null;
+          let bestRatio = 0;
+          visibility.forEach((ratio, slug) => {
+            if (ratio > bestRatio) {
+              bestRatio = ratio;
+              best = slug;
+            }
+          });
+          if (best && bestRatio > 0) setActive(best);
+        },
+        { rootMargin: '-160px 0px -50% 0px', threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] },
+      );
+      sectionEls.forEach((el) => observer.observe(el));
+    }
+
+    /* ---- 2) 검색 ---- */
+    let timer;
+    const runSearch = (rawQuery) => {
+      const q = rawQuery.trim().toLowerCase();
+      let visibleCount = 0;
+
+      itemEls.forEach((li) => {
+        const hay = li.getAttribute('data-faq-search') || '';
+        const match = q.length === 0 || hay.indexOf(q) !== -1;
+        li.classList.toggle('hidden', !match);
+        if (match) visibleCount += 1;
+      });
+
+      listEls.forEach((ul) => {
+        const slug = ul.getAttribute('data-faq-category-list');
+        const children = Array.from(ul.querySelectorAll('[data-faq-item]'));
+        const anyVisible = children.some((c) => !c.classList.contains('hidden'));
+        ul.classList.toggle('hidden', !anyVisible);
+        const emptyEl = emptyEls.find(
+          (e) => e.getAttribute('data-faq-category-empty') === slug,
+        );
+        if (emptyEl) emptyEl.classList.toggle('hidden', anyVisible);
+      });
+
+      if (statusEl) {
+        statusEl.textContent =
+          q.length === 0
+            ? `${totalCount}개 질문 중 전체 표시 중`
+            : `${visibleCount}개 질문이 검색되었습니다 (총 ${totalCount}개)`;
+      }
+      if (emptyGlobal) emptyGlobal.classList.toggle('hidden', visibleCount !== 0);
+    };
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const value = e.target instanceof HTMLInputElement ? e.target.value : '';
+        window.clearTimeout(timer);
+        timer = window.setTimeout(() => runSearch(value), 200);
+      });
+    }
+    const searchForm = document.getElementById('faq-search-form');
+    if (searchForm) {
+      searchForm.addEventListener('submit', (e) => e.preventDefault());
+    }
+
+    /* ---- 3) 딥링크 (/faq#q29) ---- */
+    const openFromHash = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (!hash) return;
+      if (!/^q(\d|[1-3]\d|4[0-2])$/.test(hash)) return;
+      const el = document.getElementById(hash);
+      if (el instanceof HTMLDetailsElement) {
+        el.open = true;
+        window.setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 50);
+      }
+    };
+    openFromHash();
+    window.addEventListener('hashchange', openFromHash);
+  })();
+</script>

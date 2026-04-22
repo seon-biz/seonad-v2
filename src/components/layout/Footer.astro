@@ -1,0 +1,147 @@
+---
+import Logo from './Logo.astro';
+import { brand, business, routes } from '@config/campaign';
+
+const year = new Date().getFullYear();
+// 현재 경로 — 푸터 내비 활성 표시용 (08-about.md §10)
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const lesson = [
+  { label: '커리큘럼', href: routes.curriculum },
+  { label: '강사', href: routes.instructor },
+  { label: '가격·신청', href: routes.apply },
+  { label: 'FAQ', href: routes.faq },
+  { label: '사전 무료 강의', href: routes.free },
+];
+
+const company = [
+  { label: 'About', href: routes.about },
+  { label: '문의', href: routes.contact },
+  { label: '블로그', href: routes.blog },
+  { label: '이용약관', href: routes.terms },
+  { label: '개인정보처리방침', href: routes.privacy },
+  { label: '환불 정책', href: routes.refund },
+];
+
+// 운영 정보는 src/config/campaign.ts 의 business 객체에서 중앙 관리.
+const businessInfo = business;
+---
+
+<footer class="gold-top-line bg-footer-deep text-on-dark-soft">
+  <div class="container-max py-sp-8 lg:py-sp-9">
+    <div class="grid gap-sp-7 lg:grid-cols-12 lg:gap-sp-6">
+      <!-- 좌측: 로고 + 태그라인 + 연락 요약 -->
+      <div class="lg:col-span-4">
+        <Logo variant="light" />
+        <p class="mt-sp-4 text-body-sm text-on-dark-soft">
+          {brand.tagline}
+        </p>
+        <p class="mt-sp-4 text-body-sm text-on-dark-soft">
+          <a
+            href={`mailto:${brand.email}`}
+            class="text-on-dark hover:text-gold-400 transition-colors duration-fast ease-standard"
+          >
+            {brand.email}
+          </a>
+          <br />
+          <a
+            href={`tel:${brand.phoneIntl}`}
+            class="text-on-dark hover:text-gold-400 transition-colors duration-fast ease-standard"
+          >
+            {brand.phone}
+          </a>
+        </p>
+      </div>
+
+      <!-- 중앙: 사이트맵 2열 -->
+      <div class="grid grid-cols-2 gap-sp-5 lg:col-span-5 lg:gap-sp-6">
+        <div>
+          <h3 class="text-caption font-semibold tracking-caption text-gold-400 uppercase">수업</h3>
+          <ul class="mt-sp-4 flex flex-col gap-sp-3">
+            {lesson.map((item) => {
+              const isCurrent = item.href.replace(/\/$/, '') === currentPath;
+              return (
+                <li>
+                  <a
+                    href={item.href}
+                    aria-current={isCurrent ? 'page' : undefined}
+                    class:list={[
+                      'text-body-sm transition-colors duration-fast ease-standard hover:text-gold-400',
+                      isCurrent ? 'text-gold-400 font-semibold' : 'text-on-dark',
+                    ]}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-caption font-semibold tracking-caption text-gold-400 uppercase">회사</h3>
+          <ul class="mt-sp-4 flex flex-col gap-sp-3">
+            {company.map((item) => {
+              const isCurrent = item.href.replace(/\/$/, '') === currentPath;
+              return (
+                <li>
+                  <a
+                    href={item.href}
+                    aria-current={isCurrent ? 'page' : undefined}
+                    class:list={[
+                      'text-body-sm transition-colors duration-fast ease-standard hover:text-gold-400',
+                      isCurrent ? 'text-gold-400 font-semibold' : 'text-on-dark',
+                    ]}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
+
+      <!-- 우측: 사업자 정보 -->
+      <div class="lg:col-span-3">
+        <h3 class="text-caption font-semibold tracking-caption text-gold-400 uppercase">사업자 정보</h3>
+        <address class="mt-sp-4 not-italic text-body-sm leading-relaxed text-on-dark-soft">
+          <span class="block text-on-dark">{brand.legalName}</span>
+          대표자: {businessInfo.representative}<br />
+          사업자번호: {businessInfo.businessNumber}<br />
+          통신판매업: {businessInfo.mailOrderNumber}<br />
+          개인정보 책임자: {businessInfo.privacyOfficer}<br />
+          주소: {businessInfo.address}
+        </address>
+      </div>
+    </div>
+
+    <hr class="my-sp-7 border-t border-[color:var(--border-color-dark)]" />
+
+    <!-- 하단: 관련 서비스 최소 링크 + Copyright -->
+    <div class="flex flex-col-reverse items-start justify-between gap-sp-4 text-caption text-on-dark-soft md:flex-row md:items-center">
+      <p>© {year} {brand.legalName}. All rights reserved.</p>
+      <ul class="flex flex-wrap gap-sp-4">
+        <li>
+          <a
+            href="https://seonbiz.co"
+            target="_blank"
+            rel="noopener"
+            class="text-on-dark-soft hover:text-gold-400 transition-colors duration-fast ease-standard"
+          >
+            세온비즈
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://seoncoder.co"
+            target="_blank"
+            rel="noopener"
+            class="text-on-dark-soft hover:text-gold-400 transition-colors duration-fast ease-standard"
+          >
+            세온코더
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>

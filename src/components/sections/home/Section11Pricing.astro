@@ -1,0 +1,103 @@
+---
+/*
+ * 02-main-page.md §12 — 섹션 11 가격 안내
+ * 배경: navy-900 / 목적: 70만 원 안에 들어있는 것을 숫자로 증명
+ * FloatingCTA 문구 교체 트리거: #pricing-trigger (가격 섹션 진입)
+ */
+import { routes } from '@config/campaign';
+
+const included = [
+  { label: 'VOD 7강 + 부록 240분 (무한 다시보기)', price: '약 30만 원' },
+  { label: '라이브 줌 2회 × 2시간 (6명 그룹 코칭)', price: '약 40만 원' },
+  { label: '3개월 단톡방 질문 응대', price: '약 15만 원' },
+  { label: '3개월 후 점검 줌 1시간', price: '약 10만 원' },
+  { label: '워크북 + 체크리스트 3종 + AI 도우미 2종', price: '약 5만 원' },
+  { label: '경쟁사 보호 정책', price: '정량화 불가' },
+  { label: '다음 기수 1회 재수강 권리', price: '정량화 불가' },
+];
+---
+
+<section id="section-pricing" class="bg-navy-900 text-on-dark">
+  {/* FloatingCTA 문구 교체 트리거 */}
+  <span id="pricing-trigger" class="sr-only" aria-hidden="true"></span>
+
+  <div class="container-max section-y">
+    <div class="mx-auto max-w-[36ch] text-center">
+      <h2 class="text-h2 font-bold text-white">70만 원에 들어있는 것.</h2>
+    </div>
+
+    {/* 가격 박스 */}
+    <div class="mx-auto mt-sp-7 max-w-[560px] rounded-xl border-2 border-gold-500 bg-navy-800 p-sp-5 text-center md:p-sp-7">
+      <span class="pill pill-gold">VAT 포함 · 일시불</span>
+      <p class="mt-sp-5 font-sans text-number-xl font-bold leading-none text-white">
+        70만 원
+      </p>
+      <p class="mt-sp-5 text-body text-on-dark-soft">
+        신청 후 48시간 내 법인계좌로 70만 원 입금<br />
+        대표자가 입금 확인 + 카테고리 중복 검토 후 기수 배정 확정
+      </p>
+      <div class="mt-sp-6 flex flex-col gap-sp-3 sm:flex-row sm:justify-center">
+        <a href={routes.apply} class="btn-base btn-primary btn-lg">
+          수강 신청하기 →
+        </a>
+        <a href={routes.free} class="btn-base btn-secondary btn-lg">
+          사전 무료 강의 먼저 보기
+        </a>
+      </div>
+    </div>
+
+    {/* 포함 내역 — 2열 체크리스트 */}
+    <ul class="mx-auto mt-sp-7 grid max-w-[720px] grid-cols-1 gap-sp-3 sm:grid-cols-2">
+      {
+        included.map((item) => (
+          <li class="flex items-start justify-between gap-sp-4 rounded-md bg-navy-800/60 px-sp-4 py-sp-3">
+            <div class="flex items-start gap-sp-3">
+              <span class="mt-[3px] text-gold-400" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M2 7 L6 11 L12 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <span class="text-body-sm text-on-dark">{item.label}</span>
+            </div>
+            <span class="shrink-0 text-body-sm text-gold-300">{item.price}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    {/* 결제 방식 안내 박스 */}
+    <aside class="mx-auto mt-sp-6 max-w-[720px] gold-top-line rounded-md bg-navy-800 p-sp-5 md:p-sp-6">
+      <h3 class="text-h4 font-semibold text-white">
+        결제 방식 — 법인계좌 이체
+      </h3>
+      <p class="mt-sp-3 text-body text-on-dark-soft">
+        세온애드는 한 기수 6명, 경쟁사 보호 정책으로 운영되는 수업입니다.<br />
+        자동 결제가 아니라, 신청 후 대표자가 카테고리 중복을 직접 확인하고 기수를 배정합니다.
+      </p>
+      <ul class="mt-sp-4 flex flex-col gap-sp-2 text-body-sm text-on-dark">
+        <li class="flex gap-sp-2">
+          <span class="text-gold-400" aria-hidden="true">·</span>
+          <span>법인계좌: 주식회사 티오엠 명의 (신청 후 카카오톡 채널로 직접 안내)</span>
+        </li>
+        <li class="flex gap-sp-2">
+          <span class="text-gold-400" aria-hidden="true">·</span>
+          <span>확정 시점: 대표자가 입금 확인 → 기수 배정 확정 → 카카오톡 단톡방 초대</span>
+        </li>
+        <li class="flex gap-sp-2">
+          <span class="text-gold-400" aria-hidden="true">·</span>
+          <span>세금계산서: 신청 폼에서 사업자 정보 입력 시 수기 발행 (법인·개인사업자 모두 가능)</span>
+        </li>
+        <li class="flex gap-sp-2">
+          <span class="text-gold-400" aria-hidden="true">·</span>
+          <span>입금 마감: 안내 후 48시간 · 미입금 시 자동 대기열 이월</span>
+        </li>
+      </ul>
+    </aside>
+
+    {/* 각주 */}
+    <p class="mx-auto mt-sp-5 max-w-[720px] text-caption text-on-dark-soft">
+      ※ 시장 단가는 참고용이며, 실제 수강료는 70만 원 단일 가격입니다.<br />
+      ※ 수강료는 일시불로만 받습니다. 신용카드 할부 및 분할 납부는 제공하지 않습니다.
+    </p>
+  </div>
+</section>

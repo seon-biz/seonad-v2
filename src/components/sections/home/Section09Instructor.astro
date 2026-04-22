@@ -1,0 +1,65 @@
+---
+/*
+ * 02-main-page.md §10 — 섹션 9 강사 소개
+ * 배경: navy-950 / 목적: 얼굴·이름 없이 경력·실체·철학으로 신뢰 구축
+ * 페이드업 대상(§19-7): 강사 소개
+ */
+import { routes } from '@config/campaign';
+
+const stats = [
+  { value: '2019~', label: '쇼핑몰·스마트스토어 대표 1:1 코칭 시작' },
+  { value: '30+', label: '코칭한 업체 수' },
+  { value: '4', label: '사전 무료 강의에서 NDA 하에 실적 공개할 업체 수' },
+];
+---
+
+<section id="section-instructor" class="bg-navy-950 text-on-dark">
+  <div class="container-max section-y">
+    <div class="reveal mx-auto max-w-[44ch] text-center">
+      <h2 class="text-h2 font-bold text-white">
+        대행사 대표가 아니라,<br />
+        대표님 옆에서 같이 광고를 만드는 코치.
+      </h2>
+    </div>
+
+    {/* 3개 수치 블록 */}
+    <ul class="reveal reveal-delay-1 mt-sp-7 grid grid-cols-1 gap-sp-5 md:grid-cols-3">
+      {
+        stats.map((s) => (
+          <li class="flex flex-col items-center gap-sp-2 rounded-lg border border-gold-500/25 bg-navy-900/60 p-sp-5 text-center">
+            <span class="font-sans text-number-lg leading-none text-gold-500">
+              {s.value}
+            </span>
+            <span class="text-body text-on-dark-soft">{s.label}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    {/* 인용구 */}
+    <blockquote class="reveal reveal-delay-2 mx-auto mt-sp-7 max-w-[44ch] text-center">
+      <p class="font-serif text-lead italic text-gold-300">
+        "광고를 직접 운영해본 코치만이, 직접 운영하는 법을 가르칠 수 있습니다."
+      </p>
+    </blockquote>
+
+    {/* 강사 배경 설명 */}
+    <div class="reveal reveal-delay-3 mx-auto mt-sp-7 max-w-[58ch] space-y-sp-4 text-body text-on-dark-soft">
+      <p>
+        세온비즈(seonbiz.co) 대표로 2019년부터 7년간 쇼핑몰·스마트스토어 대표들을 1:1 코칭해왔습니다.<br />
+        세온애드는 그 7년의 코칭 경험 위에서, 네이버광고만 따로 꺼내 만든 수업입니다.
+      </p>
+      <p>
+        실명과 얼굴은 비공개로 운영합니다.<br />
+        교육 상품은 강사 개인보다 커리큘럼 중심으로 운영하는 것이 수강생 기대치 관리에 유리하다고 판단했습니다.<br />
+        수강생과는 줌에서 음성·화면 공유로 직접 만납니다.
+      </p>
+    </div>
+
+    <div class="reveal reveal-delay-4 mt-sp-6 flex justify-center">
+      <a href={routes.instructor} class="btn-base btn-secondary">
+        강사 소개 자세히 보기 →
+      </a>
+    </div>
+  </div>
+</section>

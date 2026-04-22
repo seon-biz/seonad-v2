@@ -1,0 +1,462 @@
+---
+/*
+ * /free Section 04 — 신청 폼 (07-free.md §5)
+ *
+ * 이 페이지의 핵심. 최소 마찰로 리드 확보.
+ *  - navy-900 배경, max-width 520px 중앙 정렬, id="signup-form" 앵커
+ *  - 필드: 이름(필수) + 이메일/카카오 탭(둘 중 하나 필수) + 약관(필수)
+ *  - 선택 섹션: 광고 경험 radio + 궁금한 점 textarea ( <details> 펼침 )
+ *  - 제출: fetch(formspree.freeEndpoint) — 성공 시 같은 영역을 성공 패널로 교체
+ *
+ *  A11y (§11-5):
+ *    · 탭은 role="tablist" + [role=tab]+[aria-selected] 패턴
+ *    · 성공 메시지는 role="status" aria-live="polite"
+ *    · 제출 버튼은 aria-disabled 로 시각·스크린리더 동기화
+ */
+import { formspree, freeClass, routes } from '@config/campaign';
+---
+
+<section id="signup-form" class="bg-navy-900 text-on-dark scroll-mt-[80px]">
+  <div class="container-max section-y">
+    <div class="mx-auto max-w-[520px]">
+      <header class="text-center">
+        <p class="text-caption font-bold tracking-[0.2em] text-gold-400">SIGN UP</p>
+        <h2 class="mt-sp-3 text-h2 font-bold text-paper">
+          지금 신청하시면,<br />
+          다음 강의 링크를 받으십니다.
+        </h2>
+        <p class="mt-sp-3 text-body text-gold-300">
+          이메일과 카카오톡 ID 중 하나만 있어도 신청 가능합니다.
+        </p>
+      </header>
+
+      {/* ---------- 폼 본체 ---------- */}
+      <form
+        id="free-signup-form"
+        action={formspree.freeEndpoint}
+        method="POST"
+        class="mt-sp-10 flex flex-col gap-sp-5"
+        novalidate
+      >
+        {/* 이름 */}
+        <div class="flex flex-col gap-sp-2">
+          <label for="free-name" class="text-body-sm font-semibold text-on-dark">
+            이름 <span class="text-gold-400" aria-hidden="true">*</span>
+          </label>
+          <input
+            id="free-name"
+            name="name"
+            type="text"
+            placeholder="예: 홍길동"
+            required
+            minlength="2"
+            maxlength="20"
+            data-required
+            class="min-h-[52px] rounded-md border border-navy-700 bg-navy-800 px-sp-4 text-body text-paper placeholder:text-navy-400 focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/40"
+          />
+        </div>
+
+        {/* 연락처 — 탭 UI */}
+        <div class="flex flex-col gap-sp-2">
+          <span class="text-body-sm font-semibold text-on-dark">
+            연락처 (이메일 또는 카카오톡 ID 중 하나)
+            <span class="text-gold-400" aria-hidden="true">*</span>
+          </span>
+
+          <div role="tablist" aria-label="연락처 방식 선택" class="flex gap-sp-2">
+            <button
+              type="button"
+              role="tab"
+              id="free-tab-email"
+              data-free-tab="email"
+              aria-selected="true"
+              aria-controls="free-panel-email"
+              class="free-tab flex-1 min-h-[44px] rounded-md border border-navy-700 bg-navy-800 px-sp-4 text-body-sm font-semibold text-on-dark-soft"
+            >
+              이메일
+            </button>
+            <button
+              type="button"
+              role="tab"
+              id="free-tab-kakao"
+              data-free-tab="kakao"
+              aria-selected="false"
+              aria-controls="free-panel-kakao"
+              class="free-tab flex-1 min-h-[44px] rounded-md border border-navy-700 bg-navy-800 px-sp-4 text-body-sm font-semibold text-on-dark-soft"
+            >
+              카카오톡 ID
+            </button>
+          </div>
+
+          <div
+            id="free-panel-email"
+            role="tabpanel"
+            aria-labelledby="free-tab-email"
+            class="free-panel"
+            data-free-panel="email"
+          >
+            <input
+              id="free-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              inputmode="email"
+              placeholder="예: example@seonad.co.kr"
+              data-contact
+              class="mt-sp-2 min-h-[52px] w-full rounded-md border border-navy-700 bg-navy-800 px-sp-4 text-body text-paper placeholder:text-navy-400 focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/40"
+            />
+          </div>
+
+          <div
+            id="free-panel-kakao"
+            role="tabpanel"
+            aria-labelledby="free-tab-kakao"
+            class="free-panel hidden"
+            data-free-panel="kakao"
+          >
+            <input
+              id="free-kakao"
+              name="kakao_id"
+              type="text"
+              placeholder="예: seonad_kakao_id"
+              data-contact
+              class="mt-sp-2 min-h-[52px] w-full rounded-md border border-navy-700 bg-navy-800 px-sp-4 text-body text-paper placeholder:text-navy-400 focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/40"
+            />
+          </div>
+
+          <p class="text-caption text-navy-400">
+            둘 다 입력하시면 두 경로 모두로 안내를 드립니다.
+          </p>
+        </div>
+
+        {/* 선택 섹션 */}
+        <details class="group rounded-md border border-navy-700 bg-navy-800">
+          <summary class="flex cursor-pointer items-center justify-between gap-sp-3 p-sp-4 text-body-sm font-semibold text-on-dark">
+            <span>더 자세히 알려주기 <span class="text-navy-400">(선택)</span></span>
+            <svg
+              class="h-4 w-4 text-on-dark-soft transition-transform duration-base group-open:rotate-180"
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </summary>
+
+          <div class="flex flex-col gap-sp-5 border-t border-navy-700 p-sp-5">
+            <fieldset class="flex flex-col gap-sp-2">
+              <legend class="text-body-sm font-semibold text-on-dark">
+                네이버광고 경험
+              </legend>
+              {
+                [
+                  '한 번도 안 켜봤다',
+                  '한두 번 해봤다가 멈췄다',
+                  '현재 운영 중이지만 방치 상태',
+                  '정기적으로 운영 중',
+                ].map((opt, i) => (
+                  <label class="flex min-h-[44px] cursor-pointer items-center gap-sp-3 rounded-md border border-navy-700 bg-navy-900 px-sp-4 text-body-sm text-on-dark transition-colors hover:border-gold-500/60">
+                    <input
+                      type="radio"
+                      name="ad_experience"
+                      value={opt}
+                      class="h-4 w-4 accent-gold-500"
+                      {...(i === 0 ? { 'aria-describedby': 'free-exp-help' } : {})}
+                    />
+                    <span>{opt}</span>
+                  </label>
+                ))
+              }
+              <p id="free-exp-help" class="text-caption text-navy-400">
+                선택 사항입니다. 입력하시면 강의 내용을 귀하 상황에 맞춰 보완합니다.
+              </p>
+            </fieldset>
+
+            <div class="flex flex-col gap-sp-2">
+              <label for="free-question" class="text-body-sm font-semibold text-on-dark">
+                무료 강의에서 가장 궁금한 점 <span class="text-navy-400">(선택)</span>
+              </label>
+              <textarea
+                id="free-question"
+                name="question"
+                rows="3"
+                maxlength="300"
+                placeholder="예: 쇼핑검색이랑 파워링크 중 뭐부터 해야 하는지 모르겠어요"
+                class="min-h-[96px] rounded-md border border-navy-700 bg-navy-900 px-sp-4 py-sp-3 text-body text-paper placeholder:text-navy-400 focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/40"
+              ></textarea>
+            </div>
+          </div>
+        </details>
+
+        {/* 약관 동의 */}
+        <label class="flex items-start gap-sp-3 rounded-md border border-navy-700 bg-navy-800 p-sp-4 text-body-sm text-on-dark">
+          <input
+            type="checkbox"
+            name="consent"
+            required
+            data-agreement
+            class="mt-[3px] h-4 w-4 shrink-0 accent-gold-500"
+          />
+          <span>
+            이메일·카카오톡으로 강의 관련 안내 메시지를 받는 것에 동의합니다 <span class="text-gold-400">(필수)</span>
+            <span class="mt-sp-2 block text-caption text-navy-400">
+              스팸성 마케팅 메시지가 아니며, 강의 일정·녹화본·본 강의 안내 3가지만 발송됩니다.{' '}
+              <a
+                href={routes.privacy}
+                class="underline decoration-gold-500/60 underline-offset-2 hover:text-gold-300"
+                target="_blank"
+                rel="noopener noreferrer"
+              >개인정보처리방침</a>
+            </span>
+          </span>
+        </label>
+
+        {/* 히든 메타 — 리드 구분 */}
+        <input type="hidden" name="_source" value="free-signup" />
+        <input type="hidden" name="_subject" value="[세온애드] 사전 무료 강의 신청" />
+        <input
+          type="hidden"
+          name="target_class"
+          value={freeClass.displayDatetime}
+        />
+
+        {/* 제출 */}
+        <div class="mt-sp-2 flex flex-col items-center gap-sp-3">
+          <button
+            type="submit"
+            id="free-submit"
+            disabled
+            aria-disabled="true"
+            class="inline-flex min-h-[56px] w-full items-center justify-center rounded-md bg-gold-500 px-sp-6 text-body font-bold text-navy-950 shadow-gold transition-colors duration-base hover:bg-gold-400 disabled:cursor-not-allowed disabled:bg-navy-700 disabled:text-navy-400 disabled:shadow-none"
+          >
+            무료 강의 신청 완료하기 →
+          </button>
+          <p class="text-body-sm text-navy-400">
+            제출 후 즉시 확인 메시지를 받으십니다.
+          </p>
+          <p
+            id="free-submit-status"
+            class="hidden text-body-sm text-ink-500"
+            role="status"
+            aria-live="polite"
+          ></p>
+        </div>
+      </form>
+
+      {/* ---------- 성공 패널 ---------- */}
+      <div
+        id="free-success"
+        class="hidden mt-sp-8 rounded-md border border-gold-500/60 bg-navy-800 p-sp-7 text-center"
+        role="status"
+        aria-live="polite"
+      >
+        <p class="text-h3 font-bold text-gold-300">
+          <span aria-hidden="true">✓</span> 신청 완료!
+        </p>
+        <p class="mt-sp-4 text-body text-paper">
+          <span id="free-success-name" class="font-semibold">신청자</span>님,
+          세온애드 사전 무료 강의에 신청해주셔서 감사합니다.
+        </p>
+
+        <ul class="mx-auto mt-sp-6 max-w-[360px] space-y-sp-2 text-left text-body-sm text-on-dark-soft">
+          <li>
+            <span class="mr-sp-2" aria-hidden="true">📅</span>
+            다음 강의:{' '}
+            <span id="free-success-datetime" class="font-semibold text-gold-300">
+              {freeClass.displayDatetime}
+            </span>
+          </li>
+          <li>
+            <span class="mr-sp-2" aria-hidden="true">🔗</span>
+            줌 링크는 강의 1일 전 발송됩니다
+            (<span id="free-success-contact" class="text-gold-300">입력하신 연락처</span>)
+          </li>
+          <li>
+            <span class="mr-sp-2" aria-hidden="true">📼</span>
+            녹화본은 강의 2~3일 후 전달됩니다
+          </li>
+        </ul>
+
+        <p class="mx-auto mt-sp-6 max-w-[420px] text-body-sm text-navy-400">
+          강의 전까지 커리큘럼이나 강사 소개를 미리 보실 수 있습니다.
+        </p>
+
+        <div class="mt-sp-5 flex flex-col items-center justify-center gap-sp-3 sm:flex-row">
+          <a
+            href={routes.curriculum}
+            class="inline-flex min-h-[48px] min-w-[200px] items-center justify-center rounded-md border border-gold-500 px-sp-5 text-body-sm font-semibold text-gold-300 transition-colors hover:bg-gold-500/10"
+          >
+            커리큘럼 보기 →
+          </a>
+          <a
+            href={routes.instructor}
+            class="inline-flex min-h-[48px] min-w-[200px] items-center justify-center rounded-md border border-navy-700 px-sp-5 text-body-sm font-semibold text-on-dark-soft transition-colors hover:border-gold-500 hover:text-gold-300"
+          >
+            강사 소개 보기 →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+  details > summary {
+    list-style: none;
+  }
+  /* 활성 탭 스타일 */
+  .free-tab[aria-selected='true'] {
+    background-color: var(--color-gold-500);
+    border-color: var(--color-gold-500);
+    color: var(--color-navy-950);
+  }
+</style>
+
+<script>
+  /*
+   * 07-free.md §5-4~5 / §11-1,5,6 폼 상호작용
+   *
+   * 1) 탭 전환 (이메일 ↔ 카카오) — 패널 토글, aria-selected/hidden 동기화
+   * 2) 제출 버튼 활성화: 이름(2자+) + 이메일 또는 카카오 중 1개 + 약관
+   * 3) 히어로 ↑/↓ 앵커 스크롤 시 이름 필드 포커스 (section 9 FinalCta 연동)
+   * 4) 제출: Formspree endpoint 호출, 성공 시 폼 영역 hidden + 성공 패널 노출
+   *    placeholder endpoint 면 dev 경고 + 500ms 시뮬레이션 후 성공 처리
+   * 5) 일정 과거/TBA: 히어로 next-class 박스 텍스트를 tbaMessage 로 교체 +
+   *    heads-up (2주+ 후) 문구 토글
+   */
+  (() => {
+    const form = document.getElementById('free-signup-form') as HTMLFormElement | null;
+    if (!form) return;
+
+    const nameInput = document.getElementById('free-name') as HTMLInputElement | null;
+    const emailInput = document.getElementById('free-email') as HTMLInputElement | null;
+    const kakaoInput = document.getElementById('free-kakao') as HTMLInputElement | null;
+    const consentInput = form.querySelector<HTMLInputElement>('[data-agreement]');
+    const submitBtn = document.getElementById('free-submit') as HTMLButtonElement | null;
+    const statusEl = document.getElementById('free-submit-status') as HTMLParagraphElement | null;
+    const successPanel = document.getElementById('free-success');
+    const successName = document.getElementById('free-success-name');
+    const successContact = document.getElementById('free-success-contact');
+
+    /* ---- 1) 탭 전환 ---- */
+    const tabs = Array.from(form.querySelectorAll<HTMLButtonElement>('.free-tab'));
+    const panels = Array.from(form.querySelectorAll<HTMLElement>('.free-panel'));
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const key = tab.getAttribute('data-free-tab');
+        tabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+        panels.forEach((p) => {
+          const panelKey = p.getAttribute('data-free-panel');
+          p.classList.toggle('hidden', panelKey !== key);
+        });
+        // 포커스: 활성 패널의 input
+        const focusInput = panels.find((p) => p.getAttribute('data-free-panel') === key)?.querySelector('input');
+        if (focusInput instanceof HTMLInputElement) {
+          window.setTimeout(() => focusInput.focus(), 50);
+        }
+      });
+    });
+
+    /* ---- 2) 제출 버튼 활성화 ---- */
+    const evaluate = () => {
+      const nameOk = !!nameInput && nameInput.value.trim().length >= 2 && nameInput.value.trim().length <= 20;
+      const emailVal = (emailInput?.value || '').trim();
+      const kakaoVal = (kakaoInput?.value || '').trim();
+      // 이메일이 있으면 형식 검사, 없으면 카카오 비어있지 않은지만
+      let emailOk = emailVal.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
+      const kakaoOk = kakaoVal.length >= 2;
+      const contactOk = emailOk || kakaoOk;
+      const consentOk = !!consentInput?.checked;
+      const ok = nameOk && contactOk && consentOk;
+      if (submitBtn) {
+        submitBtn.disabled = !ok;
+        submitBtn.setAttribute('aria-disabled', String(!ok));
+      }
+    };
+    form.addEventListener('input', evaluate);
+    form.addEventListener('change', evaluate);
+    evaluate();
+
+    /* ---- 3) 앵커 포커스 ---- */
+    document.querySelectorAll<HTMLAnchorElement>('a[href="#signup-form"]').forEach((a) => {
+      a.addEventListener('click', () => {
+        window.setTimeout(() => nameInput?.focus({ preventScroll: true }), 420);
+      });
+    });
+
+    /* ---- 4) 제출 ---- */
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!submitBtn || submitBtn.disabled) return;
+      submitBtn.disabled = true;
+      submitBtn.textContent = '제출 중...';
+      if (statusEl) {
+        statusEl.classList.remove('hidden', 'text-danger');
+        statusEl.classList.add('text-navy-400');
+        statusEl.textContent = '';
+      }
+
+      const endpoint = form.getAttribute('action') || '';
+      const isPlaceholder = endpoint.includes('REPLACE_WITH_FREE_CLASS_FORM_ID');
+
+      try {
+        if (isPlaceholder) {
+          console.warn('[free] Formspree endpoint 가 placeholder 입니다. config/campaign.ts 의 formspree.freeEndpoint 를 실제 값으로 교체해야 운영 가능합니다.');
+          await new Promise((r) => setTimeout(r, 500));
+        } else {
+          const data = new FormData(form);
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            body: data,
+            headers: { Accept: 'application/json' },
+          });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        }
+
+        // 성공 화면
+        const nameVal = (nameInput?.value || '').trim() || '신청자';
+        const contactDisplay =
+          (emailInput?.value.trim() || '') && (kakaoInput?.value.trim() || '')
+            ? `${emailInput!.value.trim()} / ${kakaoInput!.value.trim()}`
+            : emailInput?.value.trim() || kakaoInput?.value.trim() || '입력하신 연락처';
+        if (successName) successName.textContent = nameVal;
+        if (successContact) successContact.textContent = contactDisplay;
+        form.classList.add('hidden');
+        successPanel?.classList.remove('hidden');
+        successPanel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } catch (err) {
+        console.error(err);
+        submitBtn.disabled = false;
+        submitBtn.textContent = '무료 강의 신청 완료하기 →';
+        if (statusEl) {
+          statusEl.classList.remove('hidden', 'text-navy-400');
+          statusEl.classList.add('text-danger');
+          statusEl.textContent =
+            '제출에 실패했습니다. 잠시 후 다시 시도하거나 cobaltblue8877@naver.com 으로 문의해주세요.';
+        }
+      }
+    });
+
+    /* ---- 5) 일정 과거/TBA 처리 ---- */
+    const nextBox = document.getElementById('free-next-class');
+    const nextText = document.getElementById('free-next-class-text');
+    const headsUp = document.getElementById('free-next-class-heads-up');
+    if (nextBox && nextText) {
+      const iso = nextBox.getAttribute('data-free-iso') || '';
+      const status = nextBox.getAttribute('data-free-status') || 'scheduled';
+      const target = iso ? new Date(iso).getTime() : NaN;
+      const now = Date.now();
+      if (status === 'cancelled') {
+        nextText.textContent = '이번 회차는 취소되었습니다 — 다음 회차 확정 시 우선 안내드립니다.';
+      } else if (status === 'tba' || (isFinite(target) && target < now)) {
+        nextText.textContent = '다음 일정 조율 중 — 확정되는 대로 신청자에게 우선 안내드립니다.';
+      } else if (isFinite(target) && headsUp) {
+        const daysUntil = Math.floor((target - now) / (1000 * 60 * 60 * 24));
+        if (daysUntil >= 14) headsUp.classList.remove('hidden');
+      }
+    }
+  })();
+</script>

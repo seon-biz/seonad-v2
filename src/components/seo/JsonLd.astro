@@ -1,0 +1,11 @@
+---
+interface Props {
+  data: unknown;
+  id?: string;
+}
+const { data, id } = Astro.props;
+// JSON.stringify with replacer to harden against HTML injection in values
+const safe = JSON.stringify(data).replace(/</g, '\\u003C');
+---
+
+<script is:inline type="application/ld+json" id={id} set:html={safe} />

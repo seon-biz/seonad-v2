@@ -1,0 +1,77 @@
+---
+/*
+ * 03-curriculum.md §4 — 섹션 3 WEEK 1 상세
+ * 앵커: #week1 / 배경: paper (흰색)
+ * VOD 1·2강 풀 상세. 2강은 화면 따라하기 ★ 마크 + 골드 2px 강조.
+ */
+import LessonCard from '@components/curriculum/LessonCard.astro';
+---
+
+<section
+  id="week1"
+  class="bg-paper text-ink-900 scroll-mt-[80px]"
+  aria-labelledby="week1-heading"
+>
+  <div class="container-max section-y">
+    <header class="mx-auto max-w-[60ch]">
+      <span class="pill pill-gold tracking-eyebrow">WEEK 1 · VOD 60분 (2강)</span>
+      <h2
+        id="week1-heading"
+        class="mt-sp-4 text-h2 font-bold text-ink-900"
+      >
+        PART 1 — 광고를 켜기 전에 알아야 할 것.
+      </h2>
+      <p class="mt-sp-4 text-lead text-ink-500">
+        광고를 "시작할 준비가 된 상태"를 만드는 구간.<br />
+        이게 안 된 상태로 광고를 켜면 4주차가 와도 수익이 안 납니다.
+      </p>
+    </header>
+
+    <div class="mt-sp-7 grid grid-cols-1 gap-sp-5 lg:grid-cols-2 lg:gap-sp-6">
+      <LessonCard
+        no="1강"
+        minutes="25분"
+        part="PART 1"
+        surface="paper-soft"
+        title="스마트스토어 셀러의 네이버광고 지도"
+        goal="4가지 광고 상품(파워링크·쇼핑검색·브랜드검색·GFA) 중 내 상황에 필요한 것을 판단할 수 있습니다."
+        topics={[
+          '네이버 광고 생태계 지도 — 파워링크·쇼핑검색·브랜드검색·GFA의 위치와 역할',
+          '각 상품이 누구에게, 언제 맞는지',
+          '이 강의에서 다룰 3가지 상품의 우선순위 — 왜 쇼핑검색이 메인인가',
+          '광고 시작 전 체크리스트 — 상세페이지, 리뷰, 가격, 썸네일',
+          '**학습 확인**: 내 스토어가 광고를 켜기에 준비된 상태인지 자가 진단',
+        ]}
+      />
+
+      <LessonCard
+        no="2강"
+        minutes="35분"
+        part="PART 1"
+        surface="paper-soft"
+        handsOn
+        highlight
+        title="광고 계정 세팅 A to Z"
+        goal="네이버 비즈센터 가입부터 전환추적 설치까지 완료 상태가 됩니다."
+        topics={[
+          '네이버 비즈센터 가입 → 광고주 가입 → 비즈머니 충전',
+          '프리미엄 로그분석 설치 (전환추적의 기본)',
+          '스마트스토어와 광고계정 연결',
+          '첫 화면 구조 이해 — 계정 → 캠페인 → 그룹 → 소재/키워드',
+          '**실습 결과**: 강의 끝나면 "계정 세팅 완료" 상태',
+        ]}
+      />
+    </div>
+
+    {/* 업데이트 고지 박스 */}
+    <aside class="mx-auto mt-sp-6 max-w-[760px] rounded-md border border-gold-500/40 bg-paper-soft p-sp-5">
+      <p class="text-caption font-semibold tracking-eyebrow text-gold-600">
+        <span aria-hidden="true">⚙</span> 네이버 UI 업데이트 시 재촬영 대상 강의
+      </p>
+      <p class="mt-sp-2 text-body text-ink-700">
+        네이버광고 UI는 평균 연 2~3회 소폭 변경되며,<br />
+        UI가 바뀌면 해당 강의는 재촬영해 교체합니다.
+      </p>
+    </aside>
+  </div>
+</section>

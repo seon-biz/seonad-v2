@@ -1,0 +1,86 @@
+---
+/*
+ * 03-curriculum.md §9 — 섹션 8 제공 자료 (커리큘럼 맥락)
+ * 배경: cream / 목적: 각 강의·주차에 어떤 자료가 연동되는지 명시
+ */
+
+const rows = [
+  { asset: '워크북 PART 1 — 광고 시작 전 진단', timing: '1강 수강 전 작성' },
+  { asset: '워크북 PART 2 — 쇼핑검색 설계', timing: '3강 학습 중 작성' },
+  { asset: '워크북 PART 3 — 파워링크 키워드', timing: '6강 학습 중 작성' },
+  { asset: '워크북 PART 4 — 줌 수업 준비 시트', timing: '줌 1회차 전 작성' },
+  { asset: '워크북 PART 5 — 30일 운영 플랜', timing: '부록 강의 학습 중 작성' },
+  { asset: '일간 체크리스트 (5분)', timing: '줌 1회차 이후 매일 사용' },
+  { asset: '주간 체크리스트 (30분)', timing: '줌 1회차 이후 매주 사용' },
+  { asset: '월간 체크리스트 (2시간)', timing: '강의 종료 후 매월 사용' },
+  { asset: '광고 소재 작성 AI 도우미 (GPTs·GEMs)', timing: '6강 이후 상시 사용' },
+  { asset: '키워드 분석 AI 도우미 (GPTs·GEMs)', timing: '6강 이후 상시 사용' },
+];
+---
+
+<section
+  id="curriculum-materials"
+  class="bg-cream text-ink-900"
+  aria-labelledby="materials-heading"
+>
+  <div class="container-max section-y">
+    <header class="mx-auto max-w-[36ch] text-center">
+      <h2
+        id="materials-heading"
+        class="text-h2 font-bold"
+      >
+        강의마다 손에 남는 자료.
+      </h2>
+    </header>
+
+    <div class="mx-auto mt-sp-7 max-w-[860px]">
+      {/* 데스크톱 테이블 */}
+      <div class="hidden overflow-hidden rounded-lg border border-gold-500/40 bg-paper md:block">
+        <table class="w-full border-collapse text-body">
+          <thead>
+            <tr class="bg-paper-soft">
+              <th class="px-sp-5 py-sp-4 text-left text-caption font-semibold uppercase tracking-eyebrow text-ink-500">
+                제공 자료
+              </th>
+              <th class="px-sp-5 py-sp-4 text-left text-caption font-semibold uppercase tracking-eyebrow text-ink-500">
+                연동 시점
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              rows.map((r, i) => (
+                <tr class={i % 2 === 0 ? 'bg-paper' : 'bg-paper-soft/50'}>
+                  <td class="border-t border-ink-300/30 px-sp-5 py-sp-4 text-body font-semibold text-ink-900">
+                    {r.asset}
+                  </td>
+                  <td class="border-t border-ink-300/30 px-sp-5 py-sp-4 text-body text-ink-700">
+                    {r.timing}
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      {/* 모바일 카드 */}
+      <ul class="flex flex-col gap-sp-3 md:hidden">
+        {
+          rows.map((r) => (
+            <li class="rounded-md border border-gold-500/40 bg-paper p-sp-4">
+              <p class="text-body font-semibold text-ink-900">{r.asset}</p>
+              <p class="mt-sp-2 text-caption font-semibold uppercase tracking-eyebrow text-gold-600">
+                {r.timing}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+
+      <p class="mx-auto mt-sp-5 max-w-[760px] text-caption text-ink-500">
+        ※ 워크북은 PDF 60~80페이지로 제공. 강의 진행에 맞춰 빈칸을 채워가면 강의 종료 시점에는 "대표님 가게의 광고 운영 매뉴얼 한 권"이 됩니다.
+      </p>
+    </div>
+  </div>
+</section>

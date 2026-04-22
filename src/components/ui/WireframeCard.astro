@@ -1,0 +1,102 @@
+---
+/*
+ * 골드 라인아트 와이어프레임 카드 (foundation §8 · 02-main-page §2-3, §9)
+ *
+ * 런칭 v1 플레이스홀더. 이후 실제 이미지(썸네일·목업)로 교체될 자리.
+ * - variant="dark"  : 네이비 카드 내부용 (히어로 카드 스택)
+ * - variant="soft"  : 라이트 섹션(paper-soft/cream) 내부용
+ * - variant="paper" : 화이트 배경(paper) 내부용
+ *
+ * children 에 내부 텍스트(이 카드가 표현하는 목업 이름) 를 받는다.
+ */
+
+interface Props {
+  label: string;
+  caption?: string;
+  variant?: 'dark' | 'soft' | 'paper';
+  aspect?: 'card' | 'wide' | 'square';
+  class?: string;
+}
+
+const {
+  label,
+  caption,
+  variant = 'dark',
+  aspect = 'card',
+  class: className = '',
+} = Astro.props;
+
+const variantClass =
+  variant === 'dark'
+    ? 'wireframe-dark'
+    : variant === 'soft'
+      ? 'wireframe-soft'
+      : '';
+
+const aspectClass =
+  aspect === 'wide'
+    ? 'aspect-[16/9]'
+    : aspect === 'square'
+      ? 'aspect-square'
+      : 'aspect-[3/4]';
+---
+
+<figure class={`wireframe ${variantClass} ${aspectClass} ${className}`}>
+  <div class="flex flex-col items-center gap-sp-2 px-sp-5 text-center">
+    {/* 라인아트 장식 — 아주 얇은 프레임 + 상단 점 3개 (툴바 느낌) */}
+    <svg
+      class="mb-sp-3 opacity-60"
+      width="56"
+      height="40"
+      viewBox="0 0 56 40"
+      fill="none"
+      aria-hidden="true"
+    >
+      <rect
+        x="2"
+        y="2"
+        width="52"
+        height="36"
+        rx="4"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-dasharray="3 3"
+      ></rect>
+      <circle cx="8" cy="9" r="1.2" fill="currentColor"></circle>
+      <circle cx="13" cy="9" r="1.2" fill="currentColor"></circle>
+      <circle cx="18" cy="9" r="1.2" fill="currentColor"></circle>
+      <line
+        x1="6"
+        y1="20"
+        x2="50"
+        y2="20"
+        stroke="currentColor"
+        stroke-width="0.8"
+      ></line>
+      <line
+        x1="6"
+        y1="26"
+        x2="40"
+        y2="26"
+        stroke="currentColor"
+        stroke-width="0.8"
+      ></line>
+      <line
+        x1="6"
+        y1="32"
+        x2="32"
+        y2="32"
+        stroke="currentColor"
+        stroke-width="0.8"
+      ></line>
+    </svg>
+    <figcaption class="text-[11px] font-semibold uppercase tracking-[0.18em]">
+      {label}
+    </figcaption>
+    {caption && (
+      <p class="text-caption leading-tight opacity-80">
+        {caption}
+      </p>
+    )}
+  </div>
+</figure>

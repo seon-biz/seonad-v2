@@ -1,0 +1,102 @@
+---
+/*
+ * 03-curriculum.md §6 — 섹션 5 WEEK 3 줌 상세
+ * 앵커: #week3 / 배경: navy-900
+ */
+
+const parts = [
+  {
+    label: '1부 — 60분',
+    title: '계정 세팅 검수',
+    lines: [
+      '6명 각자 VOD 2강 선행 상태 확인',
+      '화면 공유 순회 — 비즈센터 세팅, 전환추적, 계정 구조 점검',
+      '그 자리에서 수정 — 놓친 부분 발견·교정',
+      '질문 처리 (각자 15분 내외)',
+    ],
+  },
+  {
+    label: '2부 — 60분',
+    title: '첫 쇼핑검색광고 캠페인 발행',
+    lines: [
+      '한 명씩 화면 공유 — "이 상품을 이 입찰가로 발행하겠다"',
+      '대표자 실시간 피드백 — 상품 선택·입찰가·그룹 구조',
+    ],
+    emphasis: '6명 전원 줌 세션 끝나기 전 최소 1개 캠페인 실제 ON',
+  },
+];
+---
+
+<section
+  id="week3"
+  class="bg-navy-900 text-on-dark scroll-mt-[80px]"
+  aria-labelledby="week3-heading"
+>
+  <div class="container-max section-y">
+    <header class="mx-auto max-w-[60ch]">
+      <p class="text-caption font-semibold tracking-eyebrow text-gold-400">
+        WEEK 3 · ZOOM LIVE · 120분
+      </p>
+      <h2
+        id="week3-heading"
+        class="mt-sp-3 text-h2 font-bold text-white"
+      >
+        줌 1회차 —<br />
+        내 계정 세팅 검수 + 첫 쇼핑검색광고 발행.
+      </h2>
+    </header>
+
+    {/* 120분 타임라인 */}
+    <ol class="mx-auto mt-sp-7 flex max-w-[860px] flex-col gap-sp-5">
+      {
+        parts.map((p) => (
+          <li class="card-dark gold-top-line-2 p-sp-5 md:p-sp-7">
+            <div class="flex flex-wrap items-baseline gap-sp-3">
+              <span class="text-caption font-semibold tracking-eyebrow text-gold-300">
+                {p.label}
+              </span>
+              <h3 class="text-h3 font-semibold text-white">{p.title}</h3>
+            </div>
+            <ul class="mt-sp-4 flex flex-col gap-sp-2">
+              {p.lines.map((l) => (
+                <li class="flex items-start gap-sp-3 text-body text-on-dark-soft">
+                  <span
+                    aria-hidden="true"
+                    class="mt-[8px] h-[6px] w-[6px] shrink-0 rounded-full bg-gold-500"
+                  />
+                  <span>{l}</span>
+                </li>
+              ))}
+            </ul>
+            {p.emphasis && (
+              <p class="mt-sp-4 rounded-md border border-gold-500/50 bg-navy-950/50 p-sp-3 text-body font-semibold text-gold-300">
+                ★ {p.emphasis}
+              </p>
+            )}
+          </li>
+        ))
+      }
+    </ol>
+
+    {/* 과제 박스 */}
+    <aside class="mx-auto mt-sp-6 max-w-[860px] gold-top-line rounded-md bg-navy-800 p-sp-5 md:p-sp-6">
+      <p class="text-caption font-semibold tracking-eyebrow text-gold-300">
+        <span aria-hidden="true">📋</span> 다음 줌까지 1주일간 과제
+      </p>
+      <ul class="mt-sp-3 flex flex-col gap-sp-2 text-body text-on-dark">
+        <li class="flex gap-sp-2">
+          <span aria-hidden="true" class="text-gold-400">·</span>
+          <span>발행한 캠페인을 7일간 운영 (예산 노출)</span>
+        </li>
+        <li class="flex gap-sp-2">
+          <span aria-hidden="true" class="text-gold-400">·</span>
+          <span>지정된 지표 스크린샷 제출 (워크북 양식)</span>
+        </li>
+        <li class="flex gap-sp-2">
+          <span aria-hidden="true" class="text-gold-400">·</span>
+          <span>파워링크 키워드 20개 리스트업 (VOD 6강 완료 전제)</span>
+        </li>
+      </ul>
+    </aside>
+  </div>
+</section>

@@ -1,0 +1,40 @@
+---
+/*
+ * OfferSchema — 05-pricing-apply.md §0-2
+ *
+ * /apply 페이지에서 가격·결제 수단·재고 상태를 명시적으로 드러낸다.
+ * availability 는 "한 기수 6명" 소수정예 구조를 반영해 LimitedAvailability 로 고정.
+ */
+import JsonLd from './JsonLd.astro';
+import { brand, product } from '@config/campaign';
+
+interface Props {
+  id?: string;
+  priceValidUntil?: string;
+}
+
+const { id = 'schema-offer-apply', priceValidUntil = '2026-12-31' } = Astro.props;
+
+const data = {
+  '@context': 'https://schema.org',
+  '@type': 'Offer',
+  name: `${brand.name} 스마트스토어 네이버광고 강의 수강권`,
+  description: 'VOD 7강 + 줌 2회 + 3개월 애프터케어. 한 기수 6명.',
+  price: String(product.price),
+  priceCurrency: 'KRW',
+  category: 'Education',
+  availability: 'https://schema.org/LimitedAvailability',
+  priceValidUntil,
+  seller: {
+    '@type': 'Organization',
+    name: brand.legalName,
+    sameAs: brand.url,
+  },
+  acceptedPaymentMethod: {
+    '@type': 'PaymentMethod',
+    name: 'Bank Transfer',
+  },
+};
+---
+
+<JsonLd data={data} id={id} />

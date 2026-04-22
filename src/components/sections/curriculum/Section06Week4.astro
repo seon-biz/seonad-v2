@@ -1,0 +1,140 @@
+---
+/*
+ * 03-curriculum.md §7 — 섹션 6 WEEK 4 줌 상세
+ * 앵커: #week4 / 배경: navy-950
+ * 그룹 학습 인용 강조 박스 + 줌 다시보기 정책 박스
+ */
+
+const parts = [
+  {
+    label: '1부 — 60분',
+    title: '1주차 성과 그룹 진단',
+    lines: [
+      '6명 각자 7일 데이터 화면 공유',
+      '실시간 의사결정 — "이 그룹 입찰 +30원 / 이 키워드 제외 / 이 캠페인 예산 증액"',
+      '"왜 이 판단을 내렸는지" 사고 과정 공유 — 다른 5명이 함께 배움',
+    ],
+  },
+  {
+    label: '2부 — 60분',
+    title: '파워링크 발행 + 강의 이후 계획',
+    lines: [
+      '파워링크 캠페인 발행 — 쇼핑검색과의 조합 원리',
+      '"혼자서 앞으로 어떻게 운영할 것인가" 개인별 30일 운영 플랜 수립',
+      '부록 강의 워크북 작성 결과 공유',
+      '단톡방 3개월 운영 안내 + 3개월 후 점검 줌 일정 공지',
+      '최종 Q&A',
+    ],
+  },
+];
+---
+
+<section
+  id="week4"
+  class="bg-navy-950 text-on-dark scroll-mt-[80px]"
+  aria-labelledby="week4-heading"
+>
+  <div class="container-max section-y">
+    <header class="mx-auto max-w-[60ch]">
+      <p class="text-caption font-semibold tracking-eyebrow text-gold-400">
+        WEEK 4 · ZOOM LIVE · 120분
+      </p>
+      <h2
+        id="week4-heading"
+        class="mt-sp-3 text-h2 font-bold text-white"
+      >
+        줌 2회차 —<br />
+        성과 진단 + 파워링크 발행 + 혼자 운영할 30일 플랜.
+      </h2>
+    </header>
+
+    <ol class="mx-auto mt-sp-7 flex max-w-[860px] flex-col gap-sp-5">
+      {/* 1부 */}
+      <li class="card-dark gold-top-line-2 p-sp-5 md:p-sp-7">
+        <div class="flex flex-wrap items-baseline gap-sp-3">
+          <span class="text-caption font-semibold tracking-eyebrow text-gold-300">
+            {parts[0].label}
+          </span>
+          <h3 class="text-h3 font-semibold text-white">{parts[0].title}</h3>
+        </div>
+        <ul class="mt-sp-4 flex flex-col gap-sp-2">
+          {
+            parts[0].lines.map((l) => (
+              <li class="flex items-start gap-sp-3 text-body text-on-dark-soft">
+                <span
+                  aria-hidden="true"
+                  class="mt-[8px] h-[6px] w-[6px] shrink-0 rounded-full bg-gold-500"
+                />
+                <span>{l}</span>
+              </li>
+            ))
+          }
+        </ul>
+
+        {/* 그룹 학습 강조 박스 — 좌측 4px 골드 라인 */}
+        <blockquote class="mt-sp-5 border-l-4 border-gold-500 bg-navy-950/60 p-sp-4 font-serif italic text-on-dark">
+          <p class="text-caption font-sans font-semibold not-italic tracking-eyebrow text-gold-400">
+            그룹 학습의 핵심
+          </p>
+          <p class="mt-sp-2 text-body text-on-dark-soft">
+            6명의 다른 상황을 보며 판단 기준이 체화됩니다.<br />
+            혼자였다면 1개 사례만 경험했을 결정이,<br />
+            그룹에서는 6개 사례의 비교 안에서 익혀집니다.
+          </p>
+        </blockquote>
+      </li>
+
+      {/* 2부 */}
+      <li class="card-dark gold-top-line-2 p-sp-5 md:p-sp-7">
+        <div class="flex flex-wrap items-baseline gap-sp-3">
+          <span class="text-caption font-semibold tracking-eyebrow text-gold-300">
+            {parts[1].label}
+          </span>
+          <h3 class="text-h3 font-semibold text-white">{parts[1].title}</h3>
+        </div>
+        <ul class="mt-sp-4 flex flex-col gap-sp-2">
+          {
+            parts[1].lines.map((l) => (
+              <li class="flex items-start gap-sp-3 text-body text-on-dark-soft">
+                <span
+                  aria-hidden="true"
+                  class="mt-[8px] h-[6px] w-[6px] shrink-0 rounded-full bg-gold-500"
+                />
+                <span>{l}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </li>
+    </ol>
+
+    {/* 줌 다시보기 정책 박스 */}
+    <aside class="mx-auto mt-sp-6 max-w-[860px] rounded-md border border-gold-500/40 bg-navy-900 p-sp-5 md:p-sp-6">
+      <p class="text-caption font-semibold tracking-eyebrow text-gold-300">
+        <span aria-hidden="true">🎥</span> 줌 다시보기 정책
+      </p>
+      <ul class="mt-sp-3 flex flex-col gap-sp-2 text-body text-on-dark">
+        <li class="flex gap-sp-2">
+          <span aria-hidden="true" class="text-gold-400">·</span>
+          <span>제공 대상: 해당 기수 수강생 6명 한정 (6명 그룹 코칭 체제)</span>
+        </li>
+        <li class="flex gap-sp-2">
+          <span aria-hidden="true" class="text-gold-400">·</span>
+          <span>편집: 개인정보(얼굴, 스토어명, 계정번호 등) 마스킹·블러 처리</span>
+        </li>
+        <li class="flex gap-sp-2">
+          <span aria-hidden="true" class="text-gold-400">·</span>
+          <span>시청 기간: 기수 내 무한 재생</span>
+        </li>
+        <li class="flex gap-sp-2">
+          <span aria-hidden="true" class="text-gold-400">·</span>
+          <span>목적: 줌 시간 놓친 부분 복습, 다른 5명의 사례 재학습</span>
+        </li>
+        <li class="flex gap-sp-2">
+          <span aria-hidden="true" class="text-gold-400">·</span>
+          <span>금지 사항: 외부 공유·유출 금지 (수강 약관 명시)</span>
+        </li>
+      </ul>
+    </aside>
+  </div>
+</section>

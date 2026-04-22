@@ -1,0 +1,59 @@
+---
+/*
+ * EventSchema — 07-free.md §0-2
+ *
+ * 사전 무료 강의를 schema.org/Event (OnlineEventAttendanceMode) 로 마크업.
+ *  - isAccessibleForFree: true  → "무료 강의" 시그널
+ *  - offers.price "0"            → 검색 결과 FREE 배지 후보
+ *  - eventStatus:
+ *      · scheduled → EventScheduled
+ *      · cancelled → EventCancelled
+ *      · tba       → EventPostponed (일정 미확정과 가장 가까운 표준값)
+ *
+ *  startDate 는 campaign.freeClass.isoDatetime (KST +09:00) 을 그대로 사용한다.
+ */
+import JsonLd from './JsonLd.astro';
+import { brand, freeClass } from '@config/campaign';
+
+interface Props {
+  id?: string;
+}
+
+const { id = 'schema-event-free' } = Astro.props;
+
+const eventStatusMap = {
+  scheduled: 'https://schema.org/EventScheduled',
+  cancelled: 'https://schema.org/EventCancelled',
+  tba: 'https://schema.org/EventPostponed',
+} as const;
+
+const data = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: `${brand.name} 사전 무료 강의`,
+  description:
+    '스마트스토어 셀러를 위한 네이버광고 사전 무료 강의. 줌 라이브 1시간, 4개 업체 실집행 광고 성과를 NDA 하에 공개합니다.',
+  eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+  eventStatus: eventStatusMap[freeClass.status],
+  startDate: freeClass.isoDatetime,
+  location: {
+    '@type': 'VirtualLocation',
+    url: freeClass.zoomUrlPlaceholder,
+  },
+  organizer: {
+    '@type': 'Organization',
+    name: brand.legalName,
+    url: brand.url,
+  },
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'KRW',
+    availability: 'https://schema.org/InStock',
+    url: `${brand.url}/free`,
+  },
+  isAccessibleForFree: true,
+};
+---
+
+<JsonLd data={data} id={id} />

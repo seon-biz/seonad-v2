@@ -1,0 +1,138 @@
+---
+/*
+ * 02-main-page.md §13 — 섹션 12 환불 정책 (투명 공개)
+ * 배경: paper-soft / 목적: 결제 직전 불안 해소
+ */
+import { brand } from '@config/campaign';
+
+const refundRows = [
+  {
+    phase: '입금 후 ~ 강의 시작일 이전',
+    ratio: '100%',
+    cond: '이체 수수료 제외 (법인계좌 역이체)',
+    highlight: true,
+  },
+  {
+    phase: '강의 시작 후 ~ VOD 1강 수강 전',
+    ratio: '100%',
+    cond: 'VOD 시청 기록 10% 미만',
+    highlight: true,
+  },
+  {
+    phase: 'VOD 1강 수강 후',
+    ratio: '환불 불가',
+    cond: '대신 다음 기수 1회 무료 재수강',
+    highlight: false,
+  },
+  {
+    phase: '라이브 줌 1회차 시작 후',
+    ratio: '환불 불가',
+    cond: '재수강 제공 없음',
+    highlight: false,
+  },
+];
+---
+
+<section id="section-refund" class="bg-paper-soft text-ink-900">
+  <div class="container-max section-y">
+    <div class="mx-auto max-w-[32ch] text-center">
+      <h2 class="text-h2 font-bold">
+        환불은 투명하게.<br />
+        애매한 구간 없습니다.
+      </h2>
+    </div>
+
+    {/* 환불 조건 — 데스크톱 테이블 / 모바일 카드 */}
+    <div class="mx-auto mt-sp-7 max-w-[840px]">
+      <div class="hidden md:block">
+        <table class="w-full border-collapse text-body">
+          <thead>
+            <tr>
+              <th class="border-b border-ink-300/40 bg-paper px-sp-4 py-sp-4 text-left text-caption font-semibold uppercase tracking-eyebrow text-ink-500">
+                시점
+              </th>
+              <th class="border-b border-ink-300/40 bg-paper px-sp-4 py-sp-4 text-left text-caption font-semibold uppercase tracking-eyebrow text-ink-500">
+                환불 비율
+              </th>
+              <th class="border-b border-ink-300/40 bg-paper px-sp-4 py-sp-4 text-left text-caption font-semibold uppercase tracking-eyebrow text-ink-500">
+                조건
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              refundRows.map((r) => (
+                <tr>
+                  <td class="border-b border-ink-300/30 px-sp-4 py-sp-4 text-body-sm font-semibold text-ink-900">
+                    {r.phase}
+                  </td>
+                  <td
+                    class={`border-b border-ink-300/30 px-sp-4 py-sp-4 text-body font-semibold ${
+                      r.highlight ? 'text-gold-600' : 'text-ink-500'
+                    }`}
+                  >
+                    {r.ratio}
+                  </td>
+                  <td class="border-b border-ink-300/30 px-sp-4 py-sp-4 text-body text-ink-700">
+                    {r.cond}
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <ul class="flex flex-col gap-sp-3 md:hidden">
+        {
+          refundRows.map((r) => (
+            <li class="rounded-md border border-ink-300/40 bg-paper p-sp-4">
+              <p class="text-body-sm font-semibold text-ink-900">{r.phase}</p>
+              <p
+                class={`mt-sp-2 text-lead font-semibold ${
+                  r.highlight ? 'text-gold-600' : 'text-ink-500'
+                }`}
+              >
+                {r.ratio}
+              </p>
+              <p class="mt-sp-1 text-body-sm text-ink-700">{r.cond}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    {/* 경쟁사 보호 관련 환불 */}
+    <div class="mx-auto mt-sp-6 max-w-[840px] rounded-md border border-gold-500/40 bg-paper p-sp-5">
+      <p class="text-body text-ink-700">
+        <strong class="text-ink-900">경쟁사 보호 정책 관련 환불</strong><br />
+        카테고리 겹침으로 이월된 후 신청자: 100% 환불 (수수료 제외) 또는 다음 기수 최우선 배정 중 선택.
+      </p>
+    </div>
+
+    {/* 환불 처리 방식 */}
+    <div class="mx-auto mt-sp-4 max-w-[840px] rounded-md bg-paper p-sp-5 shadow-xs">
+      <p class="text-h4 font-semibold text-ink-900">환불 처리 방식</p>
+      <ul class="mt-sp-3 flex flex-col gap-sp-2 text-body-sm text-ink-700">
+        <li class="flex gap-sp-2">
+          <span class="text-gold-500" aria-hidden="true">·</span>
+          <span>
+            환불 요청: 이메일(<a class="underline decoration-gold-500 underline-offset-4" href={`mailto:${brand.email}`}>{brand.email}</a>) 또는 카카오톡 채널
+          </span>
+        </li>
+        <li class="flex gap-sp-2">
+          <span class="text-gold-500" aria-hidden="true">·</span>
+          <span>확인 답변: 24시간 이내</span>
+        </li>
+        <li class="flex gap-sp-2">
+          <span class="text-gold-500" aria-hidden="true">·</span>
+          <span>환불 방식: 주식회사 티오엠 법인계좌 → 신청자 입금 계좌 역이체</span>
+        </li>
+        <li class="flex gap-sp-2">
+          <span class="text-gold-500" aria-hidden="true">·</span>
+          <span>처리 기한: 조건 충족 확인 후 3영업일 이내</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

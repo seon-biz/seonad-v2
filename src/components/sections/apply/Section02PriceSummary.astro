@@ -1,0 +1,92 @@
+---
+/*
+ * 05-pricing-apply.md §3 — 가격 요약 (축약 버전)
+ *
+ * - 배경 paper-soft / 이 페이지에 직접 진입한 방문자 대비
+ * - 4블록 수치 카드 (lg 4열 / mobile 2×2)
+ * - 포함 내역 축약 체크리스트 7개 + 상세 링크 2개
+ */
+import { routes } from '@config/campaign';
+
+const stats = [
+  { value: '240분', label: 'VOD 7강 + 부록' },
+  { value: '4시간', label: '줌 라이브 2회' },
+  { value: '3개월', label: '단톡방 + 점검 줌' },
+  { value: '6명', label: '한 기수 정원' },
+];
+
+const included = [
+  'VOD 7강 + 부록 240분 (무한 다시보기)',
+  '라이브 줌 2회 × 2시간 (6명 그룹 코칭, 실계정 공개)',
+  '강의 시작일 +3개월 단톡방 질문 응대',
+  '3개월 시점 점검 줌 1시간',
+  '워크북 + 체크리스트 3종 + AI 도우미 2종',
+  '경쟁사 보호 정책 (동일 카테고리 이월)',
+  'VOD 1강 수강 전 100% 환불 가능',
+];
+---
+
+<section class="bg-paper-soft text-ink-900">
+  <div class="container-max section-y">
+    <div class="mx-auto max-w-[56ch] text-center">
+      <h2 class="text-h2 font-bold text-ink-900">
+        70만 원으로,<br />
+        4주와 3개월을 받으십니다.
+      </h2>
+    </div>
+
+    <ul class="mx-auto mt-sp-8 grid max-w-[880px] grid-cols-2 gap-sp-4 lg:grid-cols-4 lg:gap-sp-5">
+      {
+        stats.map((s) => (
+          <li class="flex flex-col items-center gap-sp-2 border-t-2 border-gold-500 bg-paper p-sp-5 text-center rounded-md">
+            <span class="font-sans text-number-lg leading-none text-gold-500">
+              {s.value}
+            </span>
+            <span class="text-body-sm text-ink-700">{s.label}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    {/* 포함 내역 체크리스트 */}
+    <ul class="mx-auto mt-sp-8 flex max-w-[640px] flex-col gap-sp-3">
+      {
+        included.map((i) => (
+          <li class="flex items-start gap-sp-3 text-body text-ink-700">
+            <span
+              aria-hidden="true"
+              class="mt-1 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gold-500/15 text-gold-600"
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path
+                  d="m2 6 3 3 5-6"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            <span>{i}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    {/* 상세 링크 */}
+    <div class="mx-auto mt-sp-6 flex max-w-[640px] flex-col gap-sp-2 text-body-sm">
+      <a
+        href={`${routes.home}#pricing`}
+        class="text-ink-500 underline decoration-gold-500 underline-offset-4 transition-colors hover:text-gold-600"
+      >
+        → 포함 내역 상세는 메인 페이지에서 확인하실 수 있습니다.
+      </a>
+      <a
+        href={routes.curriculum}
+        class="text-ink-500 underline decoration-gold-500 underline-offset-4 transition-colors hover:text-gold-600"
+      >
+        → 커리큘럼 강의별 상세 보기
+      </a>
+    </div>
+  </div>
+</section>

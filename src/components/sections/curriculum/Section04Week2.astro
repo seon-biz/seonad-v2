@@ -1,0 +1,178 @@
+---
+/*
+ * 03-curriculum.md §5 — 섹션 4 WEEK 2 상세
+ * 앵커: #week2 / 배경: paper-soft / 페이지 내 최대 분량 섹션
+ * PART 2 서브헤더 + 3~5강 / PART 3 서브헤더 + 6~7강 / 부록(풀폭 navy-900)
+ */
+import LessonCard from '@components/curriculum/LessonCard.astro';
+---
+
+<section
+  id="week2"
+  class="bg-paper-soft text-ink-900 scroll-mt-[80px]"
+  aria-labelledby="week2-heading"
+>
+  <div class="container-max section-y">
+    <header class="mx-auto max-w-[60ch]">
+      <span class="pill pill-gold tracking-eyebrow">
+        WEEK 2 · VOD 180분 (5강 + 부록)
+      </span>
+      <h2
+        id="week2-heading"
+        class="mt-sp-4 text-h2 font-bold text-ink-900"
+      >
+        PART 2 &amp; 3 — 쇼핑검색·파워링크·브랜드검색.
+      </h2>
+      <p class="mt-sp-4 text-lead text-ink-500">
+        스마트스토어 셀러에게 1순위인 쇼핑검색부터,<br />
+        파워링크·브랜드검색까지 강의 시간과 우선순위를 배분했습니다.
+      </p>
+    </header>
+
+    {/* PART 2 서브헤더 */}
+    <div class="mt-sp-8">
+      <div class="flex items-center gap-sp-3">
+        <span
+          aria-hidden="true"
+          class="h-px flex-1 bg-gradient-to-r from-gold-500/70 to-transparent"
+        ></span>
+        <h3 class="text-h3 font-semibold text-gold-600">
+          PART 2 — 쇼핑검색광고 (메인 파트 · 85분)
+        </h3>
+        <span
+          aria-hidden="true"
+          class="h-px flex-1 bg-gradient-to-l from-gold-500/70 to-transparent"
+        ></span>
+      </div>
+
+      <div class="mt-sp-6 grid grid-cols-1 gap-sp-5 lg:grid-cols-2 lg:gap-sp-6">
+        <LessonCard
+          no="3강"
+          minutes="25분"
+          part="PART 2"
+          surface="paper"
+          title="쇼핑검색광고 전략 설계"
+          goal="내 상품 중 어떤 것을 먼저 광고할지, 그룹을 어떻게 나눌지 결정할 수 있습니다."
+          topics={[
+            '쇼핑검색광고가 스마트스토어 셀러에게 1순위인 이유',
+            '소재 단위 = 상품 단위라는 구조 이해',
+            '어떤 상품을 먼저 광고할지 — 베스트·마진·전환율 3축',
+            '캠페인·그룹 구조 설계 — 카테고리·성별·계절·가격대 분리 원칙',
+            '**워크북 연동**: PART 2 쇼핑검색 설계 워크시트 작성',
+          ]}
+        />
+
+        <LessonCard
+          no="4강"
+          minutes="35분"
+          part="PART 2"
+          surface="paper"
+          handsOn
+          highlight
+          title="쇼핑검색광고 세팅 실습"
+          goal="첫 쇼핑검색광고 캠페인 1개를 실제로 발행할 수 있습니다."
+          topics={[
+            '캠페인 생성 → 그룹 생성 → 상품 연결 → 입찰가 설정',
+            '**입찰가 결정 공식**: 마진 × 전환율 × 목표 ROAS',
+            '확장 소재, 쇼핑 이미지, 소재 승인 규정',
+            '제외 키워드, 제외 지역, 노출 시간 설정',
+            '**실습 결과**: 첫 캠페인 1개 실제 발행 (줌 1주차 과제의 준비 상태)',
+          ]}
+        />
+
+        <div class="lg:col-span-2">
+          <LessonCard
+            no="5강"
+            minutes="25분"
+            part="PART 2"
+            surface="paper"
+            title="쇼핑검색광고 최적화 사이클"
+            goal="광고를 켠 뒤 언제 입찰을 조정하고, 언제 끄는지 판단할 수 있습니다."
+            topics={[
+              '성과 지표 4개 — 노출·클릭·전환·ROAS',
+              '일간·주간·월간 봐야 할 숫자',
+              '입찰가 조정 규칙 — 언제 올리고 언제 내리는가',
+              '"광고 끄기" 의사결정 기준 — 손실 확정 라인',
+              '**체크리스트 연동**: 일간·주간 체크리스트 사용법',
+            ]}
+          />
+        </div>
+      </div>
+    </div>
+
+    {/* PART 3 서브헤더 */}
+    <div class="mt-sp-8">
+      <div class="flex items-center gap-sp-3">
+        <span
+          aria-hidden="true"
+          class="h-px flex-1 bg-gradient-to-r from-gold-500/70 to-transparent"
+        ></span>
+        <h3 class="text-h3 font-semibold text-gold-600">
+          PART 3 — 파워링크와 브랜드검색 (70분)
+        </h3>
+        <span
+          aria-hidden="true"
+          class="h-px flex-1 bg-gradient-to-l from-gold-500/70 to-transparent"
+        ></span>
+      </div>
+
+      <div class="mt-sp-6 grid grid-cols-1 gap-sp-5 lg:grid-cols-2 lg:gap-sp-6">
+        <LessonCard
+          no="6강"
+          minutes="40분"
+          part="PART 3"
+          surface="paper"
+          handsOn
+          highlight
+          title="파워링크 키워드와 소재"
+          goal="내 상품에 맞는 파워링크 키워드 20개를 추출하고 첫 파워링크 캠페인을 발행할 수 있습니다."
+          topics={[
+            '쇼핑검색과 파워링크의 역할 차이',
+            '키워드 리서치 3단계 — 대표 → 세부 → 구매 의도',
+            '검색량·경쟁도·CPC 판단 기준 (네이버 키워드 도구 활용)',
+            '소재 제목·설명 작성 공식 — 혜택 → 차별점 → CTA',
+            '품질지수가 실제로 돈을 아껴주는 원리',
+            '캠페인·그룹 생성 실습',
+            '**실습 결과**: 핵심 파워링크 키워드 20개 + 첫 파워링크 캠페인 발행',
+          ]}
+        />
+
+        <LessonCard
+          no="7강"
+          minutes="30분"
+          part="PART 3"
+          surface="paper"
+          title="브랜드검색광고 + 광고 예산 분배 원칙"
+          goal="브랜드검색광고를 언제 써야 할지 판단하고, 전체 광고비를 어떻게 분배할지 결정할 수 있습니다."
+          topics={[
+            '브랜드검색광고 — 언제 필요한가, 비용 구조(정액제), 소재 유형(라이트/프리미엄)',
+            '본 강의에서 "당장 필요하지 않다"는 판단 기준',
+            '광고비 예산 분배 원칙 — 쇼핑검색 vs 파워링크',
+            '어떤 지표가 나빠지면 행동해야 하는가',
+            '쇼핑검색·파워링크 조합 시너지',
+          ]}
+        />
+      </div>
+    </div>
+
+    {/* 부록 — 풀폭 다크 */}
+    <div class="mt-sp-8">
+      <LessonCard
+        no="부록"
+        minutes="25분"
+        part="부록"
+        surface="navy-dark"
+        title="광고 운영 30일 루틴"
+        goal="강의 종료 후 혼자서 30일을 어떻게 운영할지 구체적인 30일 운영 플랜을 세울 수 있습니다."
+        topics={[
+          '일·주·월 운영 사이클 설계',
+          '어떤 지표가 나빠지면 행동하는가',
+          '월 단위 광고비 계획 수립',
+          '신규 상품 추가 시 광고 확장 원칙',
+          '**워크북 연동**: PART 5 30일 운영 플랜 작성지 완성',
+        ]}
+        footNote={'이 부록은 강의 종료 직후 "오늘부터 뭐 해야 하지"에 대한 직접적인 답입니다.'}
+      />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,88 @@
+---
+/*
+ * 모바일 하단 플로팅 CTA (02-main-page.md §1-2)
+ *
+ * 동작:
+ *  - 기본 노출 지점: 히어로 통과 후 (페이지 내 #hero-sentinel 이 뷰포트를 벗어났을 때).
+ *    sentinel 이 없는 페이지에서는 scrollY > 480px 임계값으로 폴백.
+ *  - 문구/링크 교체: 페이지에 #pricing-trigger 요소가 있고 그게 뷰포트에 들어오면
+ *    "수강 신청하기 →" + /apply 로 자동 교체. 다시 위로 올라가면 원복.
+ *  - lg(1024) 이상에서는 숨김 (데스크톱 헤더 CTA로 대체).
+ *  - prefers-reduced-motion 대응: 애니메이션 없이 show/hide.
+ *
+ * 페이지 측 요구사항(선택):
+ *  - 히어로 섹션 하단에 <span id="hero-sentinel" class="sr-only" /> 배치
+ *  - 가격 섹션 시작부에 <span id="pricing-trigger" class="sr-only" /> 배치
+ */
+
+import { routes } from '@config/campaign';
+---
+
+<div
+  id="floating-cta"
+  class="fixed inset-x-0 bottom-0 z-sticky-cta hidden px-gutter-mobile pb-[max(12px,env(safe-area-inset-bottom))] lg:hidden"
+  data-visible="false"
+  data-mode="free"
+>
+  <a
+    id="floating-cta-link"
+    href={routes.free}
+    class="btn-base btn-primary btn-lg w-full shadow-gold"
+  >
+    <span id="floating-cta-label">사전 무료 강의 신청 →</span>
+  </a>
+</div>
+
+<script>
+  const wrap = document.getElementById('floating-cta');
+  const link = document.getElementById('floating-cta-link') as HTMLAnchorElement | null;
+  const label = document.getElementById('floating-cta-label');
+  if (wrap && link && label) {
+    const FREE = { href: '/free', text: '사전 무료 강의 신청 →' };
+    const APPLY = { href: '/apply', text: '수강 신청하기 →' };
+
+    const setVisible = (visible: boolean) => {
+      wrap.dataset.visible = String(visible);
+      wrap.classList.toggle('hidden', !visible);
+      wrap.classList.toggle('flex', visible);
+    };
+
+    const setMode = (mode: 'free' | 'apply') => {
+      wrap.dataset.mode = mode;
+      const target = mode === 'apply' ? APPLY : FREE;
+      link.href = target.href;
+      label.textContent = target.text;
+    };
+
+    // 1) 히어로 sentinel 관찰 → 통과 시 노출
+    const hero = document.getElementById('hero-sentinel');
+    if (hero) {
+      const io = new IntersectionObserver(
+        ([entry]) => setVisible(!entry.isIntersecting),
+        { rootMargin: '0px 0px -40% 0px', threshold: 0 },
+      );
+      io.observe(hero);
+    } else {
+      // 폴백: scrollY 임계값
+      const onScroll = () => setVisible(window.scrollY > 480);
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+
+    // 2) 가격 섹션 트리거 관찰 → 문구 교체
+    const pricing = document.getElementById('pricing-trigger');
+    if (pricing) {
+      const io2 = new IntersectionObserver(
+        ([entry]) => setMode(entry.isIntersecting ? 'apply' : 'free'),
+        { rootMargin: '0px 0px -40% 0px', threshold: 0 },
+      );
+      io2.observe(pricing);
+    }
+  }
+</script>
+
+<style>
+  #floating-cta[data-visible='true'] {
+    display: flex;
+  }
+</style>

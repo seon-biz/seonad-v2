@@ -1,0 +1,107 @@
+---
+/*
+ * /free Section 07 — 무료 강의 관련 FAQ (07-free.md §8)
+ *
+ *  - paper 배경. 무료 강의 특화 6개.
+ *  - 네이티브 <details name="free-faq"> exclusive accordion — 한 번에 하나만 열림
+ *    (curriculum/apply FAQ 와 동일 방식)
+ *  - 끝에 전체 FAQ 42개로 가는 링크
+ */
+import { routes } from '@config/campaign';
+
+const faqs = [
+  {
+    q: '꼭 참석해야 하나요? 녹화본만 봐도 되나요?',
+    a: '녹화본만 보셔도 내용은 동일하게 확인 가능합니다. 다만 라이브 참석하시면 실시간 Q&A 채팅에서 본인 질문을 직접 할 수 있고, NDA 공개 데이터를 같이 보면서 실시간 반응을 공유할 수 있습니다. 시간이 허락하시면 라이브 참석을 권장드립니다.',
+  },
+  {
+    q: '줌 사용이 처음인데 괜찮나요?',
+    a: '네, 괜찮습니다. 강의 1일 전 보내드리는 메일에 줌 참여 방법이 간단히 포함됩니다. PC·노트북·스마트폰 모두 가능하며, 앱 설치나 가입은 필요 없이 링크 클릭만으로 입장 가능합니다.',
+  },
+  {
+    q: '카메라·마이크 켜야 하나요?',
+    a: '아니요, 참석자는 카메라·마이크 모두 꺼도 됩니다. 질문은 줌 채팅으로 받으므로 익명 참여가 가능합니다. 강의 중 자기소개나 발언 요구는 없습니다.',
+  },
+  {
+    q: '녹화본은 언제까지 볼 수 있나요?',
+    a: '녹화본 링크는 강의 2~3일 후 발송되며, 발송일로부터 60일간 시청 가능합니다. 60일이 지나면 다음 무료 강의 녹화본으로 자동 교체됩니다. 본 강의 수강생에게는 별도 VOD가 제공되며, 무료 강의 녹화본과는 별개입니다.',
+  },
+  {
+    q: '신청했는데 연락이 안 오면요?',
+    a: '제출 직후 자동 확인 메시지가 이메일 또는 카카오톡으로 전달됩니다. 10분 지나도 안 오시면 스팸함 확인 부탁드리며, 여전히 없으면 cobaltblue8877@naver.com 으로 문의해주세요.',
+  },
+  {
+    q: '본 강의 강매하실 건가요?',
+    a: '아니요, 무료 강의는 본 강의 강매가 아닙니다. 강의 마지막 5분에 본 강의 구조를 간단히 안내드리고, 종료 후 이메일로 1회 신청 안내를 드릴 뿐입니다. 추가 연락은 없으며, 본 강의 수강 여부는 전적으로 신청자 판단에 맡깁니다.',
+  },
+];
+---
+
+<section class="bg-paper text-ink-900">
+  <div class="container-max section-y">
+    <header class="mx-auto max-w-[760px] text-center">
+      <h2 class="text-h2 font-bold text-ink-900">무료 강의 관련 FAQ</h2>
+      <p class="mt-sp-4 text-body text-ink-500">
+        신청 직전 남은 질문 6가지. 전체 FAQ 42개는 아래 링크에서 확인하실 수 있습니다.
+      </p>
+    </header>
+
+    <ul class="mx-auto mt-sp-8 flex max-w-[760px] flex-col gap-sp-3">
+      {
+        faqs.map((f, i) => (
+          <li>
+            <details
+              name="free-faq"
+              class="group rounded-md border border-ink-300/40 bg-paper-soft"
+            >
+              <summary class="flex cursor-pointer items-start justify-between gap-sp-4 p-sp-5 text-body font-semibold text-ink-900">
+                <span>
+                  <span class="mr-sp-2 text-gold-500">Q{String(i + 1).padStart(2, '0')}.</span>
+                  {f.q}
+                </span>
+                <svg
+                  class="details-chevron mt-[6px] h-4 w-4 shrink-0 text-ink-500 transition-transform duration-base"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="m4 6 4 4 4-4"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </summary>
+              <div class="border-t border-ink-300/40 p-sp-5 text-body text-ink-700">
+                {f.a}
+              </div>
+            </details>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mx-auto mt-sp-7 max-w-[760px] text-center">
+      <a
+        href={routes.faq}
+        class="inline-flex items-center gap-sp-2 text-body-sm font-semibold text-gold-600 underline decoration-gold-500 underline-offset-4 transition-colors hover:text-gold-500"
+      >
+        → 전체 FAQ 42개 보기
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+  details > summary {
+    list-style: none;
+  }
+  details[open] .details-chevron {
+    transform: rotate(180deg);
+  }
+</style>

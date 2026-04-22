@@ -1,0 +1,86 @@
+---
+/*
+ * 05-pricing-apply.md §4 — 신청 후 진행 프로세스 (4단계)
+ *
+ * - 배경 navy-900 / 4단계 타임라인 (가로 4열, 모바일 세로 스택)
+ * - 각 카드: number-lg 큰 숫자 + 제목 + 본문 + 소요 시간
+ * - 하단 안내 박스: 상단 1px 골드 + navy-800 — "왜 자동 결제가 아닌가요?"
+ */
+
+const steps = [
+  {
+    no: '01',
+    title: '신청 폼 제출',
+    body:
+      '아래 신청 폼을 작성하고 제출해주세요. 이름, 연락처, 스마트스토어 카테고리 3가지가 필수입니다.',
+    meta: '소요: 3~5분',
+  },
+  {
+    no: '02',
+    title: '경쟁사 보호 정책 검토',
+    body:
+      '현재 기수의 다른 신청자와 카테고리 중복 여부를 확인합니다. 겹칠 경우 이월 또는 취소 옵션을 카카오톡으로 안내드립니다.',
+    meta: '소요: 12시간 이내',
+  },
+  {
+    no: '03',
+    title: '입금 계좌 안내',
+    body:
+      '중복이 없으면 카카오톡 채널로 법인계좌 정보를 보내드립니다. 주식회사 티오엠 명의. 일시불 70만 원. 48시간 이내 입금하시면 됩니다.',
+    meta: '소요: 48시간 입금 기한',
+  },
+  {
+    no: '04',
+    title: '기수 확정 + 단톡방',
+    body:
+      '입금이 확인되면 카카오톡 단톡방에 초대됩니다. 기수 시작일과 함께 VOD 접속 정보를 전달받으십니다.',
+    meta: '소요: 입금 확인 후 3시간 이내',
+  },
+];
+---
+
+<section class="bg-navy-900 text-on-dark">
+  <div class="container-max section-y">
+    <div class="mx-auto max-w-[56ch] text-center">
+      <h2 class="text-h2 font-bold text-white">신청 후 어떻게 진행되나요?</h2>
+      <p class="mt-sp-4 text-lead text-gold-300">
+        신청 제출부터 기수 확정까지 보통 1~2일 안에 끝납니다.
+      </p>
+    </div>
+
+    <ol class="mt-sp-8 grid grid-cols-1 gap-sp-5 md:grid-cols-2 lg:grid-cols-4">
+      {
+        steps.map((s) => (
+          <li class="relative flex flex-col rounded-lg border border-gold-500/25 bg-navy-800/60 p-sp-6">
+            <span class="font-sans text-number-lg leading-none text-gold-500">
+              {s.no}
+            </span>
+            <h3 class="mt-sp-4 text-h4 font-semibold text-white">{s.title}</h3>
+            <p class="mt-sp-3 text-body text-on-dark-soft">{s.body}</p>
+            <p class="mt-auto pt-sp-5 text-caption tracking-caption text-gold-400">
+              {s.meta}
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+
+    {/* 하단 안내 박스 */}
+    <aside
+      class="mx-auto mt-sp-8 max-w-[720px] border-t-2 border-gold-500 bg-navy-800 p-sp-6"
+      aria-label="자동 결제가 아닌 이유"
+    >
+      <p class="text-caption font-semibold tracking-caption text-gold-400">
+        💡 왜 자동 결제가 아닌가요?
+      </p>
+      <p class="mt-sp-4 text-body text-on-dark-soft">
+        세온애드는 한 기수 6명만 받는 수업입니다.<br />
+        신청 순서로 자동 결제를 받으면 경쟁사 보호 정책(동일 카테고리 선 신청자 우선)을 적용할 수 없습니다.
+      </p>
+      <p class="mt-sp-3 text-body text-on-dark-soft">
+        <span class="font-semibold text-gold-300">카카오톡 채널 수동 안내</span>
+        — 대표자가 매 신청자의 카테고리를 확인한 뒤 입금 안내를 보내는 방식은 번거로움이 아니라 운영 원칙입니다.
+      </p>
+    </aside>
+  </div>
+</section>

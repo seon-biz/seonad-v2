@@ -1,0 +1,37 @@
+---
+/*
+ * /about Section 01 — Hero (08-about.md §2)
+ * navy-900 · container-narrow · min-h 45vh(lg+)
+ * ABOUT · SEONAD 라벨, 브랜드·법인 톤의 헤드라인.
+ */
+import { routes, brand } from '@config/campaign';
+---
+
+<section class="bg-navy-900 text-on-dark">
+  <div class="mx-auto w-full max-w-[var(--container-narrow)] px-sp-5 py-sp-14 lg:min-h-[45vh] lg:py-sp-18">
+    <nav aria-label="브레드크럼" class="text-caption text-navy-400">
+      <ol class="flex items-center gap-sp-2">
+        <li>
+          <a href={routes.home} class="hover:text-gold-300">세온애드</a>
+        </li>
+        <li aria-hidden="true">›</li>
+        <li aria-current="page" class="text-on-dark-soft">About</li>
+      </ol>
+    </nav>
+
+    <p class="mt-sp-6 text-caption font-bold tracking-[0.2em] text-gold-400">
+      ABOUT · {brand.nameEn}
+    </p>
+
+    <h1 class="mt-sp-4 text-h1 font-bold leading-[1.2] text-paper">
+      대표가 직접 하는 광고가<br />
+      <span class="text-gold-400">가장 강합니다.</span>
+    </h1>
+
+    <p class="mt-sp-5 max-w-[60ch] text-lead text-gold-300">
+      세온비즈 7년의 코칭 경험 위에서,<br />
+      네이버광고만 꺼내 만든 수업입니다.<br />
+      {brand.legalName}이 운영합니다.
+    </p>
+  </div>
+</section>

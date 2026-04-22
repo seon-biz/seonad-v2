@@ -1,0 +1,72 @@
+---
+/*
+ * /free — 사전 무료 강의 신청 페이지 (07-free.md 전체 반영)
+ *
+ * 역할: 본 강의 결제 전 1차 관문. "관심 → 고려" 단계 리드 확보.
+ *
+ * - JSON-LD: Organization(BaseLayout 자동) + Event + Course(예고용) + BreadcrumbList
+ * - §1 모바일 플로팅 CTA 숨김 — 페이지 자체가 신청 유도
+ * - §0-1 noindex 없음 — 리드 확보용 인덱싱 유지
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EventSchema from '@components/seo/EventSchema.astro';
+import CourseSchema from '@components/seo/CourseSchema.astro';
+import BreadcrumbSchema from '@components/seo/BreadcrumbSchema.astro';
+import { brand, routes } from '@config/campaign';
+
+import Section01Hero from '@components/sections/free/Section01Hero.astro';
+import Section02Timeline from '@components/sections/free/Section02Timeline.astro';
+import Section03Audience from '@components/sections/free/Section03Audience.astro';
+import Section04SignupForm from '@components/sections/free/Section04SignupForm.astro';
+import Section05Messaging from '@components/sections/free/Section05Messaging.astro';
+import Section06StudentMessages from '@components/sections/free/Section06StudentMessages.astro';
+import Section07Faq from '@components/sections/free/Section07Faq.astro';
+import Section08FinalCta from '@components/sections/free/Section08FinalCta.astro';
+
+const title = `사전 무료 강의 | 줌 라이브 1시간 · 4개 업체 실집행 광고 성과 공개 | ${brand.name}`;
+const description =
+  '신청자 누구나 시청 가능. 스마트스토어 셀러가 네이버광고에서 실패하는 5대 원인 + 실제 4개 업체 광고 성과 + 본 강의 구조 안내. 줌 라이브 1시간, 녹화본 제공.';
+const ogTitle = `사전 무료 강의 | 줌 라이브 1시간 | ${brand.name}`;
+const ogDescription = '4개 업체의 실제 광고 성과를 NDA 하에 공개합니다. 신청자 누구나 시청 가능.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage={`${brand.url}/og/free.png`}
+  hideFloatingCTA
+>
+  <Fragment slot="head">
+    <meta
+      name="keywords"
+      content="네이버광고 무료 강의, 스마트스토어 광고 무료 특강, 세온애드 무료 강의, 줌 라이브 무료 강의"
+    />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+
+    <EventSchema />
+    <CourseSchema
+      id="schema-course-free-preview"
+      description="VOD 2주 + 줌 2주 + 3개월 애프터케어"
+      includeOffer={false}
+      coursePrerequisites="사전 무료 강의 수강 권장"
+    />
+    <BreadcrumbSchema
+      items={[
+        { name: brand.name, url: '/' },
+        { name: '사전 무료 강의', url: routes.free },
+      ]}
+    />
+  </Fragment>
+
+  <main id="main-content" tabindex="-1">
+    <Section01Hero />
+    <Section02Timeline />
+    <Section03Audience />
+    <Section04SignupForm />
+    <Section05Messaging />
+    <Section06StudentMessages />
+    <Section07Faq />
+    <Section08FinalCta />
+  </main>
+</BaseLayout>

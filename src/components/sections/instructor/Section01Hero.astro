@@ -1,0 +1,68 @@
+---
+/*
+ * 04-instructor.md §2 — 페이지 히어로
+ *
+ * - 배경 navy-950 / container-narrow / min-h 55vh (데스크톱)
+ * - 얼굴 없는 히어로: 브레드크럼 → INSTRUCTOR eyebrow → h1 → lead
+ * - 하단 3대 수치 (2019→ / 30+ / 4) — md 이상 3열, 사이에 골드 세로 디바이더
+ * - 페이드업 대상(§19-7 관례 준용)
+ */
+import { brand } from '@config/campaign';
+
+const stats = [
+  { value: '2019→', label: '쇼핑몰·스마트스토어 대표 코칭 시작' },
+  { value: '30+', label: '1:1 코칭 업체 수' },
+  { value: '4', label: '사전 무료 강의에서 NDA 공개할 실집행 업체 수' },
+];
+---
+
+<section class="bg-navy-950 text-on-dark">
+  <div
+    class="container-narrow flex min-h-[55vh] flex-col justify-center py-sp-8 lg:py-sp-9"
+  >
+    <nav aria-label="브레드크럼" class="reveal text-caption text-on-dark-soft">
+      <a href="/" class="transition-colors hover:text-gold-300">{brand.name}</a>
+      <span aria-hidden="true" class="mx-sp-2">›</span>
+      <span aria-current="page" class="text-on-dark">강사</span>
+    </nav>
+
+    <p class="reveal reveal-delay-1 mt-sp-6 eyebrow">INSTRUCTOR</p>
+
+    <h1 class="reveal reveal-delay-1 mt-sp-4 text-h1 font-bold text-white">
+      대행사 대표가 아니라,<br />
+      대표님 옆에 앉아<br />
+      같이 광고를 만드는 코치.
+    </h1>
+
+    <p class="reveal reveal-delay-2 mt-sp-5 max-w-[56ch] text-lead text-gold-300">
+      2019년부터 7년, 쇼핑몰·스마트스토어 대표 30여 분을 1:1로 코칭해왔습니다.<br
+        class="hidden md:inline"
+      />
+      세온애드는 그 7년 위에서 네이버광고만 꺼내 만든 수업입니다.
+    </p>
+
+    {/* 3대 수치 블록 */}
+    <ul
+      class="reveal reveal-delay-3 mt-sp-8 grid grid-cols-1 gap-sp-5 md:grid-cols-3 md:gap-0"
+    >
+      {
+        stats.map((s, idx) => (
+          <li
+            class:list={[
+              'flex flex-col items-center gap-sp-2 text-center md:px-sp-5',
+              idx > 0 &&
+                'md:border-t md:border-gold-500/30 md:pt-sp-5 lg:border-t-0 lg:border-l lg:pt-0',
+            ]}
+          >
+            <span class="font-sans text-number-xl leading-none text-gold-500">
+              {s.value}
+            </span>
+            <span class="max-w-[22ch] text-caption tracking-caption text-white">
+              {s.label}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

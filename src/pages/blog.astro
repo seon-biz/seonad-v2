@@ -1,0 +1,41 @@
+---
+/*
+ * /blog — 블로그 플레이스홀더
+ *
+ * K4 마케팅 전략상 런칭 후 3~6개월에 본격 가동 예정.
+ * 지금은 404 방지 + 사전 무료 강의로의 리드 유도만 담당한다.
+ * 실제 콘텐츠·글 목록은 09-blog.md 전달 시 별도 작업으로 교체.
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { brand, routes } from '@config/campaign';
+---
+
+<BaseLayout
+  title={`블로그 | 스마트스토어 네이버광고 실전 인사이트 | ${brand.name}`}
+  description="세온애드 블로그는 곧 시작됩니다. 스마트스토어 네이버광고 실전 인사이트를 공유할 예정입니다."
+  noindex
+>
+  <main id="main-content" tabindex="-1" class="bg-navy-950 text-on-dark">
+    <section class="section-y">
+      <div class="container-narrow text-center">
+        <p class="eyebrow">SEONAD · BLOG</p>
+
+        <h1 class="mt-sp-5 text-h1 font-bold leading-[1.2] text-paper">
+          세온애드 블로그는<br />
+          <span class="text-gold-400">곧 시작됩니다.</span>
+        </h1>
+
+        <p class="mx-auto mt-sp-6 max-w-[56ch] text-lead text-on-dark-soft">
+          스마트스토어 네이버광고 실전 인사이트를 공유할 예정입니다.<br />
+          일정 알림을 받으시려면 사전 무료 강의를 신청해주세요.
+        </p>
+
+        <div class="mt-sp-10 flex flex-col items-center justify-center gap-sp-3 sm:flex-row">
+          <a href={routes.free} class="btn-base btn-primary btn-lg">
+            사전 무료 강의 신청하기 →
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

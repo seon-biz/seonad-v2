@@ -1,0 +1,76 @@
+---
+/*
+ * /about Section 05 — 주식회사 티오엠 법인 정보 (08-about.md §6)
+ *
+ * navy-950 배경, <dl><dt/dd> 구조로 시맨틱 (§11-6).
+ * 모든 값은 campaign.ts business 에서 중앙 관리 → Footer 와 동일 소스.
+ * 관련 법적 페이지(이용약관/개인정보처리방침/환불 정책) 링크 3종 포함.
+ */
+import { brand, business, routes } from '@config/campaign';
+
+const rows: Array<{ label: string; value: string }> = [
+  { label: '법인명', value: brand.legalName },
+  { label: '대표자', value: business.representative },
+  { label: '사업자등록번호', value: business.businessNumber },
+  { label: '통신판매업 신고번호', value: business.mailOrderNumber },
+  { label: '사업장 주소', value: business.address },
+  { label: '이메일', value: brand.email },
+  { label: '대표 연락처', value: brand.phone },
+  { label: '업무 시간', value: brand.businessHours },
+  { label: '개인정보 책임자', value: business.privacyOfficer },
+];
+
+const legalLinks = [
+  { label: '이용약관', href: routes.terms },
+  { label: '개인정보처리방침', href: routes.privacy },
+  { label: '환불 정책', href: routes.refund },
+];
+---
+
+<section class="bg-navy-950 text-on-dark" aria-labelledby="about-corp-heading">
+  <div class="container-max py-sp-14 lg:py-sp-18">
+    <div class="mx-auto max-w-[60ch] text-center">
+      <p class="text-caption font-bold tracking-[0.2em] text-gold-400 uppercase">
+        CORPORATE INFO
+      </p>
+      <h2
+        id="about-corp-heading"
+        class="mt-sp-4 text-h2 font-bold leading-[1.3] text-paper reveal"
+      >
+        운영 법인.
+      </h2>
+    </div>
+
+    <div
+      class="mx-auto mt-sp-10 max-w-[var(--container-narrow)] rounded-lg border border-navy-700 bg-navy-800/60 p-sp-6 lg:p-sp-8 reveal"
+    >
+      <dl class="grid gap-y-sp-4 gap-x-sp-6 md:grid-cols-2">
+        {
+          rows.map((row) => (
+            <div class="border-b border-navy-700/60 pb-sp-3 last:border-b-0 md:pb-sp-4">
+              <dt class="text-caption font-semibold tracking-[0.08em] text-gold-400 uppercase">
+                {row.label}
+              </dt>
+              <dd class="mt-sp-1 text-body text-on-dark">{row.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      <ul class="mt-sp-7 flex flex-wrap items-center justify-center gap-x-sp-5 gap-y-sp-3 border-t border-navy-700/60 pt-sp-6">
+        {
+          legalLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="inline-flex min-h-[44px] items-center text-body-sm font-semibold text-gold-300 transition-colors duration-fast ease-standard hover:text-gold-400"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,53 @@
+---
+/*
+ * FaqTabs — 스티키 카테고리 탭 (06-faq.md §2-3 / §14-3)
+ *
+ * - 데스크톱: 가로 7개 탭 중앙정렬, 스티키 (헤더 80px 아래 부착)
+ * - 모바일: 가로 스크롤, 첫 탭에 좌측 여백 확보
+ * - 탭 클릭 → #faq-{slug} 로 부드러운 스크롤 (브라우저 네이티브 anchor + scroll-mt)
+ * - 스크롤 중 현재 보이는 카테고리 → aria-current="true" + 골드 배경
+ *   · 감지는 <body> 의 전역 IntersectionObserver 스크립트에서 수행
+ *     (rootMargin 으로 상단 160px 시점에 활성화)
+ *
+ * A11y: <ul role="tablist"> + <a role="tab"> 패턴 변형.
+ *   네이티브 anchor 를 유지해 JS 실패 시에도 이동 가능하도록 graceful.
+ */
+import { FAQ_CATEGORIES } from '@data/faq';
+---
+
+<nav
+  id="faq-tabs"
+  aria-label="FAQ 카테고리 탐색"
+  class="sticky top-[64px] z-40 border-y border-navy-800 bg-navy-950/95 backdrop-blur lg:top-[72px]"
+>
+  <ul
+    role="tablist"
+    class="container-max flex items-stretch gap-sp-2 overflow-x-auto overflow-y-hidden px-sp-5 py-sp-3 scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+  >
+    {
+      FAQ_CATEGORIES.map((cat) => (
+        <li class="shrink-0" role="presentation">
+          <a
+            role="tab"
+            href={`#faq-${cat.slug}`}
+            data-faq-tab={cat.slug}
+            aria-current="false"
+            class="inline-flex min-h-[44px] items-center justify-center rounded-full border border-navy-700 px-sp-4 text-body-sm font-semibold text-on-dark-soft transition-colors duration-base hover:border-gold-500 hover:text-gold-300 aria-current-gold"
+          >
+            {cat.key}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  /* aria-current="true" → 골드 배경 */
+  [data-faq-tab][aria-current='true'].aria-current-gold,
+  [data-faq-tab][aria-current='true'] {
+    background-color: var(--color-gold-500);
+    border-color: var(--color-gold-500);
+    color: var(--color-navy-950);
+  }
+</style>

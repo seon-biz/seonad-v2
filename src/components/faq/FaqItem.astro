@@ -1,0 +1,79 @@
+---
+/*
+ * FaqItem — 단일 질문·답변 아코디언
+ *
+ * 06-faq.md §14-3 인터랙션 규칙:
+ *  - 기본 전부 닫힘, 클릭 시 독립 아코디언(복수 동시 열기 허용)
+ *    → 네이티브 <details> 사용, name 속성 부여하지 않음
+ *  - URL 해시(/faq#q29) 딥링크: 페이지 스크립트가 open 속성 주입
+ *
+ * §14-4 SEO/GEO: 질문은 <h3>, 답변 각 단락은 <p>
+ * §14-5 A11y: <details>/<summary>는 브라우저가 aria-expanded 자동 관리.
+ *   + 화살표 아이콘에 aria-hidden, summary 는 텍스트로 구성.
+ */
+import type { FAQItem } from '@data/faq';
+
+interface Props {
+  item: FAQItem;
+  index: number;
+}
+
+const { item, index } = Astro.props;
+const questionNumber = String(index).padStart(2, '0');
+const paragraphs = item.answer.split(/\n+/).filter((p) => p.trim().length > 0);
+const searchText = `${item.question} ${item.answer}`.toLowerCase();
+---
+
+<li data-faq-item data-faq-search={searchText} data-faq-question-id={item.id}>
+  <details
+    id={item.id}
+    class="group rounded-md border border-ink-300/40 bg-paper transition-colors hover:border-gold-500/60"
+  >
+    <summary
+      class="flex cursor-pointer items-start justify-between gap-sp-4 p-sp-5 text-body font-semibold text-ink-900"
+    >
+      <h3 class="flex-1 text-body font-semibold text-ink-900">
+        <span class="mr-sp-2 font-bold text-gold-600">Q{questionNumber}.</span>
+        {item.question}
+      </h3>
+      <svg
+        class="details-chevron mt-[6px] h-4 w-4 shrink-0 text-ink-500 transition-transform duration-base"
+        viewBox="0 0 16 16"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          d="m4 6 4 4 4-4"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </summary>
+    <div class="border-t border-ink-300/40 p-sp-5">
+      {
+        paragraphs.map((p) => (
+          <p class="text-body text-ink-700 first:mt-0 mt-sp-3 whitespace-pre-line">{p}</p>
+        ))
+      }
+    </div>
+  </details>
+</li>
+
+<style>
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+  details > summary {
+    list-style: none;
+  }
+  details[open] .details-chevron {
+    transform: rotate(180deg);
+  }
+  /* 딥링크 도착 시 살짝 강조 — 사용자가 어느 항목인지 시각 인지 */
+  details:target {
+    outline: 2px solid var(--color-gold-500);
+    outline-offset: 2px;
+  }
+</style>

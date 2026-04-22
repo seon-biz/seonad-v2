@@ -1,0 +1,118 @@
+---
+/*
+ * 02-main-page.md §2 — 섹션 1 히어로
+ * 배경: navy-950 / min-height 90vh(desktop) / 좌 7 : 우 5(md+), 모바일 세로
+ * FloatingCTA 가시 트리거: 섹션 하단 #hero-sentinel
+ * 페이드업 대상(§19-7): 히어로
+ */
+import { campaign, routes } from '@config/campaign';
+import WireframeCard from '@components/ui/WireframeCard.astro';
+
+const recruitmentLine =
+  campaign.status === 'recruiting'
+    ? `현재 기수 ${campaign.currentCount}명 · 다음 시작 예정일: ${campaign.nextStartDate}`
+    : campaign.closedMessage;
+---
+
+<section
+  id="section-hero"
+  class="relative overflow-hidden bg-navy-950 text-on-dark"
+>
+  {/* 골드 글로우 블러 — 좌상단 · 우하단 */}
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute -left-20 -top-20 h-[320px] w-[320px] rounded-full bg-gold-500 opacity-[0.12] blur-3xl"
+  ></div>
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute -bottom-24 -right-16 h-[360px] w-[360px] rounded-full bg-gold-500 opacity-[0.10] blur-3xl"
+  ></div>
+
+  <div class="container-max relative section-y lg:min-h-[90vh] lg:grid lg:content-center">
+    <div class="grid gap-sp-7 lg:grid-cols-12 lg:items-center lg:gap-sp-6">
+      {/* 좌측 텍스트 7열 */}
+      <div class="reveal lg:col-span-7">
+        <p class="eyebrow">
+          SEONAD · 스마트스토어 네이버광고 소수정예 수업
+        </p>
+
+        <h1 class="mt-sp-4 text-hero font-bold leading-[1.1] text-white">
+          한 기수 6명.<br />
+          4주 뒤, 내 손으로<br />
+          광고 계정을 돌립니다.
+        </h1>
+
+        <p class="mt-sp-5 max-w-[56ch] text-lead text-on-dark-soft">
+          VOD 2주 예습 + 줌 2주 실전.<br class="hidden sm:inline" />
+          내 계정을 켜고 함께 보는 스마트스토어 네이버광고 수업.
+        </p>
+
+        {/* 3요소 배지 줄 */}
+        <ul class="mt-sp-5 flex flex-wrap items-center gap-sp-3">
+          <li>
+            <span class="pill pill-gold">6명 한정</span>
+          </li>
+          <li>
+            <span class="pill pill-outline-gold">실계정 공개</span>
+          </li>
+          <li>
+            <span class="pill pill-outline-gold">경쟁사 보호</span>
+          </li>
+        </ul>
+
+        {/* CTA 2종 */}
+        <div class="mt-sp-6 flex flex-col gap-sp-3 sm:flex-row sm:items-center">
+          <a href={routes.free} class="btn-base btn-primary btn-lg">
+            사전 무료 강의 신청 →
+          </a>
+          <a href={routes.curriculum} class="btn-base btn-secondary btn-lg">
+            커리큘럼 자세히 보기
+          </a>
+        </div>
+
+        {/* 모집 현황 라인 */}
+        <p class="mt-sp-5 text-body-sm text-gold-300">
+          {recruitmentLine}
+        </p>
+      </div>
+
+      {/* 우측 시각 요소 5열 — 카드 스택 3장 */}
+      <div
+        class="reveal reveal-delay-2 lg:col-span-5"
+        aria-hidden="true"
+      >
+        <div class="relative mx-auto w-full max-w-[420px]">
+          <div class="flex gap-sp-4 overflow-x-auto pb-sp-2 lg:block lg:overflow-visible lg:pb-0">
+            <div class="w-[70%] shrink-0 lg:w-auto lg:translate-x-6 lg:rotate-[-3deg]">
+              <WireframeCard
+                variant="dark"
+                label="VOD · 2강"
+                caption="광고 계정 세팅 A to Z"
+                aspect="card"
+              />
+            </div>
+            <div class="-mt-0 w-[70%] shrink-0 lg:-mt-sp-5 lg:w-auto lg:translate-x-0 lg:rotate-[1deg]">
+              <WireframeCard
+                variant="dark"
+                label="ZOOM · WEEK 3"
+                caption="6명 실계정 진단 — 1회차"
+                aspect="card"
+              />
+            </div>
+            <div class="w-[70%] shrink-0 lg:-mt-sp-5 lg:ml-sp-6 lg:w-auto lg:rotate-[-2deg]">
+              <WireframeCard
+                variant="dark"
+                label="WORKBOOK v1"
+                caption="세온애드 워크북 표지"
+                aspect="card"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* FloatingCTA 노출 트리거 */}
+  <span id="hero-sentinel" class="sr-only" aria-hidden="true"></span>
+</section>

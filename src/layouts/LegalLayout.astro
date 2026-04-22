@@ -1,0 +1,317 @@
+---
+/*
+ * LegalLayout — 법적 고지 3종(terms/privacy/refund) 공통 레이아웃.
+ *
+ * 구조 (09-legal.md §0-1):
+ *   1) 페이지 히어로 — 제목 + 시행일 + 요약
+ *   2) 목차(TOC) — 데스크톱 좌측 sticky / 모바일 상단 접힘
+ *   3) 본문 — 섹션 → 조항 → 블록(p·ol·ul·table)
+ *   4) 문의처 블록 — 이메일·카카오톡 채널
+ *   5) 다른 legal 문서 링크 — 나머지 2종으로 이동
+ *
+ * 핵심 동작:
+ *   - 각 조항(id) 에 scroll-mt-[80px] 로 헤더 보정
+ *   - IntersectionObserver 로 "현재 읽는 조항" 에 해당하는 TOC 링크에
+ *     data-active="true" + aria-current="location" 자동 부여
+ *   - 인쇄 시 TOC·헤더·푸터·FloatingCTA·링크 미리보기 자동 숨김
+ *   - FloatingCTA 는 숨김 — 법적 문서 맥락과 어긋남
+ *   - robots: index, follow (noindex 플레이스홀더 아님, 법적 의무 문서)
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import BreadcrumbSchema from '@components/seo/BreadcrumbSchema.astro';
+import LegalToc from '@components/legal/LegalToc.astro';
+import LegalBlock from '@components/legal/LegalBlock.astro';
+import { brand, routes } from '@config/campaign';
+import { legalConfig, legalDocs } from '@config/legal';
+import type { LegalDocument } from '@data/legal/types';
+
+interface Props {
+  doc: LegalDocument;
+  pageDescription: string;
+}
+const { doc, pageDescription } = Astro.props as Props;
+
+const thisDocMeta = legalDocs.find((d) => d.slug === doc.slug);
+const otherDocs = legalDocs.filter((d) => d.slug !== doc.slug);
+const title = `${doc.title} | ${brand.name}`;
+const canonical = `${brand.url}${thisDocMeta?.href ?? ''}`;
+
+// terms 는 2단 구조, 나머지는 평면 — 본문 렌더 분기용
+const hasArticles = doc.sections.some((s) => s.articles && s.articles.length > 0);
+---
+
+<BaseLayout
+  title={title}
+  description={pageDescription}
+  canonical={canonical}
+  ogImage={`${brand.url}/og/legal.png`}
+  hideFloatingCTA
+>
+  <Fragment slot="head">
+    <BreadcrumbSchema
+      items={[
+        { name: brand.name, url: '/' },
+        { name: doc.title, url: thisDocMeta?.href ?? '/' },
+      ]}
+    />
+  </Fragment>
+
+  <main id="main-content" tabindex="-1" class="bg-paper-soft text-ink-900">
+    {/* 섹션 1 — 히어로 */}
+    <header class="bg-paper-soft">
+      <div class="container-max py-sp-10 lg:py-sp-14">
+        <nav aria-label="브레드크럼" class="text-caption text-ink-500">
+          <ol class="flex flex-wrap items-center gap-sp-2">
+            <li>
+              <a href={routes.home} class="hover:text-gold-600">세온애드</a>
+            </li>
+            <li aria-hidden="true">›</li>
+            <li>
+              <a href={routes.about} class="hover:text-gold-600">About</a>
+            </li>
+            <li aria-hidden="true">›</li>
+            <li aria-current="page" class="text-ink-900">{doc.title}</li>
+          </ol>
+        </nav>
+
+        <p class="mt-sp-5 text-caption font-bold tracking-[0.2em] text-gold-600 uppercase">
+          LEGAL · {brand.legalName}
+        </p>
+        <h1 class="mt-sp-3 text-h1 font-bold leading-[1.2] text-ink-900">
+          {doc.title}
+        </h1>
+
+        <dl class="mt-sp-4 flex flex-wrap gap-x-sp-5 gap-y-sp-2 text-body-sm text-ink-500">
+          <div class="flex gap-sp-2">
+            <dt class="font-semibold text-ink-700">시행일</dt>
+            <dd>{legalConfig.effectiveDate}</dd>
+          </div>
+          <div class="flex gap-sp-2">
+            <dt class="font-semibold text-ink-700">최종 개정일</dt>
+            <dd>{legalConfig.lastUpdated}</dd>
+          </div>
+        </dl>
+
+        <p class="mt-sp-5 max-w-[60ch] text-lead leading-[1.7] text-ink-700">
+          {doc.summary}
+        </p>
+      </div>
+    </header>
+
+    {/* 섹션 2·3 — 목차 + 본문 (그리드) */}
+    <div class="container-max grid gap-sp-7 pb-sp-12 lg:grid-cols-[240px_1fr] lg:gap-sp-9 lg:pb-sp-16">
+      <aside class="lg:sticky lg:top-[96px] lg:self-start lg:max-h-[calc(100vh-120px)] lg:overflow-auto lg:pr-sp-3 print:hidden">
+        <LegalToc doc={doc} />
+      </aside>
+
+      <article class="mx-auto w-full max-w-[760px] text-ink-900">
+        {doc.sections.map((section) => (
+          <section id={section.id} class="legal-section scroll-mt-[96px]">
+            {hasArticles && section.articles ? (
+              <>
+                <h2 class="mt-sp-9 text-h3 font-bold leading-[1.3] text-gold-600">
+                  {section.title}
+                </h2>
+                {section.articles.map((article) => (
+                  <section
+                    id={article.id}
+                    data-legal-article
+                    class="legal-article mt-sp-6 scroll-mt-[96px]"
+                  >
+                    <h3 class="text-h4 font-bold leading-[1.4] text-ink-900">
+                      <span class="text-gold-600">{article.title}</span>
+                    </h3>
+                    <div class="mt-sp-3 flex flex-col gap-sp-3">
+                      {article.blocks.map((block) => <LegalBlock block={block} />)}
+                    </div>
+                  </section>
+                ))}
+              </>
+            ) : (
+              <section
+                data-legal-article
+                class="legal-article mt-sp-7 scroll-mt-[96px]"
+              >
+                <h2 class="text-h4 font-bold leading-[1.4] text-gold-600">
+                  {section.title}
+                </h2>
+                <div class="mt-sp-3 flex flex-col gap-sp-3">
+                  {(section.blocks ?? []).map((block) => <LegalBlock block={block} />)}
+                </div>
+              </section>
+            )}
+          </section>
+        ))}
+
+        {doc.appendixText && (
+          <section class="mt-sp-10 border-t border-ink-300/50 pt-sp-6">
+            <p class="text-caption font-bold tracking-[0.14em] text-ink-500 uppercase">
+              부칙
+            </p>
+            <p class="mt-sp-2 text-body leading-[1.8] text-ink-700">
+              {doc.appendixText}
+            </p>
+          </section>
+        )}
+
+        {/* 섹션 4 — 문의처 블록 */}
+        <aside
+          class="mt-sp-10 rounded-md border border-ink-300/40 bg-paper p-sp-5 lg:p-sp-6"
+          aria-labelledby={`${doc.slug}-contact-heading`}
+        >
+          <h2
+            id={`${doc.slug}-contact-heading`}
+            class="text-caption font-bold tracking-[0.14em] text-ink-500 uppercase"
+          >
+            이 문서 관련 문의처
+          </h2>
+          <p class="mt-sp-3 text-body leading-[1.7] text-ink-700">
+            조항 해석·적용에 관한 문의는 아래 채널로 연락 주세요. 평일 10:00~18:00 기준 24시간 이내 답변드립니다.
+          </p>
+          <dl class="mt-sp-4 grid gap-sp-2 text-body-sm text-ink-900 sm:grid-cols-2">
+            <div>
+              <dt class="text-ink-500">운영 법인</dt>
+              <dd class="font-semibold">{brand.legalName}</dd>
+            </div>
+            <div>
+              <dt class="text-ink-500">이메일</dt>
+              <dd>
+                <a href={`mailto:${brand.email}`} class="text-gold-600 hover:text-gold-500">
+                  {brand.email}
+                </a>
+              </dd>
+            </div>
+            <div>
+              <dt class="text-ink-500">대표 연락처</dt>
+              <dd>{brand.phone}</dd>
+            </div>
+            <div>
+              <dt class="text-ink-500">업무 시간</dt>
+              <dd>{brand.businessHours}</dd>
+            </div>
+          </dl>
+          <div class="mt-sp-5 flex flex-wrap gap-sp-3">
+            <a
+              href={`${routes.about}#contact-form`}
+              class="inline-flex min-h-[44px] items-center justify-center rounded-md bg-gold-500 px-sp-5 text-body-sm font-bold text-navy-950 transition-colors duration-fast ease-standard hover:bg-gold-400"
+            >
+              문의 폼으로 이동 →
+            </a>
+            <a
+              href={`mailto:${brand.email}`}
+              class="inline-flex min-h-[44px] items-center justify-center rounded-md border border-ink-300/60 px-sp-5 text-body-sm font-semibold text-ink-900 transition-colors duration-fast ease-standard hover:bg-paper-soft"
+            >
+              이메일 보내기
+            </a>
+          </div>
+        </aside>
+
+        {/* 섹션 5 — 다른 legal 문서 */}
+        <nav
+          aria-label="다른 법적 고지 문서"
+          class="mt-sp-8 grid gap-sp-4 sm:grid-cols-2"
+        >
+          {otherDocs.map((d) => (
+            <a
+              href={d.href}
+              class="flex h-full flex-col rounded-md border border-ink-300/40 bg-paper p-sp-5 transition-colors duration-fast ease-standard hover:border-gold-500 hover:bg-paper-soft"
+            >
+              <span class="text-caption font-bold tracking-[0.14em] text-ink-500 uppercase">
+                LEGAL
+              </span>
+              <span class="mt-sp-2 text-h4 font-bold text-ink-900">
+                {d.label} →
+              </span>
+              <span class="mt-sp-2 text-body-sm leading-[1.6] text-ink-700">
+                {d.summary}
+              </span>
+            </a>
+          ))}
+        </nav>
+      </article>
+    </div>
+  </main>
+
+  {/* 스크롤 스파이: 현재 보이는 조항의 TOC 링크에 active 표시 */}
+  <script is:inline>
+    (() => {
+      const tocLinks = document.querySelectorAll('[data-toc-target]');
+      const articles = document.querySelectorAll('[data-legal-article]');
+      if (!tocLinks.length || !articles.length) return;
+
+      function setActive(id) {
+        tocLinks.forEach((link) => {
+          const target = link.getAttribute('data-toc-target');
+          const isActive = target === id;
+          link.toggleAttribute('data-active', isActive);
+          if (isActive) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        });
+      }
+
+      const io = new IntersectionObserver(
+        (entries) => {
+          // 여러 항목이 동시에 교차할 때 — 가장 위쪽에 있는(상단에 가까운) 항목을 active
+          const visible = entries
+            .filter((e) => e.isIntersecting)
+            .map((e) => ({ id: e.target.id, top: e.boundingClientRect.top }))
+            .sort((a, b) => a.top - b.top);
+          if (visible.length > 0) {
+            setActive(visible[0].id);
+          }
+        },
+        { rootMargin: '-80px 0px -60% 0px', threshold: 0 },
+      );
+      articles.forEach((el) => io.observe(el));
+
+      // 해시 이동 후 해당 링크 즉시 active 처리
+      if (location.hash) {
+        const id = location.hash.replace('#', '');
+        setActive(id);
+      }
+    })();
+  </script>
+</BaseLayout>
+
+<style is:global>
+  /* 활성 TOC 링크 — 데스크톱·모바일 공통 (aside 스티키 스파이 결과) */
+  .legal-toc [data-toc-target][data-active] {
+    color: var(--color-gold-600);
+    font-weight: 600;
+  }
+
+  /* 인쇄 친화 — 09-legal.md §0-2, §4-5 */
+  @media print {
+    .legal-toc,
+    .skip-link,
+    header[aria-label='주 메뉴'],
+    footer.gold-top-line,
+    #floating-cta {
+      display: none !important;
+    }
+    main#main-content,
+    .bg-paper-soft,
+    .bg-paper {
+      background: #fff !important;
+    }
+    .legal-article,
+    .legal-section {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .legal-table th,
+    .legal-table td {
+      border-color: #bbb !important;
+    }
+    a {
+      color: inherit !important;
+      text-decoration: none !important;
+    }
+    /* 본문 링크 뒤에 URL 표시 (도메인 내부 링크는 생략) */
+    article a[href^='http']::after {
+      content: ' (' attr(href) ')';
+      font-size: 0.85em;
+      color: #666;
+    }
+  }
+</style>

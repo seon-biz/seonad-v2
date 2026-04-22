@@ -1,0 +1,63 @@
+---
+/*
+ * 강사 소개 페이지 (/instructor) — 04-instructor.md 전체 반영
+ *
+ * - JSON-LD: Organization(BaseLayout 자동) + Person + BreadcrumbList(2단계)
+ * - 섹션 1~9 순서대로 조립
+ * - §12-10: PersonSchema 의 name 은 "세온애드 코치" 고정 (실명 금지)
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PersonSchema from '@components/seo/PersonSchema.astro';
+import BreadcrumbSchema from '@components/seo/BreadcrumbSchema.astro';
+import { brand } from '@config/campaign';
+
+import Section01Hero from '@components/sections/instructor/Section01Hero.astro';
+import Section02NoFaceReason from '@components/sections/instructor/Section02NoFaceReason.astro';
+import Section03Timeline from '@components/sections/instructor/Section03Timeline.astro';
+import Section04PreviewStats from '@components/sections/instructor/Section04PreviewStats.astro';
+import Section05Philosophy from '@components/sections/instructor/Section05Philosophy.astro';
+import Section06BrandEcosystem from '@components/sections/instructor/Section06BrandEcosystem.astro';
+import Section07Touchpoints from '@components/sections/instructor/Section07Touchpoints.astro';
+import Section08NotForYou from '@components/sections/instructor/Section08NotForYou.astro';
+import Section09FinalCta from '@components/sections/instructor/Section09FinalCta.astro';
+
+const title = `강사 | 7년, 30여 개 업체 1:1 코칭 경험 | ${brand.name}`;
+const description =
+  '2019년부터 쇼핑몰·스마트스토어 대표를 1:1 코칭해온 세온비즈 대표. 실제 집행한 4개 업체 광고 성과를 사전 무료 강의에서 공개.';
+const ogDescription =
+  '대행사 대표가 아니라, 대표님 옆에서 같이 광고를 만드는 코치.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage={`${brand.url}/og/instructor.png`}
+>
+  <Fragment slot="head">
+    <meta
+      name="keywords"
+      content="네이버광고 코치, 스마트스토어 광고 코치, 세온비즈 대표, 스마트스토어 광고 강사"
+    />
+    <meta property="og:description" content={ogDescription} />
+
+    <PersonSchema />
+    <BreadcrumbSchema
+      items={[
+        { name: brand.name, url: '/' },
+        { name: '강사', url: '/instructor' },
+      ]}
+    />
+  </Fragment>
+
+  <main id="main-content" tabindex="-1">
+    <Section01Hero />
+    <Section02NoFaceReason />
+    <Section03Timeline />
+    <Section04PreviewStats />
+    <Section05Philosophy />
+    <Section06BrandEcosystem />
+    <Section07Touchpoints />
+    <Section08NotForYou />
+    <Section09FinalCta />
+  </main>
+</BaseLayout>

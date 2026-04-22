@@ -1,0 +1,105 @@
+---
+/*
+ * 02-main-page.md §7 — 섹션 6 줌 2회 상세 (실계정 공개의 의미)
+ * 배경: navy-900 / 목적: 줌 2회가 수업의 핵심인 이유 설득
+ * 페르소나 2 이탈 방지 장치: 4주차 줌 카피 "왜 망했는지 그룹 진단"
+ */
+
+const zoomCards = [
+  {
+    label: 'WEEK 3 · ZOOM LIVE 120분',
+    title: '계정 세팅 검수 + 첫 광고 발행',
+    lines: [
+      {
+        time: '60분',
+        desc:
+          '계정 세팅 검수 — 비즈센터·전환추적·계정 구조를 6명 화면 공유로 순회 점검',
+      },
+      {
+        time: '60분',
+        desc:
+          '첫 쇼핑검색광고 발행 — "이 상품을 이 입찰가로" 실시간 피드백, 6명 전원 캠페인 ON',
+      },
+    ],
+    task: '7일간 캠페인 운영 + 지정 지표 스크린샷 제출',
+  },
+  {
+    label: 'WEEK 4 · ZOOM LIVE 120분',
+    title: '7일 성과 진단 + 파워링크 발행 + 30일 플랜',
+    lines: [
+      {
+        time: '60분',
+        desc:
+          '1주차 성과 그룹 진단 — 6명 각자 7일 데이터 공유, 입찰·제외·예산 의사결정 실시간',
+      },
+      { time: '60분', desc: '파워링크 발행 + 강의 이후 30일 계획 수립' },
+    ],
+    task: undefined,
+  },
+];
+---
+
+<section id="section-zoom" class="bg-navy-900 text-on-dark">
+  <div class="container-max section-y">
+    <div class="mx-auto max-w-[42ch] text-center">
+      <h2 class="text-h2 font-bold text-white">
+        줌 2회.<br />
+        여기서 수업의 80%가 일어납니다.
+      </h2>
+      <p class="mt-sp-4 text-lead text-on-dark-soft">
+        VOD는 예습. 진짜 변화는 6명이 각자 계정을 열고 피드백을 주고받을 때 시작됩니다.
+      </p>
+    </div>
+
+    {/* 2회차 카드 병렬 */}
+    <ul class="mt-sp-7 grid grid-cols-1 gap-sp-5 lg:grid-cols-2">
+      {
+        zoomCards.map((card) => (
+          <li class="card-dark gold-top-line-2 flex flex-col gap-sp-4 p-sp-5 md:p-sp-6">
+            <p class="text-caption font-semibold tracking-eyebrow text-gold-400">
+              {card.label}
+            </p>
+            <h3 class="text-h3 font-semibold text-white">{card.title}</h3>
+
+            <ol class="flex flex-col gap-sp-3">
+              {card.lines.map((line) => (
+                <li class="flex items-start gap-sp-3 border-l border-gold-500/40 pl-sp-4">
+                  <span class="text-body-sm font-semibold text-gold-300">
+                    {line.time}
+                  </span>
+                  <span class="text-body text-on-dark-soft">{line.desc}</span>
+                </li>
+              ))}
+            </ol>
+
+            {card.task && (
+              <div class="mt-sp-2 rounded-md border border-gold-500/30 bg-navy-950/40 p-sp-3 text-body-sm text-gold-300">
+                과제 · {card.task}
+              </div>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+
+    {/* 하단 강조 박스 */}
+    <ul class="mt-sp-6 gold-top-line rounded-md bg-navy-800 p-sp-5 md:p-sp-6">
+      {
+        [
+          '줌 다시보기는 기수 내 무한 재생 (개인정보 편집본)',
+          '6명만 접근 · 외부 공유 금지',
+          '경쟁사는 같은 기수에 배정되지 않음',
+        ].map((line) => (
+          <li class="flex items-start gap-sp-3 py-sp-1 text-body text-on-dark">
+            <span class="mt-[3px] text-gold-400" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M2 7 L6 11 L12 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span>{line}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

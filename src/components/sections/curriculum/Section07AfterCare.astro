@@ -1,0 +1,150 @@
+---
+/*
+ * 03-curriculum.md §8 — 섹션 7 애프터케어
+ * 앵커: #aftercare / 배경: paper-soft
+ */
+
+const kakaoScope = [
+  '입찰가 조정 판단',
+  '키워드 추가·제외 결정',
+  '캠페인·그룹 구조 조정',
+  '성과 지표 해석',
+  '상품 추가 시 광고 확장 방향',
+];
+
+const reviewDetails = [
+  '3개월간 운영한 계정 점검',
+  '혼자 돌리면서 흔들린 지점 재조정',
+  '다음 3개월 운영 방향 수립',
+];
+---
+
+<section
+  id="aftercare"
+  class="bg-paper-soft text-ink-900 scroll-mt-[80px]"
+  aria-labelledby="aftercare-heading"
+>
+  <div class="container-max section-y">
+    <header class="mx-auto max-w-[36ch] text-center">
+      <h2
+        id="aftercare-heading"
+        class="text-h2 font-bold text-ink-900"
+      >
+        4주가 끝나도<br />
+        3개월은 계속 따라옵니다.
+      </h2>
+    </header>
+
+    <ul class="mt-sp-7 grid grid-cols-1 gap-sp-5 md:grid-cols-2">
+      {/* 단톡방 */}
+      <li class="flex flex-col gap-sp-4 rounded-lg border border-ink-300/40 bg-paper p-sp-5 shadow-xs md:p-sp-6">
+        <span
+          aria-hidden="true"
+          class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-gold-500 text-gold-600"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M3 5 C3 3.5 4 2.5 5.5 2.5 H14.5 C16 2.5 17 3.5 17 5 V12 C17 13.5 16 14.5 14.5 14.5 H9 L5 17.5 V14.5 H5.5 C4 14.5 3 13.5 3 12 Z" stroke="currentColor" stroke-width="1.4" fill="none" />
+          </svg>
+        </span>
+        <h3 class="text-h4 font-semibold">카카오톡 단톡방 질문 응대</h3>
+        <dl class="flex flex-col gap-sp-2 text-body">
+          <div class="flex gap-sp-3">
+            <dt class="w-[72px] shrink-0 text-caption font-semibold uppercase tracking-eyebrow text-ink-500">
+              기간
+            </dt>
+            <dd class="text-ink-700">강의 시작일 +3개월 애프터케어</dd>
+          </div>
+          <div class="flex gap-sp-3">
+            <dt class="w-[72px] shrink-0 text-caption font-semibold uppercase tracking-eyebrow text-ink-500">
+              응답자
+            </dt>
+            <dd class="text-ink-700">세온애드 코치 (직접 응대)</dd>
+          </div>
+        </dl>
+        <div>
+          <p class="text-caption font-semibold uppercase tracking-eyebrow text-gold-600">
+            허용 질문 범위
+          </p>
+          <ul class="mt-sp-3 flex flex-col gap-sp-2 text-body text-ink-700">
+            {
+              kakaoScope.map((k) => (
+                <li class="flex gap-sp-3">
+                  <span
+                    aria-hidden="true"
+                    class="mt-[8px] h-[6px] w-[6px] shrink-0 rounded-full bg-gold-500"
+                  />
+                  <span>{k}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </li>
+
+      {/* 점검 줌 */}
+      <li class="flex flex-col gap-sp-4 rounded-lg border border-ink-300/40 bg-paper p-sp-5 shadow-xs md:p-sp-6">
+        <span
+          aria-hidden="true"
+          class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-gold-500 text-gold-600"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="2" y="4" width="16" height="11" rx="1.5" stroke="currentColor" stroke-width="1.4" />
+            <line x1="6" y1="18" x2="14" y2="18" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+            <polygon points="9,8 13,10 9,12" fill="currentColor" />
+          </svg>
+        </span>
+        <h3 class="text-h4 font-semibold">3개월 시점 점검 줌</h3>
+        <dl class="flex flex-col gap-sp-2 text-body">
+          <div class="flex gap-sp-3">
+            <dt class="w-[72px] shrink-0 text-caption font-semibold uppercase tracking-eyebrow text-ink-500">
+              시점
+            </dt>
+            <dd class="text-ink-700">강의 종료 3개월 시점</dd>
+          </div>
+          <div class="flex gap-sp-3">
+            <dt class="w-[72px] shrink-0 text-caption font-semibold uppercase tracking-eyebrow text-ink-500">
+              시간
+            </dt>
+            <dd class="text-ink-700">1시간</dd>
+          </div>
+          <div class="flex gap-sp-3">
+            <dt class="w-[72px] shrink-0 text-caption font-semibold uppercase tracking-eyebrow text-ink-500">
+              형태
+            </dt>
+            <dd class="text-ink-700">기수당 1회, 그룹 진행 (6명 모두 참여)</dd>
+          </div>
+        </dl>
+        <div>
+          <p class="text-caption font-semibold uppercase tracking-eyebrow text-gold-600">
+            내용
+          </p>
+          <ul class="mt-sp-3 flex flex-col gap-sp-2 text-body text-ink-700">
+            {
+              reviewDetails.map((k) => (
+                <li class="flex gap-sp-3">
+                  <span
+                    aria-hidden="true"
+                    class="mt-[8px] h-[6px] w-[6px] shrink-0 rounded-full bg-gold-500"
+                  />
+                  <span>{k}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </li>
+    </ul>
+
+    {/* 기간 고지 박스 — 지침 통일안 */}
+    <aside class="mx-auto mt-sp-6 max-w-[760px] rounded-md bg-navy-900 p-sp-5 text-on-dark md:p-sp-6">
+      <p class="text-caption font-semibold tracking-eyebrow text-gold-300">
+        애프터케어 기간 안내
+      </p>
+      <p class="mt-sp-3 text-body text-on-dark-soft">
+        단톡방과 점검 줌은 <strong class="text-white">강의 시작일 기준 3개월</strong>까지 제공됩니다.<br />
+        (예: 2026년 1월 1일 강의 시작 → 2026년 4월 1일 단톡방 종료, 동시에 점검 줌 진행)<br />
+        강의 수강 속도와 관계없이 동일 기준이 적용됩니다.
+      </p>
+    </aside>
+  </div>
+</section>

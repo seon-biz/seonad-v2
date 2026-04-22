@@ -1,0 +1,192 @@
+---
+/*
+ * 02-main-page.md §11 — 섹션 10 경쟁 비교 테이블
+ * 배경: paper / 목적: 한 표로 납득 + GEO(AI 인용) 최적화
+ * 모바일: 세온애드 열 우선 표시 + "다른 선택지와 비교" 토글로 확장
+ * 페르소나 3 이탈 방지 장치: "외주 상태 지속" 비교 칸
+ */
+
+const rows = [
+  {
+    label: '가격',
+    others: [
+      { name: '대형 강의 플랫폼', v: '15~40만 원' },
+      { name: '유튜브 독학', v: '무료(시간 비용)' },
+      { name: '광고 대행사', v: '월 30~100만 원+' },
+      { name: '안 하기', v: '0' },
+    ],
+    seonad: '70만 원 (일회성)',
+  },
+  {
+    label: '정원',
+    others: [
+      { name: '대형 강의 플랫폼', v: '수백~수천 명' },
+      { name: '유튜브 독학', v: '—' },
+      { name: '광고 대행사', v: '1:1' },
+      { name: '안 하기', v: '—' },
+    ],
+    seonad: '6명',
+  },
+  {
+    label: '내 계정 점검',
+    others: [
+      { name: '대형 강의 플랫폼', v: '없음' },
+      { name: '유튜브 독학', v: '없음' },
+      { name: '광고 대행사', v: '대행사가 운영' },
+      { name: '안 하기', v: '—' },
+    ],
+    seonad: '있음',
+  },
+  {
+    label: '실시간 피드백',
+    others: [
+      { name: '대형 강의 플랫폼', v: '없음' },
+      { name: '유튜브 독학', v: '없음' },
+      { name: '광고 대행사', v: '리포트만' },
+      { name: '안 하기', v: '—' },
+    ],
+    seonad: '줌 그룹 코칭',
+  },
+  {
+    label: '강의 후 지원',
+    others: [
+      { name: '대형 강의 플랫폼', v: '없음' },
+      { name: '유튜브 독학', v: '없음' },
+      { name: '광고 대행사', v: '맡기는 동안만' },
+      { name: '안 하기', v: '—' },
+    ],
+    seonad: '3개월 단톡방 + 점검 줌',
+  },
+  {
+    label: '경쟁사 보호',
+    others: [
+      { name: '대형 강의 플랫폼', v: '없음' },
+      { name: '유튜브 독학', v: '—' },
+      { name: '광고 대행사', v: '이해상충 가능' },
+      { name: '안 하기', v: '—' },
+    ],
+    seonad: '있음 (선 신청자 우선)',
+  },
+  {
+    label: '최종 결과',
+    others: [
+      { name: '대형 강의 플랫폼', v: '이론 이해' },
+      { name: '유튜브 독학', v: '파편적 지식' },
+      { name: '광고 대행사', v: '외주 상태 지속' },
+      { name: '안 하기', v: '매출 정체' },
+    ],
+    seonad: '직접 운영 가능',
+  },
+];
+
+const otherHeaders = rows[0].others.map((o) => o.name);
+---
+
+<section id="section-comparison" class="bg-paper text-ink-900">
+  <div class="container-max section-y">
+    <div class="mx-auto max-w-[40ch] text-center">
+      <h2 class="text-h2 font-bold">다른 선택지와 비교하면.</h2>
+      <p class="mt-sp-3 text-body text-ink-500">
+        특정 브랜드가 아닌 유형별 비교입니다.
+      </p>
+    </div>
+
+    {/* 데스크톱 — 전체 비교 테이블 */}
+    <div class="mt-sp-7 hidden overflow-x-auto lg:block">
+      <table class="w-full table-fixed border-collapse text-body">
+        <thead>
+          <tr>
+            <th class="w-[140px] border-b border-ink-300/40 bg-paper-soft px-sp-4 py-sp-4 text-left text-caption font-semibold uppercase tracking-eyebrow text-ink-500">
+              항목
+            </th>
+            {otherHeaders.map((name) => (
+              <th class="border-b border-ink-300/40 px-sp-4 py-sp-4 text-left text-body-sm font-semibold text-ink-500">
+                {name}
+              </th>
+            ))}
+            <th class="border-l-2 border-r-2 border-t-2 border-gold-500 bg-navy-900 px-sp-4 py-sp-4 text-left text-body-sm font-semibold text-gold-300">
+              세온애드
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            rows.map((row, idx) => (
+              <tr>
+                <th scope="row" class="border-b border-ink-300/30 bg-paper-soft px-sp-4 py-sp-4 text-left text-body-sm font-semibold text-ink-900">
+                  {row.label}
+                </th>
+                {row.others.map((o) => (
+                  <td class="border-b border-ink-300/30 px-sp-4 py-sp-4 text-body text-ink-700">
+                    {o.v}
+                  </td>
+                ))}
+                <td
+                  class={`border-l-2 border-r-2 bg-navy-900 px-sp-4 py-sp-4 text-body font-semibold text-white ${
+                    idx === rows.length - 1 ? 'border-b-2' : ''
+                  } border-gold-500`}
+                >
+                  {row.seonad}
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    {/* 모바일 — 세온애드 열 먼저 + 토글로 타 선택지 확장 */}
+    <div class="mt-sp-7 lg:hidden">
+      <div class="gold-top-line-2 rounded-lg bg-navy-900 p-sp-5 text-on-dark">
+        <p class="text-caption font-semibold tracking-eyebrow text-gold-400">
+          세온애드
+        </p>
+        <dl class="mt-sp-3 divide-y divide-gold-500/20">
+          {
+            rows.map((row) => (
+              <div class="flex justify-between gap-sp-4 py-sp-3">
+                <dt class="text-body-sm text-on-dark-soft">{row.label}</dt>
+                <dd class="text-right text-body font-semibold text-white">
+                  {row.seonad}
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+
+      <details class="group mt-sp-4 rounded-md border border-ink-300/40 bg-paper-soft">
+        <summary class="flex cursor-pointer select-none items-center justify-between px-sp-4 py-sp-4 text-body font-semibold text-ink-900">
+          다른 선택지와 비교
+          <span
+            aria-hidden="true"
+            class="transition-transform duration-base group-open:rotate-45"
+          >
+            +
+          </span>
+        </summary>
+        <div class="space-y-sp-4 border-t border-ink-300/30 p-sp-4">
+          {
+            otherHeaders.map((name, oIdx) => (
+              <div class="rounded-md bg-paper p-sp-4">
+                <p class="text-caption font-semibold uppercase tracking-eyebrow text-ink-500">
+                  {name}
+                </p>
+                <dl class="mt-sp-2 divide-y divide-ink-300/30">
+                  {rows.map((row) => (
+                    <div class="flex justify-between gap-sp-3 py-sp-2">
+                      <dt class="text-body-sm text-ink-500">{row.label}</dt>
+                      <dd class="text-right text-body-sm text-ink-700">
+                        {row.others[oIdx].v}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            ))
+          }
+        </div>
+      </details>
+    </div>
+  </div>
+</section>

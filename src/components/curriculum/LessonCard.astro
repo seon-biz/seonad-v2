@@ -1,0 +1,165 @@
+---
+/*
+ * LessonCard — /curriculum VOD 강의 카드 공용 컴포넌트
+ *
+ * 03-curriculum.md §14-3에 따라 아코디언이 아니라 전체 공개 렌더.
+ * SEO·GEO 최적화를 위해 목표·다루는 내용·실습 결과가 모두 크롤 가능한
+ * 순수 텍스트로 문서 트리에 존재해야 한다.
+ *
+ * surface:
+ *  - 'paper'      : WEEK 2 등 paper-soft 섹션 위 카드 (흰색 배경)
+ *  - 'paper-soft' : WEEK 1 등 paper 섹션 위 카드 (베이지 톤)
+ *  - 'navy-dark'  : WEEK 2 부록 카드 — 풀폭 다크 강조
+ *
+ * highlight=true 시 §14-4 에 따라 2px 골드 테두리로 "화면 따라하기" 강조.
+ */
+
+interface Props {
+  no: string;
+  minutes: string;
+  part: string;
+  title: string;
+  goal: string;
+  topics: string[];
+  surface?: 'paper' | 'paper-soft' | 'navy-dark';
+  handsOn?: boolean;
+  highlight?: boolean;
+  footNote?: string;
+}
+
+const {
+  no,
+  minutes,
+  part,
+  title,
+  goal,
+  topics,
+  surface = 'paper',
+  handsOn = false,
+  highlight = false,
+  footNote,
+} = Astro.props;
+
+const surfaceClass =
+  surface === 'navy-dark'
+    ? 'bg-navy-900 text-on-dark border-gold-500/30'
+    : surface === 'paper-soft'
+      ? 'bg-paper-soft text-ink-900 border-ink-300/40'
+      : 'bg-paper text-ink-900 border-ink-300/40';
+
+const borderClass = highlight
+  ? 'border-2 border-gold-500 shadow-gold-ring'
+  : 'border';
+
+const badgePartClass =
+  surface === 'navy-dark'
+    ? 'bg-gold-500/15 text-gold-300'
+    : 'bg-gold-100 text-gold-600';
+
+const badgeHandsOnClass =
+  surface === 'navy-dark' ? 'text-gold-300' : 'text-gold-600';
+
+const goalBoxClass =
+  surface === 'navy-dark'
+    ? 'bg-navy-800/80 border-gold-500/30 text-on-dark'
+    : surface === 'paper-soft'
+      ? 'bg-paper border-gold-500/25 text-ink-900'
+      : 'bg-paper-soft border-gold-500/25 text-ink-900';
+
+const topicTextClass =
+  surface === 'navy-dark' ? 'text-on-dark-soft' : 'text-ink-700';
+---
+
+<article
+  class={`rounded-lg p-sp-5 md:p-sp-6 ${surfaceClass} ${borderClass}`}
+>
+  {/* 카드 헤더 — 배지 줄 */}
+  <div class="flex flex-wrap items-center gap-sp-2 text-caption font-semibold tracking-caption">
+    <span
+      class={
+        surface === 'navy-dark'
+          ? 'text-white'
+          : 'text-ink-900'
+      }
+    >
+      {no}
+    </span>
+    <span aria-hidden="true" class="text-ink-300">·</span>
+    <span
+      class={
+        surface === 'navy-dark' ? 'text-on-dark-soft' : 'text-ink-500'
+      }
+    >
+      {minutes}
+    </span>
+    <span aria-hidden="true" class="text-ink-300">·</span>
+    <span class={`rounded-xs px-sp-2 py-[2px] ${badgePartClass}`}>
+      {part}
+    </span>
+    {handsOn && (
+      <span class={`inline-flex items-center gap-sp-1 ${badgeHandsOnClass}`}>
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 10 10"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <polygon points="2,1 9,5 2,9" />
+        </svg>
+        화면 따라하기
+      </span>
+    )}
+  </div>
+
+  {/* 제목 */}
+  <h3
+    class={`mt-sp-3 text-h3 font-semibold ${
+      surface === 'navy-dark' ? 'text-white' : 'text-ink-900'
+    }`}
+  >
+    {title}
+  </h3>
+
+  {/* 강의 목표 박스 */}
+  <div class={`mt-sp-4 rounded-md border p-sp-4 ${goalBoxClass}`}>
+    <p class="text-caption font-semibold tracking-eyebrow text-gold-500">
+      이 강의가 끝나면
+    </p>
+    <p class="mt-sp-2 text-body">
+      {goal}
+    </p>
+  </div>
+
+  {/* 다루는 내용 */}
+  <p
+    class={`mt-sp-5 text-caption font-semibold uppercase tracking-eyebrow ${
+      surface === 'navy-dark' ? 'text-gold-300' : 'text-gold-600'
+    }`}
+  >
+    다루는 내용
+  </p>
+  <ul class="mt-sp-3 flex flex-col gap-sp-2">
+    {
+      topics.map((t) => (
+        <li class={`flex items-start gap-sp-3 text-body ${topicTextClass}`}>
+          <span
+            aria-hidden="true"
+            class="mt-[9px] h-[6px] w-[6px] shrink-0 rounded-full bg-gold-500"
+          />
+          <span set:html={t.replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold">$1</strong>')} />
+        </li>
+      ))
+    }
+  </ul>
+
+  {footNote && (
+    <p
+      class={`mt-sp-5 text-caption ${
+        surface === 'navy-dark' ? 'text-gold-400' : 'text-ink-500'
+      }`}
+    >
+      {footNote}
+    </p>
+  )}
+</article>

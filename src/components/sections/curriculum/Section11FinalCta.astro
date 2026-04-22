@@ -1,0 +1,46 @@
+---
+/*
+ * 03-curriculum.md §12 — 섹션 11 최종 CTA
+ * 배경: navy-950 / 커리큘럼을 다 본 사람을 결제 또는 리드로 전환
+ */
+import { campaign, routes } from '@config/campaign';
+
+const recruitmentLine =
+  campaign.status === 'recruiting'
+    ? `현재 기수 ${campaign.currentCount}명 · 다음 시작 예정일: ${campaign.nextStartDate}`
+    : campaign.closedMessage;
+---
+
+<section
+  id="curriculum-final-cta"
+  class="relative overflow-hidden bg-navy-950 text-on-dark"
+>
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold-500 opacity-[0.10] blur-3xl"
+  ></div>
+
+  <div class="container-max section-y relative text-center">
+    <h2 class="text-h1 font-bold leading-[1.2] text-white">
+      이 4주를, 내 상품으로 시작하세요.
+    </h2>
+    <p class="mt-sp-5 text-lead text-gold-300">
+      완전 초보 비즈센터 가입부터<br />
+      내 손으로 캠페인을 켜는 4주차까지.<br />
+      한 기수 6명이 함께 갑니다.
+    </p>
+
+    <div class="mt-sp-7 flex flex-col items-center justify-center gap-sp-3 sm:flex-row">
+      <a href={routes.free} class="btn-base btn-primary btn-lg">
+        사전 무료 강의 신청 →
+      </a>
+      <a href={routes.apply} class="btn-base btn-secondary btn-lg">
+        수강 신청하기 →
+      </a>
+    </div>
+
+    <p class="mt-sp-6 text-body-sm text-gold-300">
+      {recruitmentLine}
+    </p>
+  </div>
+</section>

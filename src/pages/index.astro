@@ -1,0 +1,67 @@
+---
+/*
+ * 메인 판매페이지 (/)
+ *
+ * - 02-main-page.md §0 메타 태그 반영
+ * - JSON-LD 스키마 3종: Organization(BaseLayout 자동) / Course / BreadcrumbList
+ * - 섹션 1~14 순서대로 컴포넌트 조립 (4단계 뼈대, 5단계에서 카피 주입)
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import CourseSchema from '@components/seo/CourseSchema.astro';
+import BreadcrumbSchema from '@components/seo/BreadcrumbSchema.astro';
+import { brand } from '@config/campaign';
+
+import Section01Hero from '@components/sections/home/Section01Hero.astro';
+import Section02Problem from '@components/sections/home/Section02Problem.astro';
+import Section03Intro from '@components/sections/home/Section03Intro.astro';
+import Section04CurriculumSummary from '@components/sections/home/Section04CurriculumSummary.astro';
+import Section05VodPreview from '@components/sections/home/Section05VodPreview.astro';
+import Section06ZoomDetail from '@components/sections/home/Section06ZoomDetail.astro';
+import Section07AfterCare from '@components/sections/home/Section07AfterCare.astro';
+import Section08Materials from '@components/sections/home/Section08Materials.astro';
+import Section09Instructor from '@components/sections/home/Section09Instructor.astro';
+import Section10Comparison from '@components/sections/home/Section10Comparison.astro';
+import Section11Pricing from '@components/sections/home/Section11Pricing.astro';
+import Section12Refund from '@components/sections/home/Section12Refund.astro';
+import Section13Faq from '@components/sections/home/Section13Faq.astro';
+import Section14FinalCta from '@components/sections/home/Section14FinalCta.astro';
+
+const title = `${brand.name} | 한 기수 6명. 4주 뒤, 내 손으로 광고 계정을 돌립니다`;
+const description =
+  'VOD 2주 예습 + 줌 2주 실전. 내 계정을 켜고 함께 보는 스마트스토어 네이버광고 수업. 쇼핑검색광고·파워링크·브랜드검색 완전 초보 기준. 사전 무료 강의 신청 가능.';
+const ogDescription =
+  'VOD 2주 + 줌 2주. 실계정 공개 기반 그룹 코칭. 스마트스토어 셀러를 위한 네이버광고 실전 수업.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage={`${brand.url}/og/main.png`}
+>
+  <Fragment slot="head">
+    <meta
+      name="keywords"
+      content="스마트스토어 네이버광고 강의, 네이버 쇼핑검색광고 강의, 파워링크 강의, 스마트스토어 광고 배우기, 네이버광고 소수정예 수업"
+    />
+    <meta property="og:description" content={ogDescription} />
+    <CourseSchema description="VOD 2주 + 줌 2주. 한 기수 6명. 실계정 공개 기반 그룹 코칭." />
+    <BreadcrumbSchema items={[{ name: brand.name, url: '/' }]} />
+  </Fragment>
+
+      <main id="main-content" tabindex="-1">
+    <Section01Hero />
+    <Section02Problem />
+    <Section03Intro />
+    <Section04CurriculumSummary />
+    <Section05VodPreview />
+    <Section06ZoomDetail />
+    <Section07AfterCare />
+    <Section08Materials />
+    <Section09Instructor />
+    <Section10Comparison />
+    <Section11Pricing />
+    <Section12Refund />
+    <Section13Faq />
+    <Section14FinalCta />
+  </main>
+</BaseLayout>

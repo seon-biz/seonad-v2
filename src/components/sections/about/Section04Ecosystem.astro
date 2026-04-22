@@ -1,0 +1,196 @@
+---
+/*
+ * /about Section 04 — 세온 브랜드 생태계 (08-about.md §5)
+ * paper · 3카드(세온비즈 / 세온애드[현재] / 세온코더) + 공통 타깃 박스 + 관계 설명 박스.
+ * sameAs 는 OrganizationSchema 가 자매 브랜드 URL 을 자동 주입.
+ *
+ * 설계 의도:
+ *  - 카드 높이는 grid + h-full 로 강제 동일 (§11-3 카드 일관성)
+ *  - SEONAD 카드만 골드 테두리 2px + 현재 페이지 배지 (카드 자체는 클릭 불가)
+ *  - 외부 링크 카드는 target=_blank rel=noopener noreferrer (§11-6 접근성)
+ */
+import { routes } from '@config/campaign';
+
+type Card = {
+  key: 'seonbiz' | 'seonad' | 'seoncoder';
+  nameEn: string;
+  nameKo: string;
+  service: string;
+  startYear: string;
+  problem: string;
+  relation: string;
+  href: string;
+  linkLabel: string;
+  external: boolean;
+  current: boolean;
+};
+
+const cards: Card[] = [
+  {
+    key: 'seonbiz',
+    nameEn: 'SEONBIZ',
+    nameKo: '세온비즈',
+    service: '온라인 마케팅 1:1 코칭',
+    startYear: '2019년',
+    problem: '"사업 전반의 마케팅 전략을 함께 설계하고 싶다"',
+    relation:
+      '세온애드의 모태. 이 브랜드의 7년 코칭 경험에서 네이버광고만 꺼내 만든 게 세온애드.',
+    href: 'https://seonbiz.co',
+    linkLabel: 'seonbiz.co →',
+    external: true,
+    current: false,
+  },
+  {
+    key: 'seonad',
+    nameEn: 'SEONAD',
+    nameKo: '세온애드',
+    service: '스마트스토어 네이버광고 4주 수업',
+    startYear: '2026년',
+    problem: '"네이버광고를 내 손으로 돌릴 수 있게 되고 싶다"',
+    relation:
+      '세온비즈에서 가장 자주 받은 질문에 답하기 위해 독립시킨 수업.',
+    href: routes.home,
+    linkLabel: '메인으로 →',
+    external: false,
+    current: true,
+  },
+  {
+    key: 'seoncoder',
+    nameEn: 'SEONCODER',
+    nameKo: '세온코더',
+    service: '대표 직접 코딩 솔루션',
+    startYear: '2023년',
+    problem: '"개발자 없이 내 스토어에 필요한 도구를 만들고 싶다"',
+    relation:
+      '세온애드와 완전 분리된 별개 브랜드. 같은 타깃을 다른 각도로 지원.',
+    href: 'https://seoncoder.co',
+    linkLabel: 'seoncoder.co →',
+    external: true,
+    current: false,
+  },
+];
+---
+
+<section class="bg-paper text-ink-900">
+  <div class="container-max py-sp-14 lg:py-sp-18">
+    <div class="mx-auto max-w-[60ch] text-center">
+      <h2 class="text-h2 font-bold leading-[1.3] text-ink-900 reveal">
+        세온 브랜드 생태계.
+      </h2>
+      <p class="mt-sp-4 text-body text-ink-500">
+        주식회사 티오엠이 운영하는 3개 브랜드는 타깃은 같지만
+        서비스는 독립적입니다.
+      </p>
+    </div>
+
+    {/* 공통 타깃 박스 */}
+    <div
+      class="mx-auto mt-sp-8 max-w-[var(--container-narrow)] rounded-md bg-paper-soft p-sp-5 lg:p-sp-6 reveal"
+    >
+      <p class="text-caption font-bold tracking-[0.18em] text-ink-500 uppercase">
+        공통 타깃 · 스마트스토어 대표
+      </p>
+      <p class="mt-sp-3 text-body leading-[1.7] text-ink-700">
+        세온비즈, 세온애드, 세온코더는 모두 “스마트스토어를 직접 운영하는
+        대표”를 대상으로 합니다. 하지만 각자 다른 문제를 해결합니다.
+      </p>
+    </div>
+
+    {/* 3 브랜드 카드 */}
+    <ul class="mx-auto mt-sp-8 grid max-w-[var(--container-wide)] gap-sp-5 lg:grid-cols-3 lg:gap-sp-5">
+      {
+        cards.map((c) => (
+          <li class="reveal h-full">
+            <article
+              class:list={[
+                'relative flex h-full flex-col rounded-md bg-cream p-sp-6 lg:p-sp-7',
+                c.current
+                  ? 'border-2 border-gold-500 shadow-[0_8px_32px_rgba(0,0,0,0.08)]'
+                  : 'border border-ink-300/50',
+              ]}
+            >
+              {c.current && (
+                <span class="absolute -top-3 left-sp-6 inline-flex items-center rounded-sm bg-gold-500 px-sp-3 py-[6px] text-caption font-bold tracking-wide text-navy-950">
+                  현재 페이지
+                </span>
+              )}
+              <header>
+                <p class="text-caption font-bold tracking-[0.18em] text-gold-600">
+                  {c.nameEn}
+                </p>
+                <h3 class="mt-sp-1 text-h3 font-bold text-ink-900">
+                  {c.nameKo}
+                </h3>
+              </header>
+              <dl class="mt-sp-4 space-y-sp-3 text-body-sm text-ink-700">
+                <div>
+                  <dt class="inline text-ink-500">서비스 · </dt>
+                  <dd class="inline font-semibold text-ink-900">{c.service}</dd>
+                </div>
+                <div>
+                  <dt class="inline text-ink-500">시작 · </dt>
+                  <dd class="inline text-ink-900">{c.startYear}</dd>
+                </div>
+                <div>
+                  <dt class="text-ink-500">해결</dt>
+                  <dd class="mt-sp-1 text-ink-900">{c.problem}</dd>
+                </div>
+                <div>
+                  <dt class="text-ink-500">관계</dt>
+                  <dd class="mt-sp-1 leading-[1.6] text-ink-700">
+                    {c.relation}
+                  </dd>
+                </div>
+              </dl>
+              <div class="mt-auto pt-sp-5">
+                {c.external ? (
+                  <a
+                    href={c.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex min-h-[44px] items-center text-body font-semibold text-gold-600 transition-colors duration-fast ease-standard hover:text-gold-500"
+                  >
+                    {c.linkLabel}
+                  </a>
+                ) : (
+                  <a
+                    href={c.href}
+                    aria-current={c.current ? 'page' : undefined}
+                    class="inline-flex min-h-[44px] items-center text-body font-semibold text-gold-600 transition-colors duration-fast ease-standard hover:text-gold-500"
+                  >
+                    {c.linkLabel}
+                  </a>
+                )}
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+
+    {/* 관계 설명 박스 */}
+    <div
+      class="mx-auto mt-sp-8 max-w-[var(--container-narrow)] rounded-md bg-cream p-sp-5 lg:p-sp-6 reveal"
+    >
+      <h3 class="text-caption font-bold tracking-[0.18em] text-ink-500 uppercase">
+        3개 브랜드의 관계
+      </h3>
+      <ul class="mt-sp-3 space-y-sp-2 text-body leading-[1.7] text-ink-700">
+        <li>
+          <span class="font-semibold text-ink-900">동일 ·</span> 운영 법인 (주식회사 티오엠)
+        </li>
+        <li>
+          <span class="font-semibold text-ink-900">동일 ·</span> 타깃 (스마트스토어 대표)
+        </li>
+        <li>
+          <span class="font-semibold text-ink-900">독립 ·</span>
+          서비스 · 결제 · 수강생 커뮤니티 · 후기 · 브랜드 아이덴티티
+        </li>
+      </ul>
+      <p class="mt-sp-4 text-body-sm leading-[1.7] text-ink-500">
+        세온애드 수강 시 세온비즈·세온코더 영업 메시지가 가지 않습니다.
+        세 브랜드는 서로를 무료 홍보하지 않고, 각자 운영됩니다.
+      </p>
+    </div>
+  </div>
+</section>

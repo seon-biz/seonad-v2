@@ -1,0 +1,98 @@
+---
+/*
+ * Course 스키마 (02-main-page.md §0-2 / 03-curriculum.md §0-2)
+ *
+ * 커리큘럼 페이지에서는 syllabusSections 와 instructor 정보를
+ * 추가로 전달해 상세 버전을 렌더한다. §14-9 "syllabusSections 누락 금지".
+ */
+import JsonLd from './JsonLd.astro';
+import { brand, product } from '@config/campaign';
+
+export interface SyllabusSection {
+  name: string;
+  timeRequired: string; // ISO 8601 duration. e.g. PT60M
+}
+
+export interface InstructorInfo {
+  name: string;
+  affiliation?: string;
+}
+
+interface Props {
+  id?: string;
+  workload?: string;
+  description?: string;
+  courseMode?: 'blended' | 'online' | 'onsite';
+  includeOffer?: boolean;
+  syllabusSections?: SyllabusSection[];
+  instructor?: InstructorInfo;
+  /**
+   * 07-free.md §0-2 Course 예고 스키마 — "사전 무료 강의 수강 권장"
+   * 본 강의 페이지(/, /curriculum)에서는 사용하지 않는다.
+   */
+  coursePrerequisites?: string;
+}
+
+const {
+  id = 'schema-course',
+  workload = 'PT8H',
+  description = 'VOD 2주 + 줌 2주. 한 기수 6명. 실계정 공개 기반 그룹 코칭.',
+  courseMode = 'blended',
+  includeOffer = true,
+  syllabusSections,
+  instructor,
+  coursePrerequisites,
+} = Astro.props;
+
+const courseInstance: Record<string, unknown> = {
+  '@type': 'CourseInstance',
+  courseMode,
+  courseWorkload: workload,
+};
+
+if (instructor) {
+  courseInstance.instructor = {
+    '@type': 'Person',
+    name: instructor.name,
+    ...(instructor.affiliation
+      ? { affiliation: instructor.affiliation }
+      : {}),
+  };
+}
+
+const data: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  name: `${brand.name} 스마트스토어 네이버광고 강의`,
+  description,
+  provider: {
+    '@type': 'Organization',
+    name: brand.legalName,
+    sameAs: brand.url,
+  },
+  hasCourseInstance: courseInstance,
+};
+
+if (includeOffer) {
+  data.offers = {
+    '@type': 'Offer',
+    price: String(product.price),
+    priceCurrency: 'KRW',
+    category: 'Education',
+  };
+}
+
+if (syllabusSections && syllabusSections.length > 0) {
+  data.syllabusSections = syllabusSections.map((s) => ({
+    '@type': 'Syllabus',
+    name: s.name,
+    timeRequired: s.timeRequired,
+  }));
+}
+
+if (coursePrerequisites) {
+  data.coursePrerequisites = coursePrerequisites;
+}
+---
+
+<JsonLd data={data} id={id} />

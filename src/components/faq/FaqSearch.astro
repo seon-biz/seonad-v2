@@ -1,0 +1,71 @@
+---
+/*
+ * FaqSearch — 클라이언트 사이드 실시간 검색 (06-faq.md §3 / §14-3)
+ *
+ * - 폭 640px, --color-paper-soft 배경. input 1개로 단순.
+ * - 입력 → 200ms 디바운스 → data-faq-search 속성(소문자화된 질문+답변)에서
+ *   toLowerCase.includes 매칭. 매칭 외 <li> 에 hidden 추가.
+ * - 카테고리 섹션에 남은 항목이 0개면 해당 섹션에 "이 카테고리에는 일치하는
+ *   질문이 없습니다" 안내 노출.
+ * - 전체 결과 0개면 "해당 질문이 없으면 카카오톡 채널로 문의" 블록 노출.
+ * - 검색 로직은 /faq 페이지 전역 스크립트에서 처리 (FaqTabs/Item 과 결합).
+ */
+import { brand } from '@config/campaign';
+---
+
+<section class="bg-paper-soft text-ink-900">
+  <div class="container-max py-sp-8">
+    <form
+      id="faq-search-form"
+      class="mx-auto flex w-full max-w-[640px] flex-col gap-sp-3"
+      role="search"
+      aria-label="FAQ 검색"
+    >
+      <label for="faq-search-input" class="sr-only">FAQ 검색</label>
+      <div class="relative">
+        <span
+          class="pointer-events-none absolute left-sp-4 top-1/2 -translate-y-1/2 text-ink-500"
+          aria-hidden="true"
+        >
+          <svg class="h-5 w-5" viewBox="0 0 20 20" fill="none">
+            <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.6" />
+            <path
+              d="m17 17-3.5-3.5"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+            />
+          </svg>
+        </span>
+        <input
+          id="faq-search-input"
+          type="search"
+          placeholder="질문 검색 (예: 환불, 화면 따라하기, 세금계산서)"
+          autocomplete="off"
+          spellcheck="false"
+          class="w-full rounded-md border border-ink-300 bg-paper py-sp-4 pl-[48px] pr-sp-4 text-body text-ink-900 placeholder:text-ink-500 focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-300"
+        />
+      </div>
+      <p
+        id="faq-search-status"
+        class="text-caption text-ink-500"
+        aria-live="polite"
+      >
+        42개 질문 중 전체 표시 중
+      </p>
+    </form>
+
+    <div
+      id="faq-search-empty"
+      class="mx-auto mt-sp-6 hidden max-w-[640px] rounded-md border border-ink-300/60 bg-paper p-sp-6 text-center text-body text-ink-700"
+      role="status"
+    >
+      <p>일치하는 질문이 없습니다.</p>
+      <p class="mt-sp-2 text-body-sm text-ink-500">
+        해당 질문이 없으면 카카오톡 채널(
+        <span class="font-semibold text-ink-900">{brand.kakaoChannelId}</span>
+        )로 문의해주세요.
+      </p>
+    </div>
+  </div>
+</section>

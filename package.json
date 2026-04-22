@@ -1,0 +1,23 @@
+{
+  "name": "seonad",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "세온애드(SEONAD) — 스마트스토어 네이버광고 소수정예 수업 공식 웹사이트",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/sitemap": "^3.2.1",
+    "@astrojs/tailwind": "^5.1.4",
+    "astro": "^5.1.1",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.2"
+  }
+}

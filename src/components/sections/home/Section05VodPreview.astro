@@ -1,0 +1,130 @@
+---
+/*
+ * 02-main-page.md §6 — 섹션 5 VOD 7강 + 부록 미리보기
+ * 배경: paper(흰색) / 목적: VOD 볼륨·구체성 증명 (초행형 안심)
+ * 페르소나 1 이탈 방지 장치: 2·4·6강 화면 따라하기 마크
+ */
+
+interface Lesson {
+  no: string;
+  title: string;
+  min: string;
+  part: string;
+  hands?: boolean;
+  goal: string;
+}
+
+const lessons: Lesson[] = [
+  {
+    no: '1강',
+    title: '스마트스토어 셀러의 네이버광고 지도',
+    min: '25분',
+    part: 'PART 1',
+    goal: '4가지 광고 상품 중 내게 필요한 것 판단',
+  },
+  {
+    no: '2강',
+    title: '광고 계정 세팅 A to Z',
+    min: '35분',
+    part: 'PART 1',
+    hands: true,
+    goal: '비즈센터 가입 ~ 전환추적 완료',
+  },
+  {
+    no: '3강',
+    title: '쇼핑검색광고 전략 설계',
+    min: '25분',
+    part: 'PART 2',
+    goal: '어떤 상품부터 광고할지 결정',
+  },
+  {
+    no: '4강',
+    title: '쇼핑검색광고 세팅 실습',
+    min: '35분',
+    part: 'PART 2',
+    hands: true,
+    goal: '첫 쇼핑검색광고 캠페인 발행',
+  },
+  {
+    no: '5강',
+    title: '쇼핑검색광고 최적화 사이클',
+    min: '25분',
+    part: 'PART 2',
+    goal: '언제 입찰 조정하고 언제 끄는지',
+  },
+  {
+    no: '6강',
+    title: '파워링크 키워드와 소재',
+    min: '40분',
+    part: 'PART 3',
+    hands: true,
+    goal: '키워드 20개 추출 + 첫 캠페인 발행',
+  },
+  {
+    no: '7강',
+    title: '브랜드검색광고 + 예산 분배',
+    min: '30분',
+    part: 'PART 3',
+    goal: '3종 상품 조합 결정',
+  },
+  {
+    no: '부록',
+    title: '광고 운영 30일 루틴',
+    min: '25분',
+    part: '부록',
+    goal: '강의 후 혼자 운영할 플랜',
+  },
+];
+---
+
+<section id="section-vod" class="bg-paper text-ink-900">
+  <div class="container-max section-y">
+    <div class="mx-auto max-w-[40ch] text-center">
+      <h2 class="text-h2 font-bold">
+        VOD 7강 + 부록.<br />
+        화면 따라하기 풀 실장.
+      </h2>
+      <p class="mt-sp-4 text-lead text-ink-700">
+        총 240분. 무한 다시보기. 네이버 UI 업데이트 시 재촬영합니다.
+      </p>
+    </div>
+
+    {/* 강의 리스트 — 데스크톱 2열 / 모바일 1열 */}
+    <ul class="mt-sp-7 grid grid-cols-1 gap-sp-4 lg:grid-cols-2 lg:gap-sp-5">
+      {
+        lessons.map((l) => (
+          <li class="flex flex-col gap-sp-3 rounded-md border border-ink-300/30 bg-paper-soft p-sp-5">
+            <div class="flex flex-wrap items-center gap-sp-2 text-caption font-semibold tracking-caption text-ink-500">
+              <span class="text-ink-900">{l.no}</span>
+              <span aria-hidden="true">·</span>
+              <span>{l.min}</span>
+              <span aria-hidden="true">·</span>
+              <span class="rounded-xs bg-gold-100 px-sp-2 py-[2px] text-gold-600">
+                {l.part}
+              </span>
+              {l.hands && (
+                <span class="inline-flex items-center gap-sp-1 text-gold-600">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor" aria-hidden="true">
+                    <polygon points="2,1 9,5 2,9" />
+                  </svg>
+                  화면 따라하기
+                </span>
+              )}
+            </div>
+            <h3 class="text-h4 font-semibold text-ink-900">{l.title}</h3>
+            <p class="text-body text-ink-700">{l.goal}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    {/* 하단 박스 — UI 업데이트 약속 */}
+    <div class="mt-sp-7 rounded-md border border-gold-500/40 bg-paper-soft p-sp-5 md:p-sp-6">
+      <p class="text-body text-ink-700">
+        <span class="mr-sp-2 text-gold-600" aria-hidden="true">💡</span>
+        네이버 UI가 업데이트되면 해당 강의는 재촬영해 교체합니다.<br />
+        2019년 이후 네이버광고 UI는 평균 연 2~3회 소폭 변경됩니다.
+      </p>
+    </div>
+  </div>
+</section>

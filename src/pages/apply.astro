@@ -1,0 +1,63 @@
+---
+/*
+ * 가격·신청 페이지 (/apply) — 05-pricing-apply.md 전체 반영
+ *
+ * - JSON-LD: Organization(BaseLayout 자동) + Offer + BreadcrumbList(2단계)
+ * - 섹션 1~7 조립
+ * - §1: 모바일 플로팅 CTA 숨김 (페이지 자체가 신청 폼)
+ * - §0-1: noindex 아님 — 전환 퍼널 말단이므로 인덱싱 유지 (기본값)
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import OfferSchema from '@components/seo/OfferSchema.astro';
+import BreadcrumbSchema from '@components/seo/BreadcrumbSchema.astro';
+import { brand } from '@config/campaign';
+
+import Section01Hero from '@components/sections/apply/Section01Hero.astro';
+import Section02PriceSummary from '@components/sections/apply/Section02PriceSummary.astro';
+import Section03Process from '@components/sections/apply/Section03Process.astro';
+import Section04ApplyForm from '@components/sections/apply/Section04ApplyForm.astro';
+import Section05Refund from '@components/sections/apply/Section05Refund.astro';
+import Section06Faq from '@components/sections/apply/Section06Faq.astro';
+import Section07FinalCta from '@components/sections/apply/Section07FinalCta.astro';
+
+const title = `가격·신청 | 70만 원 · 법인계좌 이체 · 세금계산서 발행 | ${brand.name}`;
+const description =
+  'VOD 4시간 + 줌 4시간 + 자료 + 3개월 애프터케어 = 70만 원. 법인계좌 이체, 주식회사 티오엠 세금계산서 수기 발행. 한 기수 6명, 경쟁사 보호 정책 운영.';
+const ogTitle = `가격·신청 | 70만 원 | ${brand.name}`;
+const ogDescription =
+  '한 기수 6명 소수정예 운영. 자동 결제가 아니라 대표자가 직접 기수를 배정합니다.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage={`${brand.url}/og/apply.png`}
+  hideFloatingCTA
+>
+  <Fragment slot="head">
+    <meta
+      name="keywords"
+      content="스마트스토어 광고 강의 가격, 세온애드 수강료, 세온애드 신청, 법인계좌 이체, 세금계산서"
+    />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+
+    <OfferSchema />
+    <BreadcrumbSchema
+      items={[
+        { name: brand.name, url: '/' },
+        { name: '가격·신청', url: '/apply' },
+      ]}
+    />
+  </Fragment>
+
+  <main id="main-content" tabindex="-1">
+    <Section01Hero />
+    <Section02PriceSummary />
+    <Section03Process />
+    <Section04ApplyForm />
+    <Section05Refund />
+    <Section06Faq />
+    <Section07FinalCta />
+  </main>
+</BaseLayout>

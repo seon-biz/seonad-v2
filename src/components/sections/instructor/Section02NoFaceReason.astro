@@ -1,0 +1,77 @@
+---
+/*
+ * 04-instructor.md §3 — "얼굴·이름을 공개하지 않는 이유"
+ *
+ * - 배경 paper-soft / 섹션 초반에 이 질문을 정면 돌파
+ * - 3카드 (가로 3열 / 모바일 1열)
+ *   카드: 상단 골드 숫자 (number-lg) + 제목 + 본문
+ * - 카드 하단 중앙에 마무리 문장 (lead, ink-700)
+ */
+
+const reasons = [
+  {
+    no: '01',
+    title: '수강생 기대치 관리',
+    body: [
+      '교육은 강사 개인 팬덤이 아니라 커리큘럼과 코치의 판단력으로 평가받아야 합니다.',
+      '얼굴·이름이 앞서면 수강생의 기대가 "이 사람처럼 되고 싶다"로 흐르기 쉽습니다. 세온애드는 "내 광고 계정이 돌아가게 된다"에 기대가 집중되기를 원합니다.',
+    ],
+  },
+  {
+    no: '02',
+    title: '수강생 프라이버시 보호',
+    body: [
+      '이 수업은 수강생 6명 전원이 본인 광고 계정을 공개합니다.',
+      '코치만 실명이고 수강생은 익명인 구조보다, 양쪽 모두 브랜드·닉네임으로 운영하는 편이 수강생이 더 자유롭게 본인 데이터를 열 수 있습니다.',
+    ],
+  },
+  {
+    no: '03',
+    title: '수업 품질의 중심 유지',
+    body: [
+      '강사 개인의 인지도가 커질수록 수업 외 요청(강연·인터뷰·광고)이 늘어납니다.',
+      '세온애드는 한 기수 6명만 받는 수업입니다. 코치의 에너지가 "이 6명의 계정"에 집중되는 구조를 처음부터 끝까지 유지하려 합니다.',
+    ],
+  },
+];
+---
+
+<section class="bg-paper-soft text-ink-900">
+  <div class="container-max section-y">
+    <div class="mx-auto max-w-[60ch] text-center">
+      <p class="eyebrow text-ink-500">운영 원칙 · 실명·얼굴 비공개</p>
+      <h2 class="mt-sp-4 text-h2 font-bold text-ink-900">
+        얼굴과 이름을 공개하지 않는 이유.
+      </h2>
+      <p class="mt-sp-4 text-lead text-ink-700">
+        숨기는 것이 아니라, 교육 상품에 맞는 운영 방식을 선택한 것입니다.
+      </p>
+    </div>
+
+    <ol class="mt-sp-8 grid grid-cols-1 gap-sp-5 lg:grid-cols-3">
+      {
+        reasons.map((r) => (
+          <li class="flex flex-col rounded-lg border border-ink-300/40 bg-paper p-sp-6">
+            <span
+              aria-hidden="true"
+              class="font-sans text-number-lg leading-none text-gold-500"
+            >
+              {r.no}
+            </span>
+            <h3 class="mt-sp-5 text-h3 font-semibold text-ink-900">{r.title}</h3>
+            <div class="mt-sp-4 flex flex-col gap-sp-3 text-body text-ink-700">
+              {r.body.map((p) => (
+                <p>{p}</p>
+              ))}
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="mx-auto mt-sp-8 max-w-[52ch] text-center text-lead text-ink-700">
+      대신 수강생 6명과는 줌에서 직접 만납니다.<br class="hidden md:inline" />
+      음성과 화면 공유로, 대표님 광고 계정을 함께 보며 4주를 보냅니다.
+    </p>
+  </div>
+</section>

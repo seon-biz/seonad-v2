@@ -1,0 +1,58 @@
+---
+/*
+ * Organization 스키마 — 전 페이지 BaseLayout 자동 주입.
+ *
+ * 08-about.md §0-2 에 정의된 "완전판" 을 전역 기본으로 올린다. 이유:
+ *  - 검색엔진 Knowledge Graph 는 페이지 단위로 Organization 을 수집하지 않고
+ *    도메인 단위로 병합한다. 어느 페이지에 노출되든 정보가 풍부할수록 유리.
+ *  - 법인 상세(대표자·주소)는 business 객체에서 가져와 "운영 준비 중"
+ *    플레이스홀더 상태일 때는 PostalAddress 에서 해당 필드를 생략 → 검색엔진에
+ *    placeholder 가 실제 정보로 잘못 전달되지 않도록 보호.
+ *
+ *  TODO(운영): business 실제 등록 정보 입력 시, 아무 코드 수정 없이
+ *  Organization Schema 의 PostalAddress 가 자동으로 채워진다.
+ */
+import JsonLd from './JsonLd.astro';
+import { brand, business, brandEcosystem } from '@config/campaign';
+
+/**
+ * 세온 브랜드 생태계의 자매 브랜드 URL (current=false 만) 을 sameAs 에 주입.
+ * 구글 Knowledge Graph 에서 세 브랜드가 같은 법인 소속으로 연결된다. (§11-5)
+ */
+const sisterUrls = brandEcosystem
+  .filter((b) => !b.current && b.external)
+  .map((b) => b.href);
+
+const PLACEHOLDER = '운영 준비 중';
+
+const address: Record<string, string> = {
+  '@type': 'PostalAddress',
+  addressCountry: 'KR',
+};
+if (business.addressRegion !== PLACEHOLDER) address.addressRegion = business.addressRegion;
+if (business.addressLocality !== PLACEHOLDER) address.addressLocality = business.addressLocality;
+if (business.streetAddress !== PLACEHOLDER) address.streetAddress = business.streetAddress;
+
+const data: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: brand.name,
+  alternateName: brand.nameEn,
+  legalName: brand.legalName,
+  url: brand.url,
+  logo: `${brand.url}/logo.png`,
+  email: brand.email,
+  telephone: brand.phoneIntl,
+  foundingDate: brand.foundingYear,
+  description:
+    '스마트스토어 셀러를 위한 네이버광고 실전 수업. 세온비즈 7년의 1:1 코칭 경험을 기반으로 만들어진 한 기수 6명 소수정예 수업.',
+  address,
+  sameAs: sisterUrls,
+  parentOrganization: {
+    '@type': 'Organization',
+    name: brand.legalName,
+  },
+};
+---
+
+<JsonLd data={data} id="schema-organization" />

@@ -1,0 +1,108 @@
+---
+/*
+ * 04-instructor.md §4 — 경력 타임라인
+ *
+ * - 배경 navy-900 / 세로 타임라인 + 골드 노드 (§12-3: 모바일에서도 세로 유지)
+ * - 노드 5개 (2019 → 2020~2022 → 2023~2024 → 2025 → 2026 현재)
+ * - 하단 박스: navy-800 + 상단 1px 골드 라인, 중앙 정렬
+ */
+
+const nodes = [
+  {
+    year: '2019',
+    title: '세온비즈 창업 · 1:1 코칭 시작',
+    body: [
+      '쇼핑몰·스마트스토어 대표를 대상으로 온라인 마케팅 1:1 코칭 서비스를 시작했습니다.',
+      '태그라인: "대표가 직접 실행하는 마케팅, 그게 진짜 성장입니다."',
+    ],
+  },
+  {
+    year: '2020~2022',
+    title: '30여 개 업체 1:1 코칭',
+    body: [
+      '쇼핑몰·스마트스토어·브랜드몰 대표 30여 분과 장기 1:1 코칭.',
+      '이 기간 동안 네이버광고 집행과 성과 리포트 해석에 대한 실전 노하우가 축적되었습니다.',
+    ],
+  },
+  {
+    year: '2023~2024',
+    title: '세온코더(SEONCODER) 개발·운영 시작',
+    body: [
+      '개발자 없이도 스마트스토어 대표가 직접 코딩 솔루션을 쓸 수 있도록 하는 별개 브랜드 운영.',
+      '같은 타깃, 다른 수업 구조에 대한 이해 확장.',
+    ],
+  },
+  {
+    year: '2025',
+    title: '세온애드 커리큘럼 설계',
+    body: [
+      '30여 개 업체 코칭 경험을 "한 기수 6명 + 실계정 공개"라는 압축된 수업 구조로 재조직.',
+      '본 커리큘럼의 초기 버전 완성.',
+    ],
+  },
+  {
+    year: '2026',
+    current: true,
+    title: '세온애드 1기 런칭',
+    body: [
+      '주식회사 티오엠 명의로 세온애드 1기 모집 시작.',
+      'VOD 2주 + 줌 2주 + 애프터케어 3개월의 4주 과정으로 운영 중.',
+    ],
+  },
+];
+---
+
+<section class="bg-navy-900 text-on-dark">
+  <div class="container-max section-y">
+    <div class="mx-auto max-w-[60ch] text-center">
+      <h2 class="text-h2 font-bold text-white">7년의 경력.</h2>
+      <p class="mt-sp-4 text-lead text-gold-300">
+        2019년부터 지금까지, 쇼핑몰·스마트스토어 대표들의 광고를 1:1로 지도해왔습니다.
+      </p>
+    </div>
+
+    <ol class="mx-auto mt-sp-8 max-w-[720px] border-l border-gold-500/30 pl-sp-6">
+      {
+        nodes.map((n) => (
+          <li class="relative pb-sp-7 last:pb-0">
+            <span
+              aria-hidden="true"
+              class:list={[
+                'absolute -left-[calc(theme(spacing.sp-6)+6px)] top-1 inline-flex h-3 w-3 items-center justify-center rounded-full border-2',
+                n.current
+                  ? 'border-gold-300 bg-gold-500 shadow-gold'
+                  : 'border-gold-500 bg-navy-900',
+              ]}
+            />
+            <p class="text-caption font-semibold tracking-caption text-gold-400">
+              [{n.year}]
+              {n.current && (
+                <span class="ml-sp-2 rounded-xs bg-gold-500 px-sp-2 py-[1px] text-caption font-bold text-navy-950">
+                  현재
+                </span>
+              )}
+            </p>
+            <h3 class="mt-sp-2 text-h4 font-semibold text-white">{n.title}</h3>
+            <div class="mt-sp-3 flex flex-col gap-sp-2 text-body text-on-dark-soft">
+              {n.body.map((p) => (
+                <p>{p}</p>
+              ))}
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div
+      class="mx-auto mt-sp-8 max-w-[720px] border-t-2 border-gold-500 bg-navy-800 p-sp-6 text-center"
+    >
+      <p class="text-h4 font-semibold text-white">
+        세온애드 = 세온비즈 7년 × 네이버광고 전문화
+      </p>
+      <p class="mt-sp-4 text-body text-on-dark-soft">
+        세온애드는 새로 시작한 브랜드가 아니라,<br />
+        세온비즈 7년의 코칭 경험 위에서 네이버광고만 꺼내 만든 수업입니다.
+      </p>
+    </div>
+  </div>
+</section>
