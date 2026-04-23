@@ -179,25 +179,26 @@ export const product = {
  * 폼 제출 백엔드 — FormSubmit.co (가입 불필요)
  *
  * 선택 사유:
- *  - 별도 계정·대시보드 없이 수신 이메일만으로 즉시 운영 가능
- *  - AJAX 엔드포인트(`/ajax/{email}`)가 JSON 응답을 주므로 기존 fetch 구조
- *    (Formspree 호환) 그대로 사용 가능
+ *  - 별도 계정·대시보드 없이 수신 이메일만으로 운영 가능
+ *  - AJAX 엔드포인트가 JSON 응답을 주므로 기존 fetch 구조 그대로 사용
  *  - 수신자는 brand.email (cobaltblue872@gmail.com) 공통, 폼 종류는
  *    각 폼의 hidden field `_subject` 로 구분 → 메일함 라벨/필터링 용이
  *
- * 최초 1회 activation(필수 · 운영 전 반드시 완료):
- *  1) 첫 제출 시 FormSubmit → cobaltblue872@gmail.com 으로 "Activate" 메일 발송
- *  2) 수신함에서 링크 1회 클릭 → 이후 모든 제출이 정상적으로 메일로 도착
- *  3) activation 후 FormSubmit 이 제공하는 해시 엔드포인트
- *     (https://formsubmit.co/ajax/{hash}) 로 교체하면 HTML 에서 이메일 노출
- *     차단 가능 — 보안 강화 시 권장 (아래 receiverHash 필드로 교체)
+ * 보안:
+ *  - 2026-04-23 activation 완료 후 FormSubmit 이 발급한 해시 엔드포인트로
+ *    전환하여 HTML 소스 코드에서 이메일 주소 노출을 차단했다.
+ *  - 해시는 수신자별 고유값이며, 해시만으로 역으로 이메일을 유추할 수 없다.
+ *  - 해시가 노출되더라도 제3자는 이 해시로 "제출만 가능"하고 수신 메일은
+ *    오직 cobaltblue872@gmail.com 으로만 도착한다. 여전히 스팸 유입은
+ *    honeypot(_gotcha/_honey) + 필요시 _captcha 로 방어.
  *
  * 폼 매핑:
  *  - endpoint        : /apply 본 강의 신청 (05-pricing-apply.md §5-6)
  *  - freeEndpoint    : /free 무료 강의 리드 (07-free.md §5-6)
  *  - contactEndpoint : /about 하단 문의 폼 (08-about.md §7-6)
  */
-const FORMSUBMIT_AJAX = `https://formsubmit.co/ajax/${encodeURIComponent(brand.email)}`;
+const FORMSUBMIT_HASH = '6575d466e1ce169a7c88d33929a5325c';
+const FORMSUBMIT_AJAX = `https://formsubmit.co/ajax/${FORMSUBMIT_HASH}`;
 
 export const formspree = {
   /** 세 폼 모두 동일 이메일로 수신 (구분은 _subject 숨김 필드로) */
