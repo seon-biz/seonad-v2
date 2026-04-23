@@ -3,7 +3,7 @@
  * /faq — 자주 묻는 질문 페이지 (06-faq.md)
  *
  * 이 페이지의 역할: GEO(AI 검색 인용) 핵심 자산.
- *  - 43개 질문이 FAQPage JSON-LD 로 직렬화되어 <head> 말미에 주입된다.
+ *  - 42개 질문이 FAQPage JSON-LD 로 직렬화되어 <head> 말미에 주입된다.
  *  - 데이터는 @data/faq 단일 소스. 답변 수정 시 화면·Schema 자동 동기화.
  *  - 카테고리 탭/검색/딥링크 JS 는 본 파일 하단 <script> 에 집약.
  *
@@ -32,9 +32,9 @@ const groupedWithStart = grouped.map((g) => {
 
 const title = `FAQ | 스마트스토어 네이버광고 수업 자주 묻는 질문 | ${brand.name}`;
 const description =
-  '강의 구성, 모집, 결제, 환불, 애프터케어, 경쟁사 보호 정책까지. 결제 전 확인할 43가지 질문과 답변.';
+  '강의 구성, 모집, 결제, 환불, 애프터케어, 경쟁사 보호 정책까지. 결제 전 확인할 42가지 질문과 답변.';
 const ogTitle = 'FAQ | 세온애드 자주 묻는 질문';
-const ogDescription = '결제 전 확인할 43가지 질문. 강의 구성부터 환불 정책까지 한 곳에서.';
+const ogDescription = '결제 전 확인할 42가지 질문. 강의 구성부터 환불 정책까지 한 곳에서.';
 ---
 
 <BaseLayout title={title} description={description} ogImage={`${brand.url}/og/faq.png`}>
