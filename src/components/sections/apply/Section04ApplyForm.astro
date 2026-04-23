@@ -52,9 +52,13 @@ const agreementLinks = {
       novalidate
       class="mx-auto mt-sp-8 max-w-[640px] rounded-lg border border-ink-300/40 bg-paper p-sp-6 lg:p-sp-7"
     >
-      {/* Formspree honeypot 및 제목 */}
+      {/* 봇 방지 honeypot — Formspree/FormSubmit 양쪽 호환 */}
       <input type="text" name="_gotcha" tabindex="-1" class="hidden" aria-hidden="true" />
-      <input type="hidden" name="_subject" value="[세온애드] 수강 신청이 접수되었습니다" />
+      <input type="text" name="_honey" tabindex="-1" class="hidden" aria-hidden="true" />
+      {/* FormSubmit 수신 메일 옵션 */}
+      <input type="hidden" name="_subject" value={formspree.subjects.apply} />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_captcha" value="false" />
 
       {/* ---------- 필수 섹션 ---------- */}
       <fieldset class="flex flex-col gap-sp-5">
@@ -575,23 +579,15 @@ const agreementLinks = {
       }
 
       const endpoint = form.getAttribute('action') || '';
-      const isPlaceholder = endpoint.includes('REPLACE_WITH_FORM_ID');
 
       try {
-        if (isPlaceholder) {
-          // 실제 Formspree ID 가 아직 주입되지 않은 상태.
-          // 개발 환경에서 전체 플로우를 시연하기 위해 500ms 딜레이 후 성공 처리.
-          console.warn('[apply] Formspree endpoint 가 placeholder 입니다. config/campaign.ts 의 formspree.endpoint 를 실제 값으로 교체해야 운영 가능합니다.');
-          await new Promise((r) => setTimeout(r, 500));
-        } else {
-          const data = new FormData(form);
-          const res = await fetch(endpoint, {
-            method: 'POST',
-            body: data,
-            headers: { Accept: 'application/json' },
-          });
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        }
+        const data = new FormData(form);
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          body: data,
+          headers: { Accept: 'application/json' },
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
         // 성공 화면 교체
         const contact = (form.querySelector<HTMLInputElement>('#field-contact')?.value || '').trim();

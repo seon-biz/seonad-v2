@@ -176,19 +176,40 @@ export const product = {
 } as const;
 
 /**
- * Formspree 엔드포인트 — 05/07 명세 공용
+ * 폼 제출 백엔드 — FormSubmit.co (가입 불필요)
  *
- *  - endpoint: /apply 본 강의 신청 폼 (05-pricing-apply.md §5-6)
- *  - freeEndpoint: /free 무료 강의 리드 폼 (07-free.md §5-6 / §11-1)
- *    · 두 폼은 수신 주소는 같지만 Formspree 대시보드에서는 별도 폼 ID 로
- *      관리해야 리드 구분·자동 응답 템플릿 분리가 가능하다.
- *  TODO(운영): 1기 런칭 전 실제 form ID 주입.
+ * 선택 사유:
+ *  - 별도 계정·대시보드 없이 수신 이메일만으로 즉시 운영 가능
+ *  - AJAX 엔드포인트(`/ajax/{email}`)가 JSON 응답을 주므로 기존 fetch 구조
+ *    (Formspree 호환) 그대로 사용 가능
+ *  - 수신자는 brand.email (cobaltblue872@gmail.com) 공통, 폼 종류는
+ *    각 폼의 hidden field `_subject` 로 구분 → 메일함 라벨/필터링 용이
+ *
+ * 최초 1회 activation(필수 · 운영 전 반드시 완료):
+ *  1) 첫 제출 시 FormSubmit → cobaltblue872@gmail.com 으로 "Activate" 메일 발송
+ *  2) 수신함에서 링크 1회 클릭 → 이후 모든 제출이 정상적으로 메일로 도착
+ *  3) activation 후 FormSubmit 이 제공하는 해시 엔드포인트
+ *     (https://formsubmit.co/ajax/{hash}) 로 교체하면 HTML 에서 이메일 노출
+ *     차단 가능 — 보안 강화 시 권장 (아래 receiverHash 필드로 교체)
+ *
+ * 폼 매핑:
+ *  - endpoint        : /apply 본 강의 신청 (05-pricing-apply.md §5-6)
+ *  - freeEndpoint    : /free 무료 강의 리드 (07-free.md §5-6)
+ *  - contactEndpoint : /about 하단 문의 폼 (08-about.md §7-6)
  */
+const FORMSUBMIT_AJAX = `https://formsubmit.co/ajax/${encodeURIComponent(brand.email)}`;
+
 export const formspree = {
-  endpoint: 'https://formspree.io/f/REPLACE_WITH_FORM_ID',
-  freeEndpoint: 'https://formspree.io/f/REPLACE_WITH_FREE_CLASS_FORM_ID',
-  /** 08-about.md §7-6 — 문의 폼 전용 Formspree 폼 */
-  contactEndpoint: 'https://formspree.io/f/REPLACE_WITH_CONTACT_FORM_ID',
+  /** 세 폼 모두 동일 이메일로 수신 (구분은 _subject 숨김 필드로) */
+  endpoint: FORMSUBMIT_AJAX,
+  freeEndpoint: FORMSUBMIT_AJAX,
+  contactEndpoint: FORMSUBMIT_AJAX,
+  /** 폼별 메일 제목 (수신함 필터링용) */
+  subjects: {
+    apply: '[세온애드] 본 강의 수강 신청',
+    free: '[세온애드] 사전 무료 강의 신청',
+    contact: '[세온애드] 일반 문의',
+  },
 } as const;
 
 /**

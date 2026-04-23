@@ -4,7 +4,7 @@
  *
  * paper · max-width 520px · 앵커 #contact-form
  * 필드: 이름 / 연락처 / 문의 유형(select) / 내용(textarea) / 약관 동의
- * Formspree 제출: formspree.contactEndpoint (05·07 과 동일 구조, 엔드포인트만 별도)
+ * 제출: FormSubmit.co AJAX (formspree.contactEndpoint · 수신자 brand.email)
  * 제출 성공 시 폼을 숨기고 같은 페이지에서 안내 패널 표시.
  * 제출 실패 시 카카오톡 채널로 이동 대체 안내 (§11-4).
  */
@@ -140,8 +140,13 @@ const kakaoReady =
         </label>
         <p data-error-for="consent" class="hidden text-caption text-danger" role="alert"></p>
 
-        {/* Formspree 숨김 필드 */}
-        <input type="hidden" name="_subject" value="[세온애드] About 페이지 문의" />
+        {/* 봇 방지 honeypot — Formspree/FormSubmit 양쪽 호환 */}
+        <input type="text" name="_gotcha" tabindex="-1" class="hidden" aria-hidden="true" />
+        <input type="text" name="_honey" tabindex="-1" class="hidden" aria-hidden="true" />
+        {/* FormSubmit 수신 메일 옵션 */}
+        <input type="hidden" name="_subject" value={formspree.subjects.contact} />
+        <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_captcha" value="false" />
         <input type="hidden" name="source" value="/about" />
 
         {/* 제출 */}
@@ -266,8 +271,7 @@ const kakaoReady =
         return;
       }
       const endpoint = form.getAttribute('action') || '';
-      if (!endpoint || endpoint.includes('REPLACE_WITH_CONTACT_FORM_ID')) {
-        // 실제 Formspree ID 가 설정되기 전 — 운영 전환 전 안전 경로
+      if (!endpoint) {
         statusEl.textContent =
           '문의 폼이 아직 연결되지 않았습니다. 이메일 또는 카카오톡 채널로 연락해주세요.';
         failEl.classList.remove('hidden');

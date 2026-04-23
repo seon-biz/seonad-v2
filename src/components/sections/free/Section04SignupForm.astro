@@ -211,9 +211,14 @@ import { formspree, freeClass, routes } from '@config/campaign';
           </span>
         </label>
 
-        {/* 히든 메타 — 리드 구분 */}
+        {/* 봇 방지 honeypot — Formspree/FormSubmit 양쪽 호환 */}
+        <input type="text" name="_gotcha" tabindex="-1" class="hidden" aria-hidden="true" />
+        <input type="text" name="_honey" tabindex="-1" class="hidden" aria-hidden="true" />
+        {/* 리드 메타 + FormSubmit 수신 메일 옵션 */}
         <input type="hidden" name="_source" value="free-signup" />
-        <input type="hidden" name="_subject" value="[세온애드] 사전 무료 강의 신청" />
+        <input type="hidden" name="_subject" value={formspree.subjects.free} />
+        <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_captcha" value="false" />
         <input
           type="hidden"
           name="target_class"
@@ -400,21 +405,15 @@ import { formspree, freeClass, routes } from '@config/campaign';
       }
 
       const endpoint = form.getAttribute('action') || '';
-      const isPlaceholder = endpoint.includes('REPLACE_WITH_FREE_CLASS_FORM_ID');
 
       try {
-        if (isPlaceholder) {
-          console.warn('[free] Formspree endpoint 가 placeholder 입니다. config/campaign.ts 의 formspree.freeEndpoint 를 실제 값으로 교체해야 운영 가능합니다.');
-          await new Promise((r) => setTimeout(r, 500));
-        } else {
-          const data = new FormData(form);
-          const res = await fetch(endpoint, {
-            method: 'POST',
-            body: data,
-            headers: { Accept: 'application/json' },
-          });
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        }
+        const data = new FormData(form);
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          body: data,
+          headers: { Accept: 'application/json' },
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
         // 성공 화면
         const nameVal = (nameInput?.value || '').trim() || '신청자';
