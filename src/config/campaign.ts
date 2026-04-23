@@ -4,16 +4,58 @@
  * 02-main-page.md, 03-curriculum.md의 {{CURRENT_COUNT}}, {{NEXT_START_DATE}} 변수 연동.
  */
 
-export type CampaignStatus = 'recruiting' | 'closed' | 'waitlist';
-
+/**
+ * 현재 기수 설정 — 02-main-page.md §2 · §15, 04/05/06/07/08 FinalCTA 공용.
+ *
+ * 구조 원칙:
+ *  - `currentCohort` 하나에 "몇 기 / 현재·정원 / 모집 여부 / 확정 시작일" 을 모은다.
+ *  - `startDate: null` 이면 "정원 달성 시 시작 예정" 으로 라벨링 (날짜 미확정 상태).
+ *  - 확정 날짜가 나오면 `startDate: new Date('YYYY-MM-DD')` 만 교체하면 전 사이트
+ *    (헤더·히어로·신청 폼·최종 CTA 등) 에 자동 반영된다.
+ *  - 문구 조립은 `getStartDateLabel()` / `getRecruitmentLine()` 헬퍼로 단일화해
+ *    사용처 10곳의 중복을 없앤다.
+ *
+ * 모집 상태가 "closed" 가 되면 `currentCohort.isRecruiting = false` 로 바꾸고,
+ * 마감 문구는 `closedMessage` 가 그대로 사용된다.
+ */
 export const campaign = {
-  currentCount: '4/6',
-  currentCountNumber: 4,
-  capacity: 6,
-  nextStartDate: '2026년 6월 1일',
-  status: 'recruiting' as CampaignStatus,
+  currentCohort: {
+    number: 1,
+    currentCount: 4,
+    maxCount: 6,
+    isRecruiting: true,
+    /** 확정 날짜가 나오기 전에는 null — "정원 달성 시 시작 예정" 으로 자동 라벨 */
+    startDate: null as Date | null,
+  },
+
+  /** 모집 마감 상태일 때 사용되는 짧은 대체 문구 */
   closedMessage: '다음 기수 대기 접수 중',
-} as const;
+
+  /**
+   * 시작일 라벨 — 확정 전에는 "정원 달성 시 시작 예정",
+   * 확정 후에는 "2026년 6월 1일" 형태(ko-KR 로케일).
+   */
+  getStartDateLabel(): string {
+    const d = this.currentCohort.startDate;
+    if (!d) return '정원 달성 시 시작 예정';
+    return d.toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  },
+
+  /**
+   * 히어로·최종 CTA 하단에 공통으로 노출되는 모집 현황 한 줄.
+   * 모집 중: "현재 1기 4/6명 · 정원 달성 시 시작 예정"
+   * 마감:    `closedMessage` 그대로.
+   */
+  getRecruitmentLine(): string {
+    const c = this.currentCohort;
+    if (!c.isRecruiting) return this.closedMessage;
+    return `현재 ${c.number}기 ${c.currentCount}/${c.maxCount}명 · ${this.getStartDateLabel()}`;
+  },
+};
 
 export const brand = {
   name: '세온애드',
@@ -22,7 +64,7 @@ export const brand = {
   domain: 'seonad.co.kr',
   url: 'https://seonad.co.kr',
   tagline: '스마트스토어 네이버광고 소수정예 수업',
-  email: 'cobaltblue8877@naver.com',
+  email: 'cobaltblue872@gmail.com',
   phone: '010-7327-8877',
   phoneIntl: '+82-10-7327-8877',
   businessHours: '평일 10:00~18:00 (주말·공휴일 휴무)',
@@ -40,23 +82,45 @@ export const brand = {
 
 /**
  * 법인 상세 정보 — 04-instructor.md §7-4 · Footer · 08-about.md §6 공용.
- * 1기 런칭 전까지는 "운영 준비 중"으로 표기하며, 운영자가 실제 사업자
- * 정보를 확보하는 즉시 이 객체만 갱신하면 사이트 전역에 반영된다.
  *
- * Schema.org PostalAddress 구조에 맞춰 addressRegion/Locality/street 도 분리해둠.
- * 정식 등록 전에는 모두 "운영 준비 중" 플레이스홀더. Organization Schema 에는
- * 값이 "운영 준비 중" 이면 해당 필드를 생략한다.
+ * 실제 등록 정보가 채워졌을 때도 "사업장 주소"는 개인 사업장 특성상 의도적으로
+ * 비노출한다 (addressHidden: true). Footer/About/Instructor 각 컴포넌트와
+ * Organization Schema 는 이 플래그가 켜져 있으면 주소를 숨기거나 생략한다.
+ *
+ * Schema.org PostalAddress 호환을 위해 addressRegion/Locality/street 필드를
+ * 구조로 유지하되, 현재는 비노출 정책에 따라 "운영 준비 중" 값을 유지해
+ * OrganizationSchema 에서 자동 생략되도록 한다.
  */
 export const business = {
-  representative: '운영 준비 중',
-  businessNumber: '운영 준비 중',
-  mailOrderNumber: '운영 준비 중',
+  representative: '서정옥',
+  businessNumber: '368-08-082112',
+  mailOrderNumber: '2022-충북제천-0004',
+  /** 사업장 주소는 비노출 정책 — UI·Schema 에서 숨김 처리 (addressHidden 참고) */
   address: '운영 준비 중',
   addressRegion: '운영 준비 중',
   addressLocality: '운영 준비 중',
   streetAddress: '운영 준비 중',
   /** 08-about.md §6-2 · §11-1 개인정보 보호 책임자 */
-  privacyOfficer: '운영 준비 중',
+  privacyOfficer: '서정옥',
+  /** true 면 Footer/About/Instructor 에서 주소 라인을 렌더하지 않음 */
+  addressHidden: true,
+} as const;
+
+/**
+ * 운영자용 통합 법인 정보 뷰 — 외부 (법적 문서 하단·SEO 메타)에 노출할 값을
+ * 한 객체에서 참조하고 싶을 때 사용. brand/business 의 의미적으로 겹치는
+ * 값을 그대로 재노출하므로 편집은 brand/business 에서 한다.
+ */
+export const company = {
+  legalName: brand.legalName,
+  brandName: brand.name,
+  ceo: business.representative,
+  businessNumber: business.businessNumber,
+  mailOrderNumber: business.mailOrderNumber,
+  privacyOfficer: business.privacyOfficer,
+  email: brand.email,
+  phone: brand.phone,
+  addressHidden: business.addressHidden,
 } as const;
 
 /**

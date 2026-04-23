@@ -8,12 +8,15 @@
  */
 import { brand, business, routes } from '@config/campaign';
 
+// 사업장 주소는 business.addressHidden 정책에 따라 비노출
 const rows: Array<{ label: string; value: string }> = [
   { label: '법인명', value: brand.legalName },
   { label: '대표자', value: business.representative },
   { label: '사업자등록번호', value: business.businessNumber },
   { label: '통신판매업 신고번호', value: business.mailOrderNumber },
-  { label: '사업장 주소', value: business.address },
+  ...(business.addressHidden
+    ? []
+    : [{ label: '사업장 주소', value: business.address }]),
   { label: '이메일', value: brand.email },
   { label: '대표 연락처', value: brand.phone },
   { label: '업무 시간', value: brand.businessHours },

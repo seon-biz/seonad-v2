@@ -104,7 +104,19 @@ const otherHeaders = rows[0].others.map((o) => o.name);
                 {name}
               </th>
             ))}
-            <th class="border-l-2 border-r-2 border-t-2 border-gold-500 bg-navy-900 px-sp-4 py-sp-4 text-left text-body-sm font-semibold text-gold-300">
+            {/*
+             * 세온애드 열 헤더 — "추천" 핀 뱃지로 시선 유도.
+             * 래퍼의 overflow-x-auto 가 y축 clip 을 유발하므로 뱃지는 th 내부
+             * 상단(pt-sp-8 확보 공간)에 배치해 어떤 브라우저에서도 잘리지 않게 함.
+             */}
+            <th
+              class="relative border-l-2 border-r-2 border-t-2 border-gold-500 bg-navy-900 px-sp-4 pb-sp-4 pt-sp-8 text-left text-body-sm font-semibold text-gold-400"
+            >
+              <span
+                class="absolute left-1/2 top-sp-2 inline-flex -translate-x-1/2 items-center rounded-full bg-gold-500 px-sp-3 py-[2px] text-[10px] font-bold uppercase tracking-[0.18em] text-navy-950 shadow-[0_4px_12px_-4px_rgba(212,165,77,0.55)]"
+              >
+                추천
+              </span>
               세온애드
             </th>
           </tr>
@@ -136,8 +148,18 @@ const otherHeaders = rows[0].others.map((o) => o.name);
     </div>
 
     {/* 모바일 — 세온애드 열 먼저 + 토글로 타 선택지 확장 */}
-    <div class="mt-sp-7 lg:hidden">
-      <div class="gold-top-line-2 rounded-lg bg-navy-900 p-sp-5 text-on-dark">
+    <div class="mt-sp-9 lg:hidden">
+      {/*
+       * 세온애드 블록 상단에 "추천" 핀 뱃지 — 데스크톱 테이블 헤더와
+       * 동일한 시각 장치로 브랜드 우선순위를 즉시 인지하게 함.
+       * 모바일은 overflow clip 이 없어 -top-3 로 블록 경계 바깥에 부유.
+       */}
+      <div class="gold-top-line-2 relative rounded-lg bg-navy-900 p-sp-5 text-on-dark">
+        <span
+          class="absolute -top-3 left-sp-5 inline-flex items-center rounded-full bg-gold-500 px-sp-3 py-[2px] text-[10px] font-bold uppercase tracking-[0.18em] text-navy-950 shadow-[0_4px_12px_-4px_rgba(212,165,77,0.55)]"
+        >
+          추천
+        </span>
         <p class="text-caption font-semibold tracking-eyebrow text-gold-400">
           세온애드
         </p>

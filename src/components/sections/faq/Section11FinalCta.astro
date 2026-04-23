@@ -13,7 +13,7 @@ import { routes, campaign } from '@config/campaign';
   <div class="container-max section-y">
     <div class="mx-auto max-w-[760px] text-center">
       <h2 class="text-h1 font-bold leading-tight text-paper">
-        42개 질문을 다 확인하셨다면,<br />
+        43개 질문을 다 확인하셨다면,<br />
         다음 한 걸음은 대표님의 선택.
       </h2>
       <p class="mt-sp-5 text-lead text-gold-300">
@@ -37,9 +37,14 @@ import { routes, campaign } from '@config/campaign';
       </div>
 
       <p class="mt-sp-8 text-body-sm text-on-dark-soft">
-        현재 기수 <span class="font-semibold text-gold-300">{campaign.currentCount}명</span>
-        {' · '}다음 시작 예정일:{' '}
-        <span class="font-semibold text-gold-300">{campaign.nextStartDate}</span>
+        현재{' '}
+        <span class="font-semibold text-gold-300">
+          {campaign.currentCohort.number}기 {campaign.currentCohort.currentCount}/{campaign.currentCohort.maxCount}명
+        </span>
+        {' · '}
+        <span class="font-semibold text-gold-300">
+          {campaign.getStartDateLabel()}
+        </span>
       </p>
     </div>
   </div>

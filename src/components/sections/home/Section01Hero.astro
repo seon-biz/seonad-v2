@@ -6,12 +6,9 @@
  * 페이드업 대상(§19-7): 히어로
  */
 import { campaign, routes } from '@config/campaign';
-import WireframeCard from '@components/ui/WireframeCard.astro';
+import HeroVisualCard from '@components/home/HeroVisualCard.astro';
 
-const recruitmentLine =
-  campaign.status === 'recruiting'
-    ? `현재 기수 ${campaign.currentCount}명 · 다음 시작 예정일: ${campaign.nextStartDate}`
-    : campaign.closedMessage;
+const recruitmentLine = campaign.getRecruitmentLine();
 ---
 
 <section
@@ -38,7 +35,7 @@ const recruitmentLine =
 
         <h1 class="mt-sp-4 text-hero font-bold leading-[1.1] text-white">
           한 기수 6명.<br />
-          4주 뒤, 내 손으로<br />
+          4주 뒤, 내 손으로<br class="hidden md:inline" />
           광고 계정을 돌립니다.
         </h1>
 
@@ -84,27 +81,24 @@ const recruitmentLine =
         <div class="relative mx-auto w-full max-w-[420px]">
           <div class="flex gap-sp-4 overflow-x-auto pb-sp-2 lg:block lg:overflow-visible lg:pb-0">
             <div class="w-[70%] shrink-0 lg:w-auto lg:translate-x-6 lg:rotate-[-3deg]">
-              <WireframeCard
-                variant="dark"
+              <HeroVisualCard
+                icon="play"
                 label="VOD · 2강"
                 caption="광고 계정 세팅 A to Z"
-                aspect="card"
               />
             </div>
             <div class="-mt-0 w-[70%] shrink-0 lg:-mt-sp-5 lg:w-auto lg:translate-x-0 lg:rotate-[1deg]">
-              <WireframeCard
-                variant="dark"
+              <HeroVisualCard
+                icon="monitor"
                 label="ZOOM · WEEK 3"
                 caption="6명 실계정 진단 — 1회차"
-                aspect="card"
               />
             </div>
             <div class="w-[70%] shrink-0 lg:-mt-sp-5 lg:ml-sp-6 lg:w-auto lg:rotate-[-2deg]">
-              <WireframeCard
-                variant="dark"
+              <HeroVisualCard
+                icon="book"
                 label="WORKBOOK v1"
                 caption="세온애드 워크북 표지"
-                aspect="card"
               />
             </div>
           </div>

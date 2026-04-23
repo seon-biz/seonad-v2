@@ -94,10 +94,12 @@ import { brandEcosystem, brand, business } from '@config/campaign';
           <span class="text-ink-500">통신판매업 신고번호</span> ·{' '}
           <span class="text-ink-900">{business.mailOrderNumber}</span>
         </span>
-        <span>
-          <span class="text-ink-500">사업장 주소</span> ·{' '}
-          <span class="text-ink-900">{business.address}</span>
-        </span>
+        {!business.addressHidden && (
+          <span>
+            <span class="text-ink-500">사업장 주소</span> ·{' '}
+            <span class="text-ink-900">{business.address}</span>
+          </span>
+        )}
         <span>
           <span class="text-ink-500">이메일</span> ·{' '}
           <a

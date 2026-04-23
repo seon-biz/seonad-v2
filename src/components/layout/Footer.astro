@@ -109,8 +109,8 @@ const businessInfo = business;
           대표자: {businessInfo.representative}<br />
           사업자번호: {businessInfo.businessNumber}<br />
           통신판매업: {businessInfo.mailOrderNumber}<br />
-          개인정보 책임자: {businessInfo.privacyOfficer}<br />
-          주소: {businessInfo.address}
+          개인정보 책임자: {businessInfo.privacyOfficer}
+          {/* 사업장 주소는 business.addressHidden 정책에 따라 비노출 */}
         </address>
       </div>
     </div>

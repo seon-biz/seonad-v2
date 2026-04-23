@@ -415,7 +415,7 @@ const agreementLinks = {
         으로 보내드릴게요.
       </p>
       <p class="mt-sp-3 text-body-sm text-ink-500">
-        다음 기수 시작 예정일: {campaign.nextStartDate}
+        다음 기수 시작: {campaign.getStartDateLabel()}
       </p>
       <div class="mt-sp-7 flex flex-col items-center justify-center gap-sp-3 sm:flex-row">
         <a href={routes.home} class="btn-base btn-secondary">← 메인으로 돌아가기</a>
@@ -609,7 +609,7 @@ const agreementLinks = {
           statusEl.classList.add('text-danger');
           statusEl.textContent =
             '제출에 실패했습니다. 잠시 후 다시 시도하거나 ' +
-            'cobaltblue8877@naver.com 으로 이메일을 보내주세요.';
+            'cobaltblue872@gmail.com 으로 이메일을 보내주세요.';
         }
       }
     });

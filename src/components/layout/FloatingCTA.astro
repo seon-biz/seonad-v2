@@ -2,13 +2,23 @@
 /*
  * 모바일 하단 플로팅 CTA (02-main-page.md §1-2)
  *
- * 동작:
- *  - 기본 노출 지점: 히어로 통과 후 (페이지 내 #hero-sentinel 이 뷰포트를 벗어났을 때).
- *    sentinel 이 없는 페이지에서는 scrollY > 480px 임계값으로 폴백.
- *  - 문구/링크 교체: 페이지에 #pricing-trigger 요소가 있고 그게 뷰포트에 들어오면
- *    "수강 신청하기 →" + /apply 로 자동 교체. 다시 위로 올라가면 원복.
- *  - lg(1024) 이상에서는 숨김 (데스크톱 헤더 CTA로 대체).
- *  - prefers-reduced-motion 대응: 애니메이션 없이 show/hide.
+ * 두 레이어 가시성 모델:
+ *  A) 히어로 통과 여부 — display: none/flex (레이아웃 자체 존재/부재)
+ *     기본 노출 지점: #hero-sentinel 이 뷰포트를 벗어났을 때.
+ *     sentinel 이 없는 페이지에서는 scrollY > 480px 임계값으로 폴백.
+ *
+ *  B) 푸터 겹침 여부 — opacity + pointer-events (transition-opacity 300ms)
+ *     <footer> 가 threshold 0.1 로 뷰포트에 진입하면 opacity-0 으로 부드럽게
+ *     페이드아웃 + pointer-events-none 으로 클릭 영역 제거.
+ *     푸터에 이미 "사전 무료 강의" · "수강 신청" 풀바 CTA 역할이 충분하므로
+ *     플로팅이 겹쳐서 골드 블록 두 개가 쌓이는 상황을 방지한다.
+ *
+ * 문구/링크 교체: #pricing-trigger 가 뷰포트에 들어오면 "수강 신청하기 →" + /apply,
+ * 벗어나면 "사전 무료 강의 신청 →" + /free 로 원복.
+ *
+ * lg(1024) 이상에서는 렌더되지 않음 (`lg:hidden`) — 데스크톱 헤더 CTA 로 대체.
+ * prefers-reduced-motion: global.css 의 전역 감축 규칙으로 transition 이 사실상
+ * 즉시 완료됨.
  *
  * 페이지 측 요구사항(선택):
  *  - 히어로 섹션 하단에 <span id="hero-sentinel" class="sr-only" /> 배치
@@ -20,9 +30,10 @@ import { routes } from '@config/campaign';
 
 <div
   id="floating-cta"
-  class="fixed inset-x-0 bottom-0 z-sticky-cta hidden px-gutter-mobile pb-[max(12px,env(safe-area-inset-bottom))] lg:hidden"
+  class="fixed inset-x-0 bottom-0 z-sticky-cta hidden px-gutter-mobile pb-[max(12px,env(safe-area-inset-bottom))] transition-opacity duration-300 ease-out lg:hidden"
   data-visible="false"
   data-mode="free"
+  data-footer-overlap="false"
 >
   <a
     id="floating-cta-link"
@@ -41,6 +52,7 @@ import { routes } from '@config/campaign';
     const FREE = { href: '/free', text: '사전 무료 강의 신청 →' };
     const APPLY = { href: '/apply', text: '수강 신청하기 →' };
 
+    /* Layer A — 히어로 통과 후 레이아웃 자체 노출(display 토글) */
     const setVisible = (visible: boolean) => {
       wrap.dataset.visible = String(visible);
       wrap.classList.toggle('hidden', !visible);
@@ -52,6 +64,18 @@ import { routes } from '@config/campaign';
       const target = mode === 'apply' ? APPLY : FREE;
       link.href = target.href;
       label.textContent = target.text;
+    };
+
+    /* Layer B — 푸터 진입 시 부드러운 opacity 페이드 + 클릭 비활성 */
+    const setFooterOverlap = (overlap: boolean) => {
+      wrap.dataset.footerOverlap = String(overlap);
+      wrap.classList.toggle('opacity-0', overlap);
+      wrap.classList.toggle('pointer-events-none', overlap);
+      if (overlap) {
+        wrap.setAttribute('aria-hidden', 'true');
+      } else {
+        wrap.removeAttribute('aria-hidden');
+      }
     };
 
     // 1) 히어로 sentinel 관찰 → 통과 시 노출
@@ -77,6 +101,18 @@ import { routes } from '@config/campaign';
         { rootMargin: '0px 0px -40% 0px', threshold: 0 },
       );
       io2.observe(pricing);
+    }
+
+    // 3) 푸터 관찰 → 진입 시 페이드아웃 / 벗어나면 페이드인
+    const footer = document.querySelector('footer');
+    if (footer) {
+      const io3 = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => setFooterOverlap(entry.isIntersecting));
+        },
+        { threshold: 0.1 },
+      );
+      io3.observe(footer);
     }
   }
 </script>

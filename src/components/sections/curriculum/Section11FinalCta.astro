@@ -5,10 +5,7 @@
  */
 import { campaign, routes } from '@config/campaign';
 
-const recruitmentLine =
-  campaign.status === 'recruiting'
-    ? `현재 기수 ${campaign.currentCount}명 · 다음 시작 예정일: ${campaign.nextStartDate}`
-    : campaign.closedMessage;
+const recruitmentLine = campaign.getRecruitmentLine();
 ---
 
 <section

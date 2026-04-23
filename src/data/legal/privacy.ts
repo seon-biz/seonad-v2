@@ -250,7 +250,7 @@ export const privacyDoc: LegalDocument = {
           items: [
             '성명: {{개인정보책임자명}}',
             '소속: 주식회사 티오엠',
-            '이메일: cobaltblue8877@naver.com',
+            '이메일: cobaltblue872@gmail.com',
             '연락처: 010-7327-8877',
           ],
         },

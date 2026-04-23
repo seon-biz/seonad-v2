@@ -133,7 +133,7 @@ export const refundDoc: LegalDocument = {
         { type: 'p', text: '① 수강생은 다음 경로 중 하나로 환불을 신청한다.' },
         {
           type: 'ul',
-          items: ['이메일: cobaltblue8877@naver.com', '카카오톡 채널'],
+          items: ['이메일: cobaltblue872@gmail.com', '카카오톡 채널'],
         },
         { type: 'p', text: '② 회사는 환불 신청 접수 후 24시간 이내 확인 답변을 드린다.' },
         {

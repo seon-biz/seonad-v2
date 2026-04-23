@@ -32,8 +32,7 @@ import { campaign, routes } from '@config/campaign';
     </div>
 
     <p class="reveal reveal-delay-3 mt-sp-6 text-body-sm text-on-dark-soft">
-      한 기수 6명. 현재 기수 {campaign.currentCount}명 · 다음 시작 예정일:{' '}
-      {campaign.nextStartDate}
+      한 기수 {campaign.currentCohort.maxCount}명. {campaign.getRecruitmentLine()}
     </p>
   </div>
 </section>

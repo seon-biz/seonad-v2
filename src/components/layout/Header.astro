@@ -31,9 +31,9 @@ const isActive = (href: string) => {
       <span class="hidden text-caption tracking-caption text-on-dark-soft md:inline">
         {brand.tagline}
       </span>
-      {campaign.status === 'recruiting' && (
+      {campaign.currentCohort.isRecruiting && (
         <span class="hidden pill pill-outline-gold lg:inline-flex">
-          현재 기수 {campaign.currentCount}명
+          현재 {campaign.currentCohort.number}기 {campaign.currentCohort.currentCount}/{campaign.currentCohort.maxCount}명
         </span>
       )}
     </div>
@@ -144,9 +144,9 @@ const isActive = (href: string) => {
       <a href={routes.apply} class="btn-base btn-secondary btn-lg w-full">
         수강 신청하기 →
       </a>
-      {campaign.status === 'recruiting' && (
+      {campaign.currentCohort.isRecruiting && (
         <p class="mt-sp-2 text-center text-body-sm text-gold-300">
-          현재 기수 {campaign.currentCount}명 · 다음 시작 {campaign.nextStartDate}
+          {campaign.getRecruitmentLine()}
         </p>
       )}
     </div>

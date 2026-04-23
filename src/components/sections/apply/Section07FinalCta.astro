@@ -31,8 +31,7 @@ import { campaign, routes } from '@config/campaign';
     </div>
 
     <p class="reveal reveal-delay-3 mt-sp-6 text-body-sm text-on-dark-soft">
-      현재 기수 {campaign.currentCount}명 · 다음 시작 예정일:{' '}
-      {campaign.nextStartDate}
+      {campaign.getRecruitmentLine()}
     </p>
   </div>
 </section>

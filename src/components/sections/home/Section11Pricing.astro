@@ -36,12 +36,17 @@ const included = [
         신청 후 48시간 내 법인계좌로 70만 원 입금<br />
         대표자가 입금 확인 + 카테고리 중복 검토 후 기수 배정 확정
       </p>
+      {/*
+       * CTA 순서 고정 — 주 CTA(수강 신청) 가 먼저,
+       * 보조 CTA(무료 강의) 는 "먼저 ~ 듣기" 어순으로 배치해 "신청이 이미 1순위"
+       * 라는 심리 레이어를 만든다 (02-main-page.md §12 톤 보완).
+       */}
       <div class="mt-sp-6 flex flex-col gap-sp-3 sm:flex-row sm:justify-center">
         <a href={routes.apply} class="btn-base btn-primary btn-lg">
           수강 신청하기 →
         </a>
         <a href={routes.free} class="btn-base btn-secondary btn-lg">
-          사전 무료 강의 먼저 보기
+          먼저 사전 무료 강의 1시간 듣기
         </a>
       </div>
     </div>

@@ -164,6 +164,30 @@
     scroll-behavior: smooth;
     /* 고정 헤더 대응: 앵커 이동 시 상단에 헤더 높이만큼 여유 */
     scroll-padding-top: 72px;
+    /* ---- 한국어 워드브레이크 정책 ----
+       keep-all   : 단어(어절) 중간에서 끊지 않음 — "한 기수 6명. 4주 뒤, 내 손으로" 같은
+                    카피가 모바일에서도 음절 중간에서 잘리지 않도록.
+       break-word : 너무 긴 영문/URL 은 단어 단위로 감싸서 레이아웃 깨짐 방지.
+       line-break : 한국어 문장부호 래핑 규칙을 엄격히 적용. */
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    line-break: strict;
+  }
+
+  body,
+  h1, h2, h3, h4, h5, h6,
+  p, span, a, li, button, label,
+  blockquote, figcaption {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  /* 숫자·영문·코드·입력 값처럼 "어절" 단위로 끊으면 오히려 어색한 데이터는
+     문자 단위 break 허용. `.allow-break` 는 예외 케이스 수동 지정용. */
+  .allow-break,
+  code, pre, kbd, samp,
+  input, textarea {
+    word-break: break-all;
   }
 
   body {
